@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — Próximos Passos</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#1A2438;
+  --cream:#F5EFE0; --cream2:#FBF7EA;
+  --gold:#B8902F; --gold2:#D4AF45;
+  --ink:#0B1626; --ink2:#3A4459; --muted:#7A8294;
+  --line:#E5DDC6; --green:#5BBD7A; --blue:#7FB4D4; --red:#D0463C;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+.h-top{padding:22px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);letter-spacing:0.02em;}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold2);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:6px 56px 24px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:0.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;}
+.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:56px;font-weight:600;color:var(--cream);line-height:1.0;letter-spacing:-0.02em;margin-bottom:12px;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.sub{font-family:var(--sans);font-size:16.5px;line-height:1.5;color:rgba(245,239,224,0.78);max-width:1050px;}
+.sub strong{color:var(--gold2);font-weight:600;}
+
+/* TIMELINE 5 FASES */
+.ph-rail{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:34px;position:relative;}
+.ph-rail::before{content:'';position:absolute;top:26px;left:6%;right:6%;height:2px;background:linear-gradient(90deg,rgba(184,144,47,0.15),rgba(184,144,47,0.55),rgba(184,144,47,0.15));}
+.ph{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;opacity:0;position:relative;}
+.ph-dot{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:15px;font-weight:700;background:var(--navy2);border:2px solid rgba(184,144,47,0.5);color:var(--gold2);position:relative;z-index:2;}
+.ph.gold .ph-dot{background:linear-gradient(180deg,#D4AF45,#B8902F);color:var(--navy);border-color:#E8C766;box-shadow:0 0 24px rgba(212,175,69,0.35);}
+.ph-card{background:rgba(245,239,224,0.045);border:1px solid rgba(184,144,47,0.22);border-radius:5px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:6px;flex:1;width:100%;}
+.ph.gold .ph-card{background:linear-gradient(180deg,rgba(212,175,69,0.14),rgba(212,175,69,0.04));border-color:rgba(212,175,69,0.55);}
+.ph-h{font-family:var(--serif);font-size:21px;font-weight:700;color:var(--cream);line-height:1.1;}
+.ph.gold .ph-h{color:var(--gold2);}
+.ph-t{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.5);}
+.ph-d{font-family:var(--sans);font-size:13px;line-height:1.45;color:rgba(245,239,224,0.74);}
+@keyframes phIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+body.go .ph:nth-child(1){animation:phIn .55s ease .20s both;}
+body.go .ph:nth-child(2){animation:phIn .55s ease .50s both;}
+body.go .ph:nth-child(3){animation:phIn .55s ease .80s both;}
+body.go .ph:nth-child(4){animation:phIn .55s ease 1.10s both;}
+body.go .ph:nth-child(5){animation:phIn .55s ease 1.40s both;}
+
+/* GARANTIA */
+.guard{margin-top:22px;background:linear-gradient(90deg,rgba(184,144,47,.16),rgba(184,144,47,.04));border-left:3px solid var(--gold);padding:14px 28px;font-family:var(--serif);font-style:italic;font-size:20px;font-weight:600;color:var(--gold2);text-align:center;opacity:0;}
+body.go .guard{animation:phIn .6s ease 1.75s both;}
+
+/* FECHAMENTO */
+.close{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;gap:40px;padding-top:20px;border-top:1px solid rgba(184,144,47,0.22);opacity:0;}
+body.go .close{animation:phIn .7s ease 2.1s both;}
+.close-l .cl-k{font-family:var(--mono);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:rgba(245,239,224,0.5);margin-bottom:8px;}
+.close-l .cl-h{font-family:var(--serif);font-size:34px;font-weight:600;color:var(--cream);line-height:1.08;}
+.close-l .cl-h em{font-style:italic;color:var(--gold2);}
+.close-l .cl-d{font-family:var(--sans);font-size:14px;line-height:1.5;color:rgba(245,239,224,0.72);max-width:760px;margin-top:8px;}
+.close-r{display:flex;flex-direction:column;align-items:flex-end;gap:12px;flex-shrink:0;}
+.cl-mail{font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:var(--gold2);}
+.cl-btn{background:linear-gradient(180deg,#D4AF45,#B8902F);color:var(--navy);border:none;border-radius:4px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;padding:15px 34px;cursor:pointer;transition:all .2s;}
+.cl-btn:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(212,175,69,0.35);}
+.cl-back{background:none;border:1px solid rgba(245,239,224,0.25);color:rgba(245,239,224,0.7);border-radius:4px;font-family:var(--mono);font-size:11px;letter-spacing:.08em;padding:9px 18px;cursor:pointer;}
+</style>
+</head>
+<body>
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-step">Etapa 3 · Ativação · Próximos Passos</div>
+</div>
+<div class="wrap">
+  <div class="kicker">Da entrada ao ETP com a sua marca</div>
+  <h1 class="headline">Comece pelo acesso. <em>Evolua para o seu produto.</em></h1>
+  <p class="sub">Nenhum compromisso antecipado. Cada fase só acontece quando a anterior <strong>provar valor</strong> — no seu ritmo, com os seus números.</p>
+
+  <div class="ph-rail">
+    <div class="ph">
+      <div class="ph-dot">1</div>
+      <div class="ph-card">
+        <div class="ph-h">Entrada</div>
+        <div class="ph-t">via ETP Harpian</div>
+        <div class="ph-d">Acesso imediato aos portfólios, sem compromisso e sem custo de estrutura.</div>
+      </div>
+    </div>
+    <div class="ph">
+      <div class="ph-dot">2</div>
+      <div class="ph-card">
+        <div class="ph-h">Shadow</div>
+        <div class="ph-t">3–6 meses</div>
+        <div class="ph-d">Acompanhe o motor rodando ao lado da sua carteira atual, dia após dia.</div>
+      </div>
+    </div>
+    <div class="ph">
+      <div class="ph-dot">3</div>
+      <div class="ph-card">
+        <div class="ph-h">Avaliação</div>
+        <div class="ph-t">performance + aderência</div>
+        <div class="ph-d">Performance, aderência ao mandato e fit com o perfil dos seus clientes.</div>
+      </div>
+    </div>
+    <div class="ph gold">
+      <div class="ph-dot">4</div>
+      <div class="ph-card">
+        <div class="ph-h">ETP White-Label</div>
+        <div class="ph-t">sua marca · Bolsa de Viena</div>
+        <div class="ph-d">Seu produto, com o seu nome, listado e auditado. Seu cliente acompanha diariamente.</div>
+      </div>
+    </div>
+    <div class="ph gold">
+      <div class="ph-dot">5</div>
+      <div class="ph-card">
+        <div class="ph-h">Revenue Share</div>
+        <div class="ph-t">a economia do produto</div>
+        <div class="ph-d">Você participa da receita. Seu cliente tem diferimento fiscal — só paga imposto na venda.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="guard">Em todas as fases, você mantém o controle total sobre o seu cliente. <strong>A Harpian nunca tem acesso direto a ele.</strong></div>
+
+  <div class="close">
+    <div class="close-l">
+      <div class="cl-k">O fim da filosofia · o início da prática</div>
+      <div class="cl-h">O composto requer tempo. <em>A diligência técnica começa hoje.</em></div>
+      <div class="cl-d">Para solicitar o Termo de Confidencialidade e iniciar a auditoria fiduciária, fale diretamente com a nossa área de alocação institucional.</div>
+    </div>
+    <div class="close-r">
+      <div class="cl-mail">jfdconsult@gmail.com</div>
+      <button class="cl-btn" onclick="window.location.href='https://harpian.com/harpian/terminal.html'">Abrir o Intelligence Terminal →</button>
+      <button class="cl-back" onclick="window.location.href='confirmacao-conta.html'">← Voltar</button>
+    </div>
+  </div>
+</div>
+<script>
+requestAnimationFrame(()=>document.body.classList.add('go'));
+</script>
+</body>
+</html>

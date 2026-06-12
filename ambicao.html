@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><title>HARPIAN — Ambição · O que você busca</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+:root{--navy:#0B1626;--cream:#F5EFE0;--cream2:#FBF7EA;--gold:#B8902F;--gold2:#D4AF45;--ink:#0B1626;--ink2:#3A4459;--muted:#7A8294;--line:#E5DDC6;--line2:#D9D1BA;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(--sans);overflow:hidden;}body{display:flex;flex-direction:column;}
+.h-top{padding:18px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);}.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.progress{padding:0 56px 12px;display:flex;gap:6px;flex-shrink:0;}
+.p-step{flex:1;height:3px;background:var(--line);border-radius:2px;position:relative;}
+.p-step.done{background:var(--gold);}.p-step.active{background:var(--gold);box-shadow:0 0 0 1px var(--gold2);}
+.p-step::after{content:attr(data-lbl);position:absolute;top:8px;left:0;font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.p-step.active::after, .p-step.done::after{color:var(--gold);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:36px 56px 24px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}.kicker::before{content:'★ ';}
+.headline{font-family:var(--serif);font-size:64px;font-weight:600;color:var(--ink);line-height:1.0;margin-bottom:14px;}
+.headline em{font-style:italic;color:var(--gold);font-weight:500;}
+.sub{font-family:var(--sans);font-size:16.5px;color:var(--ink2);margin-bottom:22px;max-width:1080px;line-height:1.55;}.sub strong{color:var(--ink);font-weight:600;}.sub em{font-style:italic;color:var(--gold);}
+.instinct{background:linear-gradient(90deg,rgba(184,144,47,.18) 0%,rgba(184,144,47,.04) 100%);border-left:3px solid var(--gold);padding:11px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px;flex-shrink:0;}
+.instinct-icon{font-family:var(--serif);font-size:24px;color:var(--gold);line-height:1;}
+.instinct-text{font-family:var(--mono);font-size:11.5px;letter-spacing:.10em;color:var(--ink2);text-transform:uppercase;}
+.instinct-text strong{color:var(--gold);font-weight:700;}
+/* 4 cards de target */
+.targets{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:18px;min-height:0;align-items:stretch;}
+.t-card{background:#fff;border:2px solid var(--line2);padding:22px 24px;display:flex;flex-direction:column;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;}
+.t-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0;transition:opacity .3s;}
+.t-card:hover{border-color:var(--gold);transform:translateY(-4px);box-shadow:0 8px 32px rgba(184,144,47,0.18);}
+.t-card:hover::before{opacity:1;}
+.t-card.selected{background:linear-gradient(180deg,#FBF7EA,#F5EFE0);border-color:var(--gold);box-shadow:0 0 0 1px var(--gold), 0 8px 32px rgba(184,144,47,0.25);}
+.t-card.selected::before{opacity:1;}
+.t-icon{position:absolute;top:14px;right:18px;font-family:var(--serif);font-size:64px;font-weight:300;color:rgba(184,144,47,0.18);line-height:1;}
+.t-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;}
+.t-value{font-family:var(--serif);font-size:52px;font-weight:700;color:var(--ink);line-height:1;letter-spacing:-0.02em;}
+.t-value em{font-style:italic;color:var(--gold);font-weight:600;}
+.t-cagr{font-family:var(--mono);font-size:13.5px;letter-spacing:.10em;color:var(--gold);margin-top:10px;font-weight:600;}
+.t-divider{height:1px;background:var(--line);margin:14px 0;}
+.t-label{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);font-style:italic;line-height:1.1;}
+.t-desc{font-family:var(--sans);font-size:12px;color:var(--ink2);line-height:1.5;margin-top:auto;padding-top:12px;}
+.t-radio{position:absolute;opacity:0;pointer-events:none;}
+.foot{margin-top:18px;display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--line);flex-shrink:0;}
+.foot-status{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}.foot-status strong{color:var(--ink);font-weight:600;}
+.foot-actions{display:flex;align-items:center;gap:20px;}
+.foot-back{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);text-decoration:none;border-bottom:1px dashed var(--muted);}
+.foot-back:hover{color:var(--gold);border-color:var(--gold);}
+.cta{background:var(--ink);color:var(--cream);border:none;padding:14px 32px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:10px;}
+.cta:hover{background:var(--gold);color:var(--navy);}
+.cta-arrow{font-family:var(--serif);font-size:18px;}
+@media (max-width:1300px){
+  .headline{font-size:46px;}.targets{grid-template-columns:repeat(2,1fr);grid-template-rows:1fr 1fr;}.t-value{font-size:40px;}
+}
+</style>
+</head>
+<body>
+<div class="h-top"><div class="h-logo">Harpian</div><div class="h-tag">AlphaDroid Engine</div><div class="h-step">Parte 2 · Ambição</div></div>
+<div class="progress">
+  <div class="p-step done" data-lbl="Alinhamento"></div>
+  <div class="p-step done" data-lbl="3 lentes"></div>
+  <div class="p-step done" data-lbl="Mandato"></div>
+  <div class="p-step done" data-lbl="Perfil"></div>
+  <div class="p-step active" data-lbl="Ambição"></div>
+  <div class="p-step" data-lbl="Portfólio"></div>
+  <div class="p-step" data-lbl="Diagnóstico"></div>
+  <div class="p-step" data-lbl="Coverage"></div>
+  <div class="p-step" data-lbl="Terminal"></div>
+  <div class="p-step" data-lbl="Ativação"></div>
+</div>
+<div class="wrap">
+  <div class="kicker">Ambição · o que você busca</div>
+  <h1 class="headline">Em 5 anos, <em>$100.000 viram quanto?</em></h1>
+  <p class="sub">Escolha o valor que você considera <strong>um retorno satisfatório</strong> partindo de US$ 100 mil. <em>Sem certo ou errado</em> — só calibração de ambição.</p>
+
+  <div class="instinct">
+    <div class="instinct-icon">⚡</div>
+    <div class="instinct-text">Responda <strong>de primeira</strong> · o que você considera satisfatório, não o máximo que sonha · o estalo é o que importa</div>
+  </div>
+
+  <div class="targets">
+    <label class="t-card" data-target="125">
+      <input type="radio" name="ambicao" value="125" class="t-radio">
+      <div class="t-icon">I</div>
+      <div class="t-tag">Preservação</div>
+      <div class="t-value"><em>$</em>125k</div>
+      <div class="t-cagr">≈ 4,6% ao ano</div>
+      <div class="t-divider"></div>
+      <div class="t-label">Preservar capital</div>
+      <div class="t-desc">Bater inflação dolarizada · risco mínimo · prioridade: não perder</div>
+    </label>
+
+    <label class="t-card" data-target="160">
+      <input type="radio" name="ambicao" value="160" class="t-radio">
+      <div class="t-icon">II</div>
+      <div class="t-tag">Equilíbrio</div>
+      <div class="t-value"><em>$</em>160k</div>
+      <div class="t-cagr">≈ 9,9% ao ano</div>
+      <div class="t-divider"></div>
+      <div class="t-label">Crescer com cautela</div>
+      <div class="t-desc">Próximo ao S&amp;P 500 histórico · diversificação ampla · risco moderado</div>
+    </label>
+
+    <label class="t-card" data-target="200">
+      <input type="radio" name="ambicao" value="200" class="t-radio">
+      <div class="t-icon">III</div>
+      <div class="t-tag">Crescimento</div>
+      <div class="t-value"><em>$</em>200k</div>
+      <div class="t-cagr">≈ 14,9% ao ano</div>
+      <div class="t-divider"></div>
+      <div class="t-label">Dobrar o patrimônio</div>
+      <div class="t-desc">Bater o mercado consistentemente · gestão ativa · risco controlado</div>
+    </label>
+
+    <label class="t-card" data-target="250">
+      <input type="radio" name="ambicao" value="250" class="t-radio">
+      <div class="t-icon">IV</div>
+      <div class="t-tag">Maximização</div>
+      <div class="t-value"><em>$</em>250k</div>
+      <div class="t-cagr">≈ 20,1% ao ano</div>
+      <div class="t-divider"></div>
+      <div class="t-label">2,5× em 5 anos</div>
+      <div class="t-desc">Estratégia agressiva · alpha consistente · alta tolerância a drawdown</div>
+    </label>
+  </div>
+
+  <div class="foot">
+    <div class="foot-status">Selecione <strong>um alvo</strong> para o diagnóstico</div>
+    <div class="foot-actions">
+      <a class="foot-back" href="lente-2-perfil.html">← Voltar · Perfil</a>
+      <button class="cta" onclick="window.location.href='lente-3-portfolio.html'">Lente III · Portfólio <span class="cta-arrow">→</span></button>
+    </div>
+  </div>
+</div>
+<script>
+// ─── HARPIAN SESSION ──────────────────────────────────────────
+const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}},merge(s,p){const d=this.get();d[s]={...(d[s]||{}),...p};localStorage.setItem(this.KEY,JSON.stringify(d));return d;},clear(){localStorage.removeItem(this.KEY);}};
+
+const MAP_AMB = {
+  125: {cagr:0.046,category:'preservation',label:'Preservação'},
+  160: {cagr:0.099,category:'balance',label:'Equilíbrio'},
+  200: {cagr:0.149,category:'growth',label:'Crescimento'},
+  250: {cagr:0.201,category:'maximization',label:'Maximização'}
+};
+
+window.addEventListener('DOMContentLoaded',()=>{
+  const a = HS.get().ambition || {};
+  if(a.target_value_usd){
+    const k = Math.round(a.target_value_usd/1000);
+    const card = document.querySelector(`.t-card[data-target="${k}"]`);
+    if(card){
+      card.classList.add('selected');
+      card.querySelector('input').checked = true;
+      document.querySelector('.foot-status').innerHTML=`Alvo selecionado · <strong>$${k}k em 5 anos</strong>`;
+    }
+  }
+});
+
+document.querySelectorAll('.t-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.querySelectorAll('.t-card').forEach(c=>c.classList.remove('selected'));
+    card.classList.add('selected');
+    card.querySelector('input').checked=true;
+    const v=card.dataset.target;
+    const cfg = MAP_AMB[v];
+    HS.merge('ambition',{
+      target_value_usd: parseInt(v)*1000,
+      target_label: `$${v}k`,
+      horizon_years: 5,
+      required_cagr: cfg.cagr,
+      category: cfg.category,
+      category_label: cfg.label
+    });
+    document.querySelector('.foot-status').innerHTML=`Alvo selecionado · <strong>$${v}k em 5 anos</strong>`;
+  });
+});
+</script>
+</body></html>

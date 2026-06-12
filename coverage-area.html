@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — Seu universo em dólar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#162338; --navy3:#1A2438;
+  --cream:#F5EFE0; --cream2:#FBF7EA;
+  --gold:#B8902F; --gold2:#D4AF45; --gold3:#F0D27A;
+  --green:#5BBD7A; --green2:#3F9A5E; --green3:#88D5A2;
+  --amber:#D4AF45; --orange:#E69841;
+  --red:#D0463C; --red3:#E8857A;
+  --slate:#7C8AA3; --platinum:#CBD0D9;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+
+.h-top{padding:15px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:1px solid rgba(184,144,47,0.10);}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);letter-spacing:.02em;}
+.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,239,224,0.55);}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);}
+
+.wrap{flex:1;display:flex;flex-direction:column;padding:18px 56px;min-height:0;}
+.head{flex-shrink:0;margin-bottom:14px;}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:7px;}
+.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:40px;font-weight:600;color:var(--cream);line-height:1.0;letter-spacing:-0.015em;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.headline .hl-num{color:var(--gold2);font-weight:700;font-style:normal;}
+.sub{font-family:var(--sans);font-size:14.5px;line-height:1.5;color:rgba(245,239,224,0.76);max-width:1120px;margin-top:8px;font-weight:300;}
+.sub strong{color:var(--cream);font-weight:500;}
+
+.stage{display:grid;grid-template-columns:1.5fr 1fr;gap:26px;flex:1;min-height:0;align-items:stretch;}
+.card{background:rgba(245,239,224,0.04);border:1px solid rgba(184,144,47,0.22);border-radius:9px;padding:20px 26px;display:flex;flex-direction:column;min-height:0;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));}
+.card-lbl{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--gold2);margin-bottom:6px;}
+.card-lbl em{font-family:var(--serif);font-size:13px;color:rgba(245,239,224,0.6);font-style:italic;text-transform:none;letter-spacing:0;font-weight:500;margin-left:10px;}
+
+/* ===== MATRIZ ===== */
+.mx-head{display:grid;grid-template-columns:150px 1fr 1fr;gap:18px;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.45);padding:14px 0 8px;border-bottom:1px solid rgba(184,144,47,0.18);}
+.mx-head span:nth-child(2),.mx-head span:nth-child(3){text-align:left;}
+.mx-row{display:grid;grid-template-columns:150px 1fr 1fr;gap:18px;align-items:center;padding:15px 0;border-bottom:1px solid rgba(245,239,224,0.06);}
+.mx-row.ours{background:linear-gradient(90deg,rgba(91,189,122,0.06),transparent);margin:0 -12px;padding-left:12px;padding-right:12px;border-radius:6px;border-bottom:1px solid rgba(91,189,122,0.14);}
+.mx-name{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--cream);line-height:1.05;}
+.mx-name span{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;color:rgba(245,239,224,0.42);margin-top:3px;font-weight:400;}
+.mx-name.ours{color:var(--green3);}
+.mx-cell{display:flex;align-items:center;gap:12px;}
+.mx-bar{flex:1;height:14px;background:rgba(245,239,224,0.06);border-radius:7px;overflow:hidden;}
+.mx-bar i{display:block;height:100%;border-radius:7px;width:0;transition:width .9s cubic-bezier(.16,1,.3,1);}
+.mx-num{font-family:var(--mono);font-weight:700;font-size:21px;letter-spacing:-0.02em;min-width:62px;text-align:right;}
+.mx-hidden{font-family:var(--mono);font-size:13px;letter-spacing:.32em;color:var(--gold2);min-width:62px;text-align:right;}
+
+.mx-insight{margin-top:auto;padding-top:16px;font-family:var(--serif);font-size:17px;font-style:italic;color:rgba(245,239,224,0.82);line-height:1.4;}
+.mx-insight b{color:var(--green3);font-style:normal;font-weight:600;}
+.mx-insight em{color:var(--gold2);}
+
+/* ===== ALINHAMENTO ===== */
+.al-q{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--cream);line-height:1.12;margin:4px 0 18px;}
+.al-q em{font-style:italic;color:var(--gold2);}
+.al-slider{margin-bottom:16px;}
+.al-slider-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+.al-slider-name{font-family:var(--serif);font-size:16px;font-weight:600;}
+.al-slider-name.h11{color:var(--green3);}
+.al-slider-name.h22{color:var(--orange);}
+.al-slider-name small{font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:rgba(245,239,224,0.45);margin-left:8px;font-weight:400;}
+.al-slider-pct{font-family:var(--mono);font-size:18px;font-weight:700;}
+.al-slider-pct.h11{color:var(--green3);}
+.al-slider-pct.h22{color:var(--orange);}
+
+.al-result{margin-top:auto;background:rgba(11,22,38,0.45);border:1px solid rgba(184,144,47,0.25);border-radius:8px;padding:16px 20px;}
+.al-result-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.6);}
+.al-rn-flow{display:flex;align-items:center;gap:14px;margin-top:8px;}
+.al-rn-from{font-family:var(--mono);font-size:24px;font-weight:700;color:var(--orange);}
+.al-rn-arrow{font-family:var(--serif);font-size:22px;color:rgba(245,239,224,0.4);}
+.al-rn-to{font-family:var(--mono);font-size:40px;font-weight:700;color:var(--green3);letter-spacing:-0.02em;line-height:1;}
+.al-rn-to small{font-size:13px;font-weight:400;color:rgba(245,239,224,0.5);letter-spacing:.04em;margin-left:6px;text-transform:uppercase;}
+.al-scale{height:8px;border-radius:4px;margin-top:14px;background:linear-gradient(90deg,#3F9A5E 0%,#5BBD7A 30%,#D4AF45 55%,#E69841 75%,#D0463C 100%);position:relative;}
+.al-scale-dot{position:absolute;top:50%;width:18px;height:18px;border-radius:50%;background:var(--cream);border:3px solid var(--navy);box-shadow:0 2px 8px rgba(0,0,0,.5);transform:translate(-50%,-50%);transition:left .3s ease;}
+.al-seal{margin-top:14px;font-family:var(--serif);font-size:15px;font-style:italic;color:rgba(245,239,224,0.8);line-height:1.35;}
+.al-seal b{color:var(--green3);font-style:normal;font-weight:600;}
+
+/* ===== SLIDERS ===== */
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;outline:none;cursor:pointer;background:transparent;height:9px;border-radius:5px;}
+input[type=range].h11{background:linear-gradient(90deg,var(--green) var(--fill,0%),rgba(245,239,224,0.10) var(--fill,0%));}
+input[type=range].h22{background:linear-gradient(90deg,var(--orange) var(--fill,0%),rgba(245,239,224,0.10) var(--fill,0%));}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--cream);border:3px solid #0B1626;box-shadow:0 3px 10px rgba(0,0,0,.5);}
+input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--cream);border:3px solid #0B1626;box-shadow:0 3px 10px rgba(0,0,0,.5);}
+
+/* ===== DECISÃO + FOOTER ===== */
+.decision{background:linear-gradient(90deg,rgba(224,152,65,0.10) 0%,rgba(91,189,122,0.10) 100%);border:1px solid rgba(184,144,47,0.32);border-radius:8px;padding:14px 24px;margin-top:14px;flex-shrink:0;}
+.decision-l{font-family:var(--serif);font-size:17px;font-style:italic;color:rgba(245,239,224,0.88);line-height:1.4;}
+.decision-l strong{color:var(--gold2);font-style:normal;font-weight:600;}
+.decision-l em{font-style:italic;color:var(--green3);}
+.foot-row{flex-shrink:0;margin-top:12px;padding-top:12px;border-top:1px solid rgba(184,144,47,0.18);display:flex;justify-content:flex-end;align-items:center;gap:14px;}
+.cta-back{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.62);text-decoration:none;padding:11px 22px;border:1px solid rgba(245,239,224,0.16);border-radius:3px;transition:all .2s;}
+.cta-back:hover{color:var(--cream);border-color:var(--gold2);}
+.cta-go{background:linear-gradient(180deg,#F0D27A,#D4AF45,#B8902F);color:var(--navy);border:none;padding:14px 28px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:4px;display:inline-flex;align-items:center;gap:12px;text-decoration:none;box-shadow:0 8px 22px rgba(212,175,69,0.32);transition:all .25s;}
+.cta-go:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,175,69,0.5);}
+.cta-go .ar{font-family:var(--serif);font-size:18px;}
+</style>
+</head>
+<body>
+
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-tag">AlphaDroid Engine</div>
+  <div class="h-step">Parte 3 · Universo em dólar</div>
+</div>
+
+<div class="wrap">
+  <div class="head">
+    <div class="kicker">Olhando só o que está em dólar</div>
+    <h1 class="headline">No seu dólar, você corre risco <span class="hl-num" id="hRN">46</span> — e tira só <span class="hl-num" id="hRet">6%</span>.</h1>
+    <p class="sub">Isolamos <strong>só a parte dolarizada</strong> do seu portfólio — o real não entra aqui (renda fixa brasileira já faz 15%). Você diversificou, tomou risco… e rende metade do S&amp;P 500. A pergunta é uma só: <strong>esse dólar está eficiente?</strong></p>
+  </div>
+
+  <div class="stage">
+
+    <!-- MATRIZ RISCO × RETORNO -->
+    <div class="card">
+      <div class="card-lbl">Risco × Retorno <em>só o universo em dólar · média 10 anos</em></div>
+
+      <div class="mx-head"><span></span><span>Risk Number (0–99)</span><span>Retorno em dólar</span></div>
+
+      <div class="mx-row">
+        <div class="mx-name">Seu dólar<span>diversificado, no braço</span></div>
+        <div class="mx-cell"><div class="mx-bar"><i id="bRN_cli"></i></div><div class="mx-num" id="nRN_cli" style="color:#E69841">46</div></div>
+        <div class="mx-cell"><div class="mx-bar"><i id="bRet_cli"></i></div><div class="mx-num" id="nRet_cli" style="color:var(--platinum)">6,0%</div></div>
+      </div>
+
+      <div class="mx-row">
+        <div class="mx-name">S&amp;P 500<span>o índice americano</span></div>
+        <div class="mx-cell"><div class="mx-bar"><i id="bRN_sp"></i></div><div class="mx-num" id="nRN_sp" style="color:#D0463C">71</div></div>
+        <div class="mx-cell"><div class="mx-bar"><i id="bRet_sp"></i></div><div class="mx-num" id="nRet_sp" style="color:var(--platinum)">11,9%</div></div>
+      </div>
+
+      <div class="mx-row ours">
+        <div class="mx-name ours">HPC11 · ETF<span>gestão sistemática</span></div>
+        <div class="mx-cell"><div class="mx-bar"><i id="bRN_h11"></i></div><div class="mx-num" id="nRN_h11" style="color:var(--green3)">34</div></div>
+        <div class="mx-cell"><div class="mx-hidden">● ● ●</div></div>
+      </div>
+
+      <div class="mx-row ours">
+        <div class="mx-name ours">HPC22 · Ações<span>1º ETP Harpian</span></div>
+        <div class="mx-cell"><div class="mx-bar"><i id="bRN_h22"></i></div><div class="mx-num" id="nRN_h22" style="color:var(--green3)">38</div></div>
+        <div class="mx-cell"><div class="mx-hidden">● ● ●</div></div>
+      </div>
+
+      <div class="mx-insight">HPC11 e HPC22 têm o <b>menor risco da tabela</b> — menos que o seu dólar e bem menos que o índice. E o retorno? <em>Você vê no gráfico.</em></div>
+    </div>
+
+    <!-- ALINHAMENTO -->
+    <div class="card">
+      <div class="card-lbl">Alinhar o risco</div>
+      <div class="al-q">Quanto do seu dólar passa pra <em>gestão Harpian</em>?</div>
+
+      <div class="al-slider">
+        <div class="al-slider-top">
+          <div class="al-slider-name h11">→ HPC11 <small>ETF · RN 34</small></div>
+          <div class="al-slider-pct h11" id="pctH11">0%</div>
+        </div>
+        <input type="range" min="0" max="100" value="0" id="sldH11" class="h11">
+      </div>
+
+      <div class="al-slider">
+        <div class="al-slider-top">
+          <div class="al-slider-name h22">→ HPC22 <small>Ações · RN 38</small></div>
+          <div class="al-slider-pct h22" id="pctH22">0%</div>
+        </div>
+        <input type="range" min="0" max="100" value="0" id="sldH22" class="h22">
+      </div>
+
+      <div class="al-result">
+        <div class="al-result-lbl">Risk Number do seu dólar</div>
+        <div class="al-rn-flow">
+          <div class="al-rn-from" id="rnFrom">46</div>
+          <div class="al-rn-arrow">→</div>
+          <div class="al-rn-to"><span id="rnTo">46</span><small>combinado</small></div>
+        </div>
+        <div class="al-scale"><div class="al-scale-dot" id="scaleDot" style="left:46%"></div></div>
+        <div class="al-seal" id="alSeal">Mexa os sliders. Mesma exposição em dólar — só <b>risco menor</b>. O retorno fica por último.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="decision">
+    <div class="decision-l" id="decisionTxt">Você fica com <strong>100% do seu dólar no braço</strong> — risco 46, retorno 6%. <em>Aloque conosco</em> e veja o risco do seu dólar descer, mantendo a mesma exposição.</div>
+  </div>
+
+  <div class="foot-row">
+    <a class="cta-back" href="alinhamento-risco.html">← Voltar · Alinhamento</a>
+    <a class="cta-go" href="lideres.html">Ver a consequência <span class="ar">→</span></a>
+  </div>
+
+</div>
+
+<script>
+/* ===== números canônicos (escala S&P = 71) ===== */
+const CLI = { rn:46, ret:0.060 };
+const SP  = { rn:71, ret:0.119 };
+const H11 = { rn:34 };
+const H22 = { rn:38 };
+const RN_MAX = 99, RET_MAX = 0.135;
+
+let pH11=0, pH22=0;   // % do dólar em cada produto (o resto fica no dólar atual do cliente)
+
+const sldH11=document.getElementById('sldH11'), sldH22=document.getElementById('sldH22');
+const fmtPct = p => (Math.round(p*10)/10).toString().replace('.',',');
+const retDec = r => (r*100).toFixed(1).replace('.',',')+'%';   // "6,0%"
+const retInt = r => Math.round(r*100)+'%';                       // "6%"
+
+// injeta TODOS os números a partir das constantes (código dinâmico)
+function fillStatic(){
+  document.getElementById('hRN').textContent  = CLI.rn;
+  document.getElementById('hRet').textContent = retInt(CLI.ret);
+  document.getElementById('nRN_cli').textContent  = CLI.rn;
+  document.getElementById('nRet_cli').textContent = retDec(CLI.ret);
+  document.getElementById('nRN_sp').textContent   = SP.rn;
+  document.getElementById('nRet_sp').textContent  = retDec(SP.ret);
+  document.getElementById('nRN_h11').textContent  = H11.rn;
+  document.getElementById('nRN_h22').textContent  = H22.rn;
+  document.getElementById('rnFrom').textContent   = CLI.rn;
+}
+
+// barras estáticas de risco/retorno
+function paintBars(){
+  const rnColor = rn => rn<=35?'#5BBD7A':(rn<=55?'#D4AF45':(rn<=68?'#E69841':'#D0463C'));
+  const setRN=(id,rn)=>{const e=document.getElementById(id);e.style.width=(rn/RN_MAX*100)+'%';e.style.background='linear-gradient(90deg,'+rnColor(rn)+'aa,'+rnColor(rn)+')';};
+  const setRet=(id,r)=>{const e=document.getElementById(id);e.style.width=(r/RET_MAX*100)+'%';e.style.background='linear-gradient(90deg,#9BA2AE,#CBD0D9)';};
+  setRN('bRN_cli',CLI.rn); setRN('bRN_sp',SP.rn); setRN('bRN_h11',H11.rn); setRN('bRN_h22',H22.rn);
+  setRet('bRet_cli',CLI.ret); setRet('bRet_sp',SP.ret);
+}
+
+function render(){
+  // clamp: own + h11 + h22 = 100
+  if(pH11+pH22>100){ if(this===sldH22) pH22=100-pH11; else pH11=100-pH22; }
+  const pOwn = Math.max(0,100-pH11-pH22);
+
+  sldH11.value=pH11; sldH22.value=pH22;
+  sldH11.style.setProperty('--fill',pH11+'%');
+  sldH22.style.setProperty('--fill',pH22+'%');
+  document.getElementById('pctH11').textContent=Math.round(pH11)+'%';
+  document.getElementById('pctH22').textContent=Math.round(pH22)+'%';
+
+  // Risk Number combinado do universo dólar
+  const rnCombo = (pOwn*CLI.rn + pH11*H11.rn + pH22*H22.rn)/100;
+  const rnR = Math.round(rnCombo);
+  document.getElementById('rnTo').textContent=rnR;
+  document.getElementById('scaleDot').style.left=(rnR/RN_MAX*100)+'%';
+
+  const harp = Math.round(pH11+pH22);
+  const dec=document.getElementById('decisionTxt');
+  const seal=document.getElementById('alSeal');
+  if(harp===0){
+    dec.innerHTML=`Você fica com <strong>100% do seu dólar no braço</strong> — risco ${CLI.rn}, retorno ${retInt(CLI.ret)}. <em>Aloque conosco</em> e veja o risco do seu dólar descer, mantendo a mesma exposição.`;
+    seal.innerHTML=`Mexa os sliders. Mesma exposição em dólar — só <b>risco menor</b>. O retorno fica por último.`;
+  } else {
+    dec.innerHTML=`Com <strong>${harp}% do seu dólar conosco</strong>, o Risk Number caiu de ${CLI.rn} para <strong>${rnR}</strong> — <em>mesma exposição em dólar, risco menor</em>. E o retorno dessa troca? É o que você vê agora no gráfico.`;
+    seal.innerHTML=`Risco <b>${rnR}</b> — abaixo do seu dólar e do índice. Mantivemos seu dólar; só trocamos gestão no braço por gestão sistemática.`;
+  }
+
+  // persiste p/ a Consequência (gráfico de 5 linhas)
+  try{ localStorage.setItem('harpian_dollar', JSON.stringify({pOwn,pH11,pH22,rnCombo:rnR,cliRet:CLI.ret,ts:Date.now()})); }catch(e){}
+}
+
+sldH11.addEventListener('input',function(e){ pH11=parseInt(e.target.value,10); if(pH11+pH22>100)pH22=100-pH11; render(); });
+sldH22.addEventListener('input',function(e){ pH22=parseInt(e.target.value,10); if(pH11+pH22>100)pH11=100-pH22; render(); });
+
+fillStatic(); paintBars(); render();
+// animação de entrada das barras
+['bRN_cli','bRN_sp','bRN_h11','bRN_h22','bRet_cli','bRet_sp'].forEach(id=>document.getElementById(id).style.width='0%');
+setTimeout(paintBars,140);
+
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')  window.location.href='alinhamento-risco.html';
+  else if(e.key==='ArrowRight'||e.key===' ') window.location.href='lideres.html';
+});
+</script>
+
+</body>
+</html>

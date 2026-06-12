@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — O Raio-X da Simulação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#162338;
+  --cream:#F5EFE0; --gold:#B8902F; --gold2:#D4AF45; --gold3:#F0D27A;
+  --green:#5BBD7A; --green3:#88D5A2;
+  --slate:#7C8AA3; --red3:#E8857A;
+  --serif:'Cormorant Garamond',serif; --sans:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+.h-top{padding:16px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:1px solid rgba(184,144,47,0.10);}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);}
+.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,239,224,0.55);}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);}
+
+.wrap{flex:1;display:flex;flex-direction:column;padding:22px 64px;min-height:0;}
+.head{flex-shrink:0;margin-bottom:18px;}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:8px;}
+.kicker::before{content:'⊹ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:46px;font-weight:600;color:var(--cream);line-height:1.0;letter-spacing:-0.015em;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.sub{font-family:var(--sans);font-size:15px;line-height:1.5;color:rgba(245,239,224,0.74);max-width:1120px;margin-top:9px;font-weight:300;}
+.sub strong{color:var(--cream);font-weight:500;}
+
+.scan{flex:1;display:flex;flex-direction:column;gap:11px;min-height:0;justify-content:center;}
+.row{display:grid;grid-template-columns:230px 1fr 44px 1fr 46px;align-items:center;gap:22px;
+  background:rgba(245,239,224,0.035);border:1px solid rgba(184,144,47,0.16);border-left:3px solid var(--green);border-radius:8px;padding:16px 24px;
+  opacity:0;transform:translateX(-18px);}
+.row.in{animation:rowIn .6s cubic-bezier(.16,1,.3,1) forwards;}
+@keyframes rowIn{to{opacity:1;transform:translateX(0);}}
+.r-dim{display:flex;flex-direction:column;gap:3px;}
+.r-dim-h{font-family:var(--serif);font-size:21px;font-weight:600;color:var(--cream);line-height:1.05;}
+.r-dim-s{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,239,224,0.42);}
+.r-before{font-family:var(--sans);font-size:15px;color:var(--slate);line-height:1.3;}
+.r-before b{font-family:var(--mono);color:var(--red3);font-weight:700;font-size:18px;}
+.r-arrow{font-family:var(--serif);font-size:26px;color:rgba(245,239,224,0.32);text-align:center;}
+.r-after{font-family:var(--sans);font-size:15px;color:rgba(245,239,224,0.9);line-height:1.3;}
+.r-after b{font-family:var(--mono);color:var(--green3);font-weight:700;font-size:19px;}
+.r-after b.gold{color:var(--gold2);}
+.r-check{width:38px;height:38px;border-radius:50%;background:rgba(91,189,122,0.14);border:1.5px solid rgba(91,189,122,0.5);
+  display:flex;align-items:center;justify-content:center;color:var(--green3);font-size:19px;font-weight:700;justify-self:center;}
+
+.close{flex-shrink:0;margin-top:16px;background:linear-gradient(90deg,rgba(91,189,122,0.12),rgba(212,175,69,0.12));
+  border:1px solid rgba(184,144,47,0.34);border-radius:9px;padding:18px 28px;display:flex;justify-content:space-between;align-items:center;gap:30px;}
+.close-l{font-family:var(--serif);font-size:21px;font-style:italic;color:var(--cream);line-height:1.35;}
+.close-l b{font-style:normal;font-weight:600;color:var(--gold2);}
+.close-l .g{color:var(--green3);}
+.cta-go{background:linear-gradient(180deg,#F0D27A,#D4AF45,#B8902F);color:var(--navy);border:none;padding:16px 32px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:5px;display:inline-flex;align-items:center;gap:12px;text-decoration:none;box-shadow:0 8px 24px rgba(212,175,69,0.36);transition:all .25s;white-space:nowrap;flex-shrink:0;}
+.cta-go:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(212,175,69,0.55);}
+.cta-go .ar{font-family:var(--serif);font-size:19px;}
+
+.foot-row{flex-shrink:0;margin-top:12px;display:flex;justify-content:flex-start;}
+.cta-back{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.55);text-decoration:none;padding:10px 20px;border:1px solid rgba(245,239,224,0.14);border-radius:3px;transition:all .2s;}
+.cta-back:hover{color:var(--cream);border-color:var(--gold2);}
+</style>
+</head>
+<body>
+
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-tag">AlphaDroid Engine</div>
+  <div class="h-step">Parte 4 · O Raio-X</div>
+</div>
+
+<div class="wrap">
+  <div class="head">
+    <div class="kicker">O raio-X da simulação</div>
+    <h1 class="headline">Risco alinhado. Retorno ganho. <em>Tudo mais eficiente.</em></h1>
+    <p class="sub">O resumo do que você <strong>acabou de ver</strong> — só no seu universo em dólar, <strong>sem converter um real a mais</strong>.</p>
+  </div>
+
+  <div class="scan" id="scan">
+
+    <div class="row">
+      <div class="r-dim"><div class="r-dim-h">Risco</div><div class="r-dim-s">Risk Number do dólar</div></div>
+      <div class="r-before">no braço · <b>46</b></div>
+      <div class="r-arrow">→</div>
+      <div class="r-after">alinhado · <b id="rnAfter">43</b> <span style="opacity:.6;font-size:13px">— abaixo do índice (71)</span></div>
+      <div class="r-check">✓</div>
+    </div>
+
+    <div class="row">
+      <div class="r-dim"><div class="r-dim-h">Retorno</div><div class="r-dim-s">10 anos · US$ 10 mil</div></div>
+      <div class="r-before">seu dólar sozinho · <b id="semVal">$45k</b></div>
+      <div class="r-arrow">→</div>
+      <div class="r-after">com <span id="harpPct">30</span>% Harpian · <b class="gold" id="comVal">$8,6M</b></div>
+      <div class="r-check">✓</div>
+    </div>
+
+    <div class="row">
+      <div class="r-dim"><div class="r-dim-h">Eficiência tributária</div><div class="r-dim-s">estrutura do veículo</div></div>
+      <div class="r-before">venda de ETF + ação no braço</div>
+      <div class="r-arrow">→</div>
+      <div class="r-after"><b class="gold" style="font-size:15px">estrutura ETP</b> · diferimento</div>
+      <div class="r-check">✓</div>
+    </div>
+
+    <div class="row">
+      <div class="r-dim"><div class="r-dim-h">Operação</div><div class="r-dim-s">como o dinheiro é gerido</div></div>
+      <div class="r-before">cesta de ETF + ação, manual</div>
+      <div class="r-arrow">→</div>
+      <div class="r-after"><b class="gold" style="font-size:15px">gestão sistemática</b> · sem você operar</div>
+      <div class="r-check">✓</div>
+    </div>
+
+    <div class="row">
+      <div class="r-dim"><div class="r-dim-h">Exposição em dólar</div><div class="r-dim-s">seu câmbio</div></div>
+      <div class="r-before">o que você já tinha</div>
+      <div class="r-arrow">→</div>
+      <div class="r-after"><b class="gold" style="font-size:15px">intocada</b> — mesma exposição</div>
+      <div class="r-check">✓</div>
+    </div>
+
+  </div>
+
+  <div class="close">
+    <div class="close-l">Menos risco. <b>Muito mais retorno.</b> Menos imposto. <span class="g">E você não converteu um dólar a mais.</span></div>
+    <a class="cta-go" href="infraestrutura.html">Onde o dinheiro fica <span class="ar">→</span></a>
+  </div>
+
+  <div class="foot-row">
+    <a class="cta-back" href="consequencia.html">← Voltar · gráfico</a>
+  </div>
+</div>
+
+<script>
+(function(){
+  const CLI={rn:46}, H11={rn:34}, H22={rn:38};
+  // múltiplos da década canônica (10,4 anos) — batem com o fim do gráfico
+  const M={ sem:1.835, h11:3.572, h22:38.58 };
+  let AL={pOwn:70,pH11:15,pH22:15};
+  try{ const a=JSON.parse(localStorage.getItem('harpian_dollar')||'null');
+    if(a && (a.pOwn+a.pH11+a.pH22)>0){ AL={pOwn:a.pOwn,pH11:a.pH11,pH22:a.pH22}; } }catch(e){}
+
+  const harp=Math.round(AL.pH11+AL.pH22);
+  const rnCombo=Math.round((AL.pOwn*CLI.rn + AL.pH11*H11.rn + AL.pH22*H22.rn)/100);
+  const comMult=(AL.pOwn*M.sem + AL.pH11*M.h11 + AL.pH22*M.h22)/100;
+  const fmtUSD=mult=>{ const v=10000*mult; if(v>=1e6)return '$'+(v/1e6).toFixed(1).replace('.',',')+'M'; if(v>=1e3)return '$'+Math.round(v/1e3)+'k'; return '$'+Math.round(v); };
+
+  document.getElementById('rnAfter').textContent=rnCombo;
+  document.getElementById('harpPct').textContent=harp;
+  document.getElementById('semVal').textContent=fmtUSD(M.sem);
+  document.getElementById('comVal').textContent=fmtUSD(comMult);
+
+  // animação cascata das linhas
+  const rows=document.querySelectorAll('#scan .row');
+  rows.forEach((r,i)=>setTimeout(()=>r.classList.add('in'), 180+i*220));
+
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowLeft') window.location.href='consequencia.html';
+    else if(e.key==='ArrowRight'||e.key===' ') window.location.href='infraestrutura.html';
+  });
+})();
+</script>
+</body>
+</html>

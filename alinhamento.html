@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — Alinhamento de Interesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#1A2438;
+  --cream:#F5EFE0; --cream2:#FBF7EA;
+  --gold:#B8902F; --gold2:#D4AF45;
+  --ink:#0B1626; --ink2:#3A4459; --muted:#7A8294;
+  --line:#E5DDC6; --line2:#D9D1BA;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--navy);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+
+/* HEADER fino superior */
+.h-top{padding:24px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);letter-spacing:0.02em;}
+.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,239,224,0.55);}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold2);}
+
+/* CONTEÚDO */
+.wrap{flex:1;display:flex;flex-direction:column;padding:8px 56px 32px;min-height:0;}
+
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:0.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:18px;}
+.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:80px;font-weight:600;color:var(--cream);line-height:0.98;letter-spacing:-0.02em;margin-bottom:22px;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.sub{font-family:var(--sans);font-size:18px;line-height:1.55;color:rgba(245,239,224,0.80);max-width:1080px;margin-bottom:36px;}
+.sub strong{color:var(--gold2);font-weight:600;}
+
+/* 3 BLOCOS de alinhamento */
+.blocks{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:28px;flex-shrink:0;}
+.block{background:linear-gradient(180deg,rgba(245,239,224,0.04) 0%,rgba(245,239,224,0.01) 100%);border:1px solid rgba(184,144,47,0.30);padding:24px 26px;position:relative;transition:all .3s;}
+.block:hover{border-color:var(--gold);background:linear-gradient(180deg,rgba(184,144,47,0.08) 0%,rgba(184,144,47,0.02) 100%);transform:translateY(-3px);}
+.block-num{position:absolute;top:18px;right:22px;font-family:var(--serif);font-size:54px;font-weight:300;color:rgba(184,144,47,0.30);line-height:1;}
+.block-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px;}
+.block-h{font-family:var(--serif);font-size:32px;font-weight:600;color:var(--cream);line-height:1.05;margin-bottom:14px;}
+.block-h em{font-style:italic;color:var(--gold2);}
+.block-body{font-family:var(--sans);font-size:14.5px;line-height:1.55;color:rgba(245,239,224,0.72);}
+.block-body strong{color:var(--cream);font-weight:600;}
+
+/* Quote em destaque */
+.quote-wrap{background:linear-gradient(90deg,rgba(184,144,47,0.10) 0%,rgba(184,144,47,0.02) 100%);border-left:3px solid var(--gold);padding:24px 36px;margin-bottom:28px;display:flex;align-items:flex-start;gap:24px;}
+.quote-mark{font-family:var(--serif);font-style:italic;font-size:96px;line-height:0.7;color:var(--gold);flex-shrink:0;}
+.quote-text{flex:1;}
+.quote-body{font-family:var(--serif);font-style:italic;font-size:28px;font-weight:500;color:var(--cream);line-height:1.30;}
+.quote-attr{font-family:var(--mono);font-size:11px;letter-spacing:0.20em;text-transform:uppercase;color:var(--gold2);margin-top:12px;}
+
+/* Footer institucional */
+.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:20px;border-top:1px solid rgba(184,144,47,0.20);flex-shrink:0;}
+.foot-marks{display:flex;align-items:center;gap:28px;font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(245,239,224,0.50);}
+.foot-marks strong{color:var(--gold2);font-weight:600;}
+.cta{background:var(--gold);color:var(--navy);border:none;padding:16px 36px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:10px;}
+.cta:hover{background:var(--gold2);transform:translateX(3px);}
+.cta-arrow{font-family:var(--serif);font-size:18px;}
+
+/* RESPONSIVE */
+@media (max-width:1200px){
+  .headline{font-size:56px;}
+  .blocks{grid-template-columns:1fr;}
+  .quote-body{font-size:22px;}
+}
+</style>
+</head>
+<body>
+
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-tag">AlphaDroid Engine · 11 Strategies</div>
+  <div class="h-step">Parte 2 · Alinhamento</div>
+</div>
+
+<div class="wrap">
+  <div class="kicker">Alinhamento de interesses</div>
+
+  <h1 class="headline">Onde colocamos<br>o <em>nosso</em> dinheiro.</h1>
+
+  <p class="sub">A <strong>família Harpian também investe</strong> nas estratégias que oferecemos a você. Mesmas regras, mesma execução, mesma custódia institucional. O <em>skin-in-the-game</em> não é metáfora — é arquitetura: o que serve para o cliente foi construído pelos sócios para si mesmos primeiro.</p>
+
+  <div class="blocks">
+    <div class="block">
+      <div class="block-num">I</div>
+      <div class="block-tag">Estratégia</div>
+      <div class="block-h">As mesmas <em>estratégias</em></div>
+      <div class="block-body">Sócios da Harpian alocam capital pessoal nas mesmas famílias de produto — HPC22, HPC11, Stomach Guard — calibradas pelos mesmos motores quantitativos. <strong>Não existe versão premium escondida.</strong> O que você assina é o que nós usamos.</div>
+    </div>
+
+    <div class="block">
+      <div class="block-num">II</div>
+      <div class="block-tag">Infraestrutura</div>
+      <div class="block-h">A mesma <em>infraestrutura</em></div>
+      <div class="block-body">Capital dos sócios e do cliente trafega na mesma malha institucional Tier 1: custódia <strong>BNY Mellon</strong>, execução <strong>Interactive Brokers</strong>, contabilidade <strong>LYNK</strong>, auditoria <strong>Deloitte</strong>. Mesmo audit trail. Mesmo NAV diário. Mesmo padrão.</div>
+    </div>
+
+    <div class="block">
+      <div class="block-num">III</div>
+      <div class="block-tag">Transparência</div>
+      <div class="block-h">A mesma <em>transparência</em></div>
+      <div class="block-body">O Intelligence Terminal — o painel que os sócios usam para monitorar a operação diariamente — fica disponível <strong>gratuito</strong> para quem investe conosco. Mesmo CRS, mesmos motores, mesmas decisões em tempo real. <strong>Nada fica escondido.</strong></div>
+    </div>
+  </div>
+
+  <div class="quote-wrap">
+    <div class="quote-mark">"</div>
+    <div class="quote-text">
+      <div class="quote-body">Drawdown não é número de planilha. É o momento em que o sócio perde sono. Construímos a Harpian em volta dessa frase — antes de tudo, para nós mesmos.</div>
+      <div class="quote-attr">— Doutrina da casa</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="foot-marks">
+      <span>Tier 1 · <strong>BNY Mellon</strong></span>
+      <span>·</span>
+      <span>Execução · <strong>Interactive Brokers</strong></span>
+      <span>·</span>
+      <span>Contabilidade · <strong>LYNK</strong></span>
+      <span>·</span>
+      <span>Auditoria · <strong>Deloitte</strong></span>
+    </div>
+    <button class="cta" onclick="window.location.href='como-avaliamos-risco.html'">
+      Calibrar meu portfólio
+      <span class="cta-arrow">→</span>
+    </button>
+  </div>
+</div>
+
+</body>
+</html>

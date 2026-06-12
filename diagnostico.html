@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><title>HARPIAN — Diagnóstico cruzado</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+:root{--navy:#0B1626;--navy2:#1A2438;--cream:#F5EFE0;--cream2:#FBF7EA;--gold:#B8902F;--gold2:#D4AF45;--ink:#0B1626;--ink2:#3A4459;--muted:#7A8294;--line:#E5DDC6;--line2:#D9D1BA;--red:#D0463C;--amber:#E68B3A;--green:#5BBD7A;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;background:var(--navy);color:var(--cream);font-family:var(--sans);overflow:hidden;}body{display:flex;flex-direction:column;}
+.h-top{padding:12px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--cream);}.h-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,239,224,0.55);}.h-step{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);}
+.progress{padding:0 56px 10px;display:flex;gap:6px;flex-shrink:0;}
+.p-step{flex:1;height:3px;background:rgba(245,239,224,0.18);border-radius:2px;position:relative;}
+.p-step.done{background:var(--gold);}.p-step.active{background:var(--gold);box-shadow:0 0 0 1px var(--gold2);}
+.p-step::after{content:attr(data-lbl);position:absolute;top:7px;left:0;font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:rgba(245,239,224,0.40);white-space:nowrap;}
+.p-step.active::after, .p-step.done::after{color:var(--gold2);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:22px 56px 18px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:4px;}.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:42px;font-weight:600;color:var(--cream);line-height:1.0;margin-bottom:6px;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.sub{font-family:var(--sans);font-size:13.5px;color:rgba(245,239,224,0.78);max-width:1080px;margin-bottom:16px;line-height:1.5;}.sub strong{color:var(--gold2);font-weight:600;}.sub em{font-style:italic;color:var(--cream);}
+
+/* LAYOUT: gauge esquerda · cards FIFA direita · embaixo cálculo $ */
+.dx{flex:1;display:grid;grid-template-columns:1.2fr 1fr;gap:24px;min-height:0;}
+
+/* GAUGE WRAPPER */
+.gauge-wrap{background:linear-gradient(180deg,rgba(245,239,224,0.04) 0%,rgba(245,239,224,0.01) 100%);border:1px solid rgba(184,144,47,0.30);padding:20px 24px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;position:relative;}
+.gauge-title{font-family:var(--mono);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin-bottom:4px;}
+.gauge-sub{font-family:var(--serif);font-style:italic;font-size:14px;color:rgba(245,239,224,0.78);margin-bottom:6px;}
+.gauge-svg{width:100%;max-width:520px;height:auto;display:block;}
+
+/* legenda agulhas */
+.gauge-legend{display:flex;gap:32px;margin-top:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,239,224,0.78);}
+.gauge-legend-item{display:flex;align-items:center;gap:8px;}
+.gauge-legend-item .dot{width:14px;height:3px;border-radius:1px;}
+.gauge-legend-item .dot.you{background:var(--red);}
+.gauge-legend-item .dot.harpian{background:var(--gold2);box-shadow:0 0 8px rgba(212,175,69,0.6);}
+
+/* CARDS FIFA · direita */
+.fifa-col{display:flex;flex-direction:column;gap:14px;min-height:0;}
+.fifa-card{background:linear-gradient(180deg,rgba(245,239,224,0.04),rgba(245,239,224,0.01));border:1px solid rgba(184,144,47,0.25);padding:16px 20px;display:flex;flex-direction:column;position:relative;overflow:hidden;}
+.fifa-card.you{border-color:rgba(208,70,60,0.45);}
+.fifa-card.harpian{border-color:var(--gold);background:linear-gradient(180deg,rgba(184,144,47,0.12),rgba(184,144,47,0.02));}
+.fifa-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.fifa-card.you::before{background:linear-gradient(90deg,transparent,var(--red),transparent);}
+.fifa-card.harpian::before{background:linear-gradient(90deg,transparent,var(--gold2),transparent);}
+.fifa-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;padding-bottom:8px;border-bottom:1px dashed rgba(184,144,47,0.30);}
+.fifa-tag{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;}
+.fifa-card.you .fifa-tag{color:var(--red);}.fifa-card.harpian .fifa-tag{color:var(--gold2);}
+.fifa-name{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--cream);line-height:1;}
+.fifa-rn{font-family:var(--serif);font-size:48px;font-weight:800;line-height:1;letter-spacing:-0.02em;}
+.fifa-card.you .fifa-rn{color:var(--red);}.fifa-card.harpian .fifa-rn{color:var(--gold2);}
+.fifa-rn-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,239,224,0.55);margin-top:2px;margin-bottom:12px;}
+.fifa-stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.fifa-stat{display:flex;flex-direction:column;}
+.fifa-stat-v{font-family:var(--serif);font-size:20px;font-weight:700;color:var(--cream);line-height:1;}
+.fifa-stat-k{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,239,224,0.55);margin-top:3px;}
+
+/* CÁLCULO $ EM 5 ANOS (banner inferior) */
+.money{background:linear-gradient(90deg,rgba(208,70,60,0.10) 0%,rgba(208,70,60,0.02) 100%);border-left:3px solid var(--red);padding:14px 22px;margin-top:14px;flex-shrink:0;display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;align-items:center;}
+.money-cell{display:flex;flex-direction:column;gap:2px;}
+.money-cell-k{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.60);}
+.money-cell-v{font-family:var(--serif);font-size:28px;font-weight:700;color:var(--cream);line-height:1;}
+.money-cell-v.red{color:var(--red);}
+.money-cell-v.green{color:var(--green);}
+.money-cell-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.10em;color:rgba(245,239,224,0.50);text-transform:uppercase;}
+
+/* FOOT */
+.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid rgba(184,144,47,0.20);flex-shrink:0;}
+.foot-status{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.55);}.foot-status strong{color:var(--gold2);font-weight:600;}
+.foot-actions{display:flex;align-items:center;gap:20px;}
+.foot-back{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.65);text-decoration:none;border-bottom:1px dashed rgba(245,239,224,0.30);}
+.foot-back:hover{color:var(--gold2);border-color:var(--gold2);}
+.cta{background:var(--gold);color:var(--navy);border:none;padding:14px 32px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:10px;}
+.cta:hover{background:var(--gold2);transform:translateX(3px);}
+.cta-arrow{font-family:var(--serif);font-size:18px;}
+
+/* Pulse na agulha Harpian */
+@keyframes pulseGoldGlow {
+  0%, 100% { filter:drop-shadow(0 0 4px rgba(212,175,69,0.55)); }
+  50%      { filter:drop-shadow(0 0 12px rgba(212,175,69,0.95)); }
+}
+.needle-harpian{animation:pulseGoldGlow 2.4s ease-in-out infinite;}
+</style>
+</head>
+<body>
+<div class="h-top"><div class="h-logo">Harpian</div><div class="h-tag">AlphaDroid Engine</div><div class="h-step">Parte 2 · Diagnóstico</div></div>
+<div class="progress">
+  <div class="p-step done" data-lbl="Alinhamento"></div>
+  <div class="p-step done" data-lbl="3 lentes"></div>
+  <div class="p-step done" data-lbl="Mandato"></div>
+  <div class="p-step done" data-lbl="Perfil"></div>
+  <div class="p-step done" data-lbl="Ambição"></div>
+  <div class="p-step done" data-lbl="Portfólio"></div>
+  <div class="p-step active" data-lbl="Diagnóstico"></div>
+  <div class="p-step" data-lbl="Coverage"></div>
+  <div class="p-step" data-lbl="Espelho"></div>
+  <div class="p-step" data-lbl="Terminal"></div>
+  <div class="p-step" data-lbl="Ativação"></div>
+</div>
+<div class="wrap">
+  <div class="kicker">Diagnóstico · onde você está vs onde precisa estar</div>
+  <h1 class="headline">A distância entre o risco que ele carrega <em>e o risco que ele tolera.</em></h1>
+  <p class="sub">Cruzamos as <strong>3 lentes</strong> + sua <strong>ambição</strong> e calculamos o <em>Risk Number</em> do seu portfólio atual. Comparamos com onde a <strong>estratégia AlphaDroid</strong> te coloca. <em>O gap fala em dólares.</em></p>
+
+  <div class="dx">
+    <!-- COLUNA ESQUERDA: GAUGE -->
+    <div class="gauge-wrap">
+      <div class="gauge-title">★ Risk Number · escala institucional</div>
+      <div class="gauge-sub">Você hoje <strong style="color:#D0463C">78</strong> · AlphaDroid <strong style="color:#D4AF45">55</strong></div>
+
+      <!-- SVG gauge semicírculo -->
+      <svg class="gauge-svg" viewBox="0 0 600 360" preserveAspectRatio="xMidYMid meet">
+        <defs>
+          <linearGradient id="zone-green" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#3BA85F"/><stop offset="100%" stop-color="#5BBD7A"/>
+          </linearGradient>
+          <linearGradient id="zone-gold" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#B8902F"/><stop offset="100%" stop-color="#E68B3A"/>
+          </linearGradient>
+          <linearGradient id="zone-red" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#E68B3A"/><stop offset="100%" stop-color="#A8302A"/>
+          </linearGradient>
+          <radialGradient id="hub" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F0CE5C"/><stop offset="100%" stop-color="#6D5418"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Arcos das zonas (semicírculo de raio 220 centro em 300,280) -->
+        <!-- 0-30: verde · ângulo 180° → 126° -->
+        <path d="M 80 280 A 220 220 0 0 1 170.86 100.61" stroke="url(#zone-green)" stroke-width="40" fill="none" stroke-linecap="round"/>
+        <!-- 30-60: dourado/amarelo · 126° → 72° -->
+        <path d="M 178.31 95.16 A 220 220 0 0 1 367.97 81.05" stroke="url(#zone-gold)" stroke-width="40" fill="none"/>
+        <!-- 60-100: vermelho · 72° → 0° -->
+        <path d="M 375.41 84.27 A 220 220 0 0 1 520 280" stroke="url(#zone-red)" stroke-width="40" fill="none" stroke-linecap="round"/>
+
+        <!-- Ticks numerados -->
+        <g font-family="JetBrains Mono" font-size="13" font-weight="700" fill="#FBF7EA" text-anchor="middle">
+          <text x="80" y="318">0</text>
+          <text x="167" y="120" transform="rotate(-54 167 120)">25</text>
+          <text x="300" y="50">50</text>
+          <text x="433" y="120" transform="rotate(54 433 120)">75</text>
+          <text x="520" y="318">100</text>
+        </g>
+
+        <!-- Labels das zonas -->
+        <g font-family="Inter,sans-serif" font-size="11" font-weight="600" letter-spacing="0.08em" text-anchor="middle">
+          <text x="125" y="220" fill="#5BBD7A">DEFENSIVO</text>
+          <text x="300" y="155" fill="#D4AF45">MODERADO</text>
+          <text x="475" y="220" fill="#D0463C">AGRESSIVO</text>
+        </g>
+
+        <!-- Agulha HARPIAN (RN=55 · ângulo 180-(55/100*180) = 81°) -->
+        <!-- Posição da ponta: cx + R*cos(angle_rad), cy - R*sin(angle_rad) onde angle medido de 0 horizontal direita -->
+        <!-- RN=55 → ângulo = 180 - (55/100)*180 = 81° → rad=1.4137 -->
+        <!-- ponta: x=300+180*cos(81°)=300+28.16=328.16, y=280-180*sin(81°)=280-177.79=102.21 -->
+        <g class="needle-harpian">
+          <line x1="300" y1="280" x2="328" y2="102" stroke="#D4AF45" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="328" cy="102" r="7" fill="#D4AF45"/>
+          <text x="340" y="98" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#D4AF45">★ HARPIAN · 55</text>
+        </g>
+
+        <!-- Agulha VOCÊ HOJE (RN=78 · ângulo = 180 - (78/100)*180 = 39.6°) -->
+        <!-- ponta: x=300+180*cos(39.6°)=300+138.69=438.69, y=280-180*sin(39.6°)=280-114.78=165.22 -->
+        <g>
+          <line x1="300" y1="280" x2="438" y2="165" stroke="#D0463C" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="438" cy="165" r="7" fill="#D0463C"/>
+          <text x="452" y="170" font-family="Inter,sans-serif" font-size="14" font-weight="700" fill="#D0463C">▲ VOCÊ · 78</text>
+        </g>
+
+        <!-- Hub central (parafuso) -->
+        <circle cx="300" cy="280" r="16" fill="url(#hub)" stroke="#FBF7EA" stroke-width="2"/>
+        <circle cx="300" cy="280" r="4" fill="#0B1626"/>
+
+      </svg>
+
+      <div class="gauge-legend">
+        <div class="gauge-legend-item"><div class="dot you"></div>Você hoje (do seu portfólio)</div>
+        <div class="gauge-legend-item"><div class="dot harpian"></div>AlphaDroid (calibrada)</div>
+      </div>
+    </div>
+
+    <!-- COLUNA DIREITA: CARDS FIFA -->
+    <div class="fifa-col">
+      <div class="fifa-card you">
+        <div class="fifa-head">
+          <div class="fifa-tag">▲ Você hoje</div>
+          <div class="fifa-name">Seu portfólio</div>
+        </div>
+        <div class="fifa-rn">78</div>
+        <div class="fifa-rn-lbl">Risk Number · zona agressiva</div>
+        <div class="fifa-stats">
+          <div class="fifa-stat"><div class="fifa-stat-v">9,0%</div><div class="fifa-stat-k">CAGR esperado</div></div>
+          <div class="fifa-stat"><div class="fifa-stat-v" style="color:var(--red)">-22%</div><div class="fifa-stat-k">MaxDD</div></div>
+          <div class="fifa-stat"><div class="fifa-stat-v">22%</div><div class="fifa-stat-k">Volatilidade</div></div>
+        </div>
+      </div>
+
+      <div class="fifa-card harpian">
+        <div class="fifa-head">
+          <div class="fifa-tag">★ AlphaDroid</div>
+          <div class="fifa-name">Estratégia calibrada</div>
+        </div>
+        <div class="fifa-rn">55</div>
+        <div class="fifa-rn-lbl">Risk Number · zona moderada</div>
+        <div class="fifa-stats">
+          <div class="fifa-stat"><div class="fifa-stat-v" style="color:var(--green)">24,5%</div><div class="fifa-stat-k">CAGR esperado</div></div>
+          <div class="fifa-stat"><div class="fifa-stat-v" style="color:var(--gold2)">-12,1%</div><div class="fifa-stat-k">MaxDD</div></div>
+          <div class="fifa-stat"><div class="fifa-stat-v">14%</div><div class="fifa-stat-k">Volatilidade</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CÁLCULO $ EM 5 ANOS -->
+  <div class="money">
+    <div class="money-cell">
+      <div class="money-cell-k">Sua trajetória atual · 5 anos</div>
+      <div class="money-cell-v">$153k</div>
+      <div class="money-cell-sub">de $100k · CAGR ~9,0%</div>
+    </div>
+    <div class="money-cell">
+      <div class="money-cell-k">Seu alvo declarado</div>
+      <div class="money-cell-v">$200k</div>
+      <div class="money-cell-sub">Ambição: crescimento · CAGR 14,9%</div>
+    </div>
+    <div class="money-cell">
+      <div class="money-cell-k">Gap até o alvo · trajetória atual</div>
+      <div class="money-cell-v red">−$47k</div>
+      <div class="money-cell-sub">com AlphaDroid: <strong style="color:var(--green)">$300k+ → +$100k de excesso</strong></div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="foot-status">Diagnóstico baseado em <strong>3 lentes + ambição</strong> · alvo $200k em 5 anos</div>
+    <div class="foot-actions">
+      <a class="foot-back" href="alinhamento-risco.html">← Voltar · Alinhamento</a>
+      <button class="cta" onclick="window.location.href='coverage-area.html'">Ver eficiência total <span class="cta-arrow">→</span></button>
+    </div>
+  </div>
+</div>
+</body></html>

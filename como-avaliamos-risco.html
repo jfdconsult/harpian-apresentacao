@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — Vamos calcular o seu Risk Number</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#162338; --navy3:#1A2438;
+  --cream:#F5EFE0; --cream2:#FBF7EA;
+  --gold:#B8902F; --gold2:#D4AF45; --gold3:#F0D27A;
+  --ink:#0B1626; --ink2:#3A4459; --muted:#7A8294;
+  --line:#E5DDC6; --line2:#D9D1BA;
+  --red:#D0463C;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;height:100vh;}
+
+/* HEADER */
+.h-top{padding:18px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:1px solid rgba(11,22,38,0.06);}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:.02em;}
+.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+
+/* HERO + RECAP */
+.hero{padding:30px 56px 0;display:grid;grid-template-columns:1.4fr 0.85fr;gap:46px;align-items:start;flex-shrink:0;}
+.hero-l .kicker{font-family:var(--mono);font-size:12.5px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.hero-l .kicker::before{content:'★ ';color:var(--gold);}
+.hero-l h1{font-family:var(--serif);font-size:48px;font-weight:600;color:var(--ink);line-height:1.0;letter-spacing:-0.015em;margin-bottom:14px;}
+.hero-l h1 em{font-style:italic;color:var(--gold);font-weight:500;}
+.hero-l .sub{font-family:var(--sans);font-size:15px;line-height:1.5;color:var(--ink2);max-width:740px;}
+.hero-l .sub strong{color:var(--ink);font-weight:600;}
+.hero-l .sub em{font-style:italic;color:var(--gold);font-weight:500;}
+
+/* RECAP compacto */
+.recap{background:linear-gradient(135deg,#0B1626,#162338);border-radius:6px;padding:18px 20px;color:var(--cream);box-shadow:0 10px 28px rgba(11,22,38,0.18);position:relative;overflow:hidden;}
+.recap::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));}
+.recap-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;}
+.recap-lbl strong{color:var(--cream);display:block;font-weight:700;font-size:11.5px;margin-top:3px;letter-spacing:.10em;}
+.recap-list{display:flex;flex-direction:column;gap:6px;}
+.recap-row{display:flex;justify-content:space-between;align-items:baseline;padding:7px 0;border-top:1px dashed rgba(184,144,47,0.20);}
+.recap-row:first-of-type{border-top:none;padding-top:0;}
+.recap-row-name{font-family:var(--mono);font-size:11px;letter-spacing:.10em;color:rgba(245,239,224,0.72);}
+.recap-row-name em{font-style:normal;color:rgba(245,239,224,0.42);font-size:10px;margin-left:6px;}
+.recap-row.danger .recap-row-name em{color:#E8857A;}
+.recap-row-n{font-family:var(--mono);font-size:30px;font-weight:700;color:var(--gold2);letter-spacing:-0.02em;line-height:1;}
+.recap-row.danger .recap-row-n{color:#E8857A;}
+
+/* 4 ETAPAS - CARDS GAMIFICADOS */
+.stage-band{padding:18px 56px 12px;flex-shrink:0;}
+.stage-label{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:14px;}
+.stage-label-l{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+.stage-label-l strong{color:var(--ink);font-family:var(--serif);font-size:22px;font-weight:700;text-transform:none;letter-spacing:0;font-style:italic;margin-left:14px;}
+.stage-label-r{font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;}
+.stage-label-r strong{color:var(--ink);font-weight:700;}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+.step{background:#fff;border:1px solid var(--line2);border-radius:8px;padding:22px 22px;position:relative;cursor:pointer;transition:all .35s cubic-bezier(.2,.7,.3,1);overflow:hidden;display:flex;flex-direction:column;gap:10px;min-height:265px;}
+.step:hover{transform:translateY(-6px);box-shadow:0 16px 38px rgba(184,144,47,0.18);border-color:var(--gold);}
+.step::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2));opacity:0;transition:opacity .3s;}
+.step:hover::before{opacity:1;}
+.step-num{position:absolute;top:18px;right:22px;font-family:var(--serif);font-size:52px;font-weight:300;color:rgba(184,144,47,0.30);line-height:1;letter-spacing:-0.04em;}
+.step-ico{width:64px;height:64px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#FBF7EA,#F5EFE0);border:1px solid var(--line);border-radius:50%;transition:all .3s;}
+.step:hover .step-ico{background:linear-gradient(135deg,#D4AF45,#B8902F);border-color:#A87C24;}
+.step-ico svg{width:34px;height:34px;color:var(--gold);transition:color .3s;}
+.step:hover .step-ico svg{color:#fff;}
+.step-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+.step-h{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);line-height:1.1;}
+.step-h em{font-style:italic;color:var(--gold);font-weight:600;}
+.step-d{font-family:var(--sans);font-size:13px;line-height:1.45;color:var(--ink2);}
+.step-foot{margin-top:auto;padding-top:10px;border-top:1px dashed var(--line);display:flex;justify-content:space-between;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;}
+.step-foot strong{color:var(--ink);font-weight:700;}
+.step-dot{width:10px;height:10px;border-radius:50%;background:#fff;border:2px solid var(--gold);display:inline-block;vertical-align:middle;margin-right:6px;}
+
+/* FAIXA NAVY · MANTRA + CTA */
+.mantra{margin-top:auto;background:linear-gradient(135deg,#0B1626 0%,#162338 50%,#0B1626 100%);color:var(--cream);padding:28px 56px 22px;display:grid;grid-template-columns:1.4fr 0.85fr;gap:46px;align-items:center;flex-shrink:0;position:relative;overflow:hidden;}
+.mantra::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),var(--gold2),var(--gold),transparent);}
+.mantra-l{display:flex;flex-direction:column;gap:6px;}
+.mantra-eyebrow{font-family:var(--mono);font-size:10.5px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);}
+.mantra-h{font-family:var(--serif);font-size:38px;font-weight:600;color:var(--cream);line-height:1.05;letter-spacing:-0.01em;}
+.mantra-h em{font-style:italic;color:var(--gold2);font-weight:500;}
+.mantra-d{font-family:var(--sans);font-size:14px;line-height:1.5;color:rgba(245,239,224,0.72);max-width:680px;margin-top:6px;}
+.mantra-d strong{color:var(--gold2);font-weight:600;}
+
+.mantra-r{display:flex;flex-direction:column;align-items:flex-end;gap:14px;}
+.cta-back{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,239,224,0.6);text-decoration:none;padding:8px 16px;border:1px solid rgba(245,239,224,0.15);border-radius:3px;transition:all .25s;}
+.cta-back:hover{color:var(--cream);border-color:var(--gold2);}
+.cta-go{background:linear-gradient(180deg,#F0D27A 0%,#D4AF45 50%,#B8902F 100%);color:var(--navy);border:none;padding:18px 38px;font-family:var(--mono);font-size:13.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:14px;border-radius:4px;box-shadow:0 8px 22px rgba(212,175,69,0.35);}
+.cta-go:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,175,69,0.55);}
+.cta-go .ar{font-family:var(--serif);font-size:22px;font-weight:400;animation:slidePulse 2s ease-in-out infinite;}
+@keyframes slidePulse{0%,100%{transform:translateX(0);}50%{transform:translateX(4px);}}
+
+/* responsive */
+@media (max-width:1400px){
+  .hero{grid-template-columns:1.2fr 1fr;gap:24px;}
+  .hero-l h1{font-size:40px;}
+  .mantra{grid-template-columns:1.2fr 1fr;}
+  .mantra-h{font-size:32px;}
+  .step-h{font-size:20px;}
+}
+</style>
+</head>
+<body>
+
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-tag">AlphaDroid Engine</div>
+  <div class="h-step">Parte 2 · Alinhamento de Risco</div>
+</div>
+
+<!-- HERO + RECAP -->
+<div class="hero">
+  <div class="hero-l">
+    <div class="kicker">Agora é a sua vez · vamos calcular o SEU número</div>
+    <h1>Você já viu o nosso Risk Number. <em>Agora vamos calcular o seu.</em></h1>
+    <p class="sub">Você acabou de ver nossos produtos rodando — e o S&amp;P 500, nosso benchmark, que <strong>já bate mais de 90% dos fundos ativos nos Estados Unidos</strong>. Aqui você é o <strong>cliente piloto</strong>: vou usar você para mostrar como calibramos o risco, e <em>essa mesma metodologia se estende ao seu cliente final</em>. Depois disso, podemos subir o seu portfólio real — ou usar os nossos modelos.</p>
+  </div>
+
+  <div class="recap">
+    <div class="recap-lbl">Você acabou de ver<strong>Risk Number · Nitrogen</strong></div>
+    <div class="recap-list">
+      <div class="recap-row"><div class="recap-row-name">HPC11 <em>· ETF Rotation</em></div><div class="recap-row-n">34</div></div>
+      <div class="recap-row"><div class="recap-row-name">HPC22 <em>· Equity Selection</em></div><div class="recap-row-n">38</div></div>
+      <div class="recap-row danger"><div class="recap-row-name">S&amp;P 500 <em>· benchmark</em></div><div class="recap-row-n">71</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- 4 ETAPAS GAMIFICADAS -->
+<div class="stage-band">
+  <div class="stage-label">
+    <div class="stage-label-l">4 etapas <strong>cada uma calibra uma camada do seu Risk Number</strong></div>
+    <div class="stage-label-r">Tempo total · <strong>≈ 8 min</strong> · Pode pausar a qualquer momento</div>
+  </div>
+  <div class="steps">
+    <div class="step" onclick="window.location.href='lente-1-mandato.html'">
+      <div class="step-num">I</div>
+      <div class="step-ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 5v7c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V5l-8-3z"/><path d="m9 12 2 2 4-4"/></svg>
+      </div>
+      <div class="step-tag">Mandato</div>
+      <div class="step-h">O que o <em>patrimônio</em> precisa</div>
+      <div class="step-d">Objetivo institucional, horizonte e drawdown que o mandato tolera estruturalmente — não emocionalmente.</div>
+      <div class="step-foot"><span><span class="step-dot"></span><strong>5</strong> questões</span><span>≈ 2 min</span></div>
+    </div>
+
+    <div class="step" onclick="window.location.href='lente-2-perfil.html'">
+      <div class="step-num">II</div>
+      <div class="step-ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h3l3-9 4 18 3-9h7"/></svg>
+      </div>
+      <div class="step-tag">Tolerância</div>
+      <div class="step-h">Quanto seu <em>cliente</em> suporta</div>
+      <div class="step-d">Como ele reage em crise real — qual queda ele aguenta sem mexer. A lente que separa portfólios bem-sucedidos dos abandonados.</div>
+      <div class="step-foot"><span><span class="step-dot"></span><strong>3</strong> cenários</span><span>≈ 2 min</span></div>
+    </div>
+
+    <div class="step" onclick="window.location.href='ambicao.html'">
+      <div class="step-num">III</div>
+      <div class="step-ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="currentColor"/></svg>
+      </div>
+      <div class="step-tag">Ambição</div>
+      <div class="step-h">Qual <em>resultado</em> ele espera</div>
+      <div class="step-d">A expectativa de retorno que torna a estrutura coerente. Sem este número, o portfólio não fecha — só parece fechar.</div>
+      <div class="step-foot"><span><span class="step-dot"></span><strong>2</strong> escolhas</span><span>≈ 1 min</span></div>
+    </div>
+
+    <div class="step" onclick="window.location.href='lente-3-portfolio.html'">
+      <div class="step-num">IV</div>
+      <div class="step-ico">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9v9h9z"/><path d="M21 12a9 9 0 0 0-9-9"/></svg>
+      </div>
+      <div class="step-tag">Portfólio atual</div>
+      <div class="step-h">O que ele <em>tem hoje</em></div>
+      <div class="step-d">Análise do que está alocado agora — concentração real, correlação efetiva, herança das decisões passadas que ninguém mais auditou.</div>
+      <div class="step-foot"><span><span class="step-dot"></span><strong>Upload</strong> CSV/XLSX</span><span>≈ 3 min</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FAIXA NAVY · MANTRA + CTA -->
+<div class="mantra">
+  <div class="mantra-l">
+    <div class="mantra-eyebrow">A régua de tudo · o nosso mantra</div>
+    <div class="mantra-h">Risco é mensurável. <em>Retorno é estrutural.</em></div>
+    <div class="mantra-d">Antes de calibrar o portfólio do seu cliente, alinhamos <strong>três números</strong>: o risco do mandato, o risco do cliente e o risco da estratégia. <strong>O combinado dos três</strong> é o que vai sair desta jornada.</div>
+  </div>
+  <div class="mantra-r">
+    <a class="cta-back" href="doutrina.html?slide=9">← Voltar para a Doutrina</a>
+    <button class="cta-go" onclick="window.location.href='lente-1-mandato.html'">Vamos lá <span class="ar">→</span></button>
+  </div>
+</div>
+
+</body>
+</html>

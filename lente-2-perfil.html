@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><title>HARPIAN — Lente II · Perfil do Investidor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+:root{--navy:#0B1626;--cream:#F5EFE0;--cream2:#FBF7EA;--gold:#B8902F;--gold2:#D4AF45;--ink:#0B1626;--ink2:#3A4459;--muted:#7A8294;--line:#E5DDC6;--line2:#D9D1BA;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(--sans);overflow:hidden;}body{display:flex;flex-direction:column;}
+.h-top{padding:12px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);}.h-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}.h-step{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.progress{padding:0 56px 10px;display:flex;gap:6px;flex-shrink:0;}
+.p-step{flex:1;height:3px;background:var(--line);border-radius:2px;position:relative;}
+.p-step.done{background:var(--gold);}.p-step.active{background:var(--gold);box-shadow:0 0 0 1px var(--gold2);}
+.p-step::after{content:attr(data-lbl);position:absolute;top:7px;left:0;font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.p-step.active::after, .p-step.done::after{color:var(--gold);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:22px 56px 18px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}.kicker::before{content:'★ ';}
+.headline{font-family:var(--serif);font-size:36px;font-weight:600;color:var(--ink);line-height:1.05;margin-bottom:4px;}
+.headline em{font-style:italic;color:var(--gold);font-weight:500;}
+.sub{font-family:var(--sans);font-size:13px;color:var(--ink2);margin-bottom:10px;}.sub strong{color:var(--ink);font-weight:600;}.sub em{font-style:italic;color:var(--gold);}
+.instinct{background:linear-gradient(90deg,rgba(184,144,47,.18) 0%,rgba(184,144,47,.04) 100%);border-left:3px solid var(--gold);padding:7px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.instinct-icon{font-family:var(--serif);font-size:20px;color:var(--gold);line-height:1;}
+.instinct-text{font-family:var(--mono);font-size:10.5px;letter-spacing:.10em;color:var(--ink2);text-transform:uppercase;}
+.instinct-text strong{color:var(--gold);font-weight:700;}
+.scgrid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:12px;min-height:0;overflow:auto;}
+.sc{background:#fff;border:1px solid var(--line2);padding:12px 16px;display:flex;flex-direction:column;transition:border .2s;}
+.sc:hover{border-color:var(--gold);}
+.sc-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:3px;}
+.sc-title{font-family:var(--serif);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:6px;line-height:1.1;}
+.sc-context{font-family:var(--sans);font-size:11.5px;color:var(--ink2);line-height:1.45;margin-bottom:8px;background:linear-gradient(90deg,rgba(184,144,47,.06),rgba(184,144,47,.01));padding:6px 9px;border-left:2px solid var(--gold);}
+.sc-context strong{color:var(--ink);font-weight:600;}
+.sc-q{font-family:var(--sans);font-size:14.5px;color:var(--ink);margin-bottom:8px;font-weight:600;line-height:1.3;letter-spacing:-0.005em;background:rgba(184,144,47,0.06);padding:6px 10px;border-radius:3px;}
+.sc-options{display:flex;flex-direction:column;gap:4px;}
+.sc-opt{display:flex;align-items:flex-start;gap:8px;padding:6px 9px;background:#FBF7EA;border:1px solid transparent;cursor:pointer;font-family:var(--sans);font-size:11.5px;color:var(--ink2);transition:all .12s;border-radius:3px;line-height:1.3;}
+.sc-opt:hover{background:#F3EBD3;border-color:rgba(184,144,47,0.4);}
+.sc-opt input{appearance:none;width:13px;height:13px;border:1.5px solid var(--muted);border-radius:50%;flex-shrink:0;position:relative;margin-top:1px;cursor:pointer;}
+.sc-opt input:checked{border-color:var(--gold);}.sc-opt input:checked::after{content:'';position:absolute;top:2px;left:2px;width:5px;height:5px;background:var(--gold);border-radius:50%;}
+.sc-opt:has(input:checked){background:linear-gradient(90deg,rgba(184,144,47,.18),rgba(184,144,47,.04));border-color:var(--gold);color:var(--ink);font-weight:500;}
+.foot{margin-top:14px;display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--line);flex-shrink:0;}
+.foot-status{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}.foot-status strong{color:var(--ink);font-weight:600;}
+.foot-actions{display:flex;align-items:center;gap:20px;}
+.foot-back{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);text-decoration:none;border-bottom:1px dashed var(--muted);}
+.foot-back:hover{color:var(--gold);border-color:var(--gold);}
+.cta{background:var(--ink);color:var(--cream);border:none;padding:13px 30px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:10px;}
+.cta:hover{background:var(--gold);color:var(--navy);}
+.cta-arrow{font-family:var(--serif);font-size:18px;}
+</style>
+</head>
+<body>
+<div class="h-top"><div class="h-logo">Harpian</div><div class="h-tag">AlphaDroid Engine</div><div class="h-step">Parte 2 · Lente II · Perfil</div></div>
+<div class="progress">
+  <div class="p-step done" data-lbl="Alinhamento"></div>
+  <div class="p-step done" data-lbl="3 lentes"></div>
+  <div class="p-step done" data-lbl="Mandato"></div>
+  <div class="p-step active" data-lbl="Perfil"></div>
+  <div class="p-step" data-lbl="Ambição"></div>
+  <div class="p-step" data-lbl="Portfólio"></div>
+  <div class="p-step" data-lbl="Diagnóstico"></div>
+  <div class="p-step" data-lbl="Coverage"></div>
+  <div class="p-step" data-lbl="Terminal"></div>
+  <div class="p-step" data-lbl="Ativação"></div>
+</div>
+<div class="wrap">
+  <div class="kicker">Lente II · Perfil do Investidor</div>
+  <h1 class="headline">Como você reage <em>quando dói.</em></h1>
+  <p class="sub"><strong>6 cenários reais</strong> · ≈ 90 segundos · sem certo ou errado · captamos sua <em>primeira reação</em>.</p>
+
+  <div class="instinct">
+    <div class="instinct-icon">⚡</div>
+    <div class="instinct-text">Responda <strong>de primeira</strong> · o primeiro estalo revela seu comportamento real · a segunda resposta é racionalização</div>
+  </div>
+
+  <div class="scgrid">
+    <div class="sc">
+      <div class="sc-tag">C1 · Crise sistêmica</div>
+      <div class="sc-title">Outubro/2008 · -35%</div>
+      <div class="sc-context">Sua carteira caiu <strong>35%</strong>. Lehman quebrou. Manchetes apocalípticas.</div>
+      <div class="sc-q">"Qual sua primeira ação?"</div>
+      <div class="sc-options">
+        <label class="sc-opt"><input type="radio" name="c1"> Vendo tudo · preservo o que sobrou</label>
+        <label class="sc-opt"><input type="radio" name="c1"> Reduzo 30-50% buscando alívio</label>
+        <label class="sc-opt"><input type="radio" name="c1"> Mantenho · confio no plano</label>
+        <label class="sc-opt"><input type="radio" name="c1"> Aumento · preços baixos</label>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-tag">C2 · Euforia</div>
+      <div class="sc-title">Ano espetacular · +35%</div>
+      <div class="sc-context">Amigos comentam que estão batendo o mercado com <strong>cripto e tech</strong>. FOMO aparece.</div>
+      <div class="sc-q">"O que você faz?"</div>
+      <div class="sc-options">
+        <label class="sc-opt"><input type="radio" name="c2"> Sigo a tendência popular</label>
+        <label class="sc-opt"><input type="radio" name="c2"> Aumento levemente o tema quente</label>
+        <label class="sc-opt"><input type="radio" name="c2"> Mantenho disciplinado o plano</label>
+        <label class="sc-opt"><input type="radio" name="c2"> Reduzo risco · protejo o ganho</label>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-tag">C3 · Ruído</div>
+      <div class="sc-title">Queda de 8% após 3 anos +</div>
+      <div class="sc-context">Após 3 anos positivos, queda de <strong>8% em um mês</strong>. Assessor sugere ajustes.</div>
+      <div class="sc-q">"Como responde?"</div>
+      <div class="sc-options">
+        <label class="sc-opt"><input type="radio" name="c3"> Concordo · acelero mudanças</label>
+        <label class="sc-opt"><input type="radio" name="c3"> Avalio com cautela · mantenho</label>
+        <label class="sc-opt"><input type="radio" name="c3"> Peço mais dados antes</label>
+        <label class="sc-opt"><input type="radio" name="c3"> Ruído normal · sigo o plano</label>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-tag">C4 · Lobster in pot</div>
+      <div class="sc-title">DD gradual · -15% em 6 meses</div>
+      <div class="sc-context">Queda <strong>lenta e contínua</strong>: cada mês -2 a -3%. Sem crash dramático. Apenas dor crescente.</div>
+      <div class="sc-q">"Em que mês você age?"</div>
+      <div class="sc-options">
+        <label class="sc-opt"><input type="radio" name="c4"> Mês 2-3 · ajo cedo</label>
+        <label class="sc-opt"><input type="radio" name="c4"> Mês 4 · começo a reduzir</label>
+        <label class="sc-opt"><input type="radio" name="c4"> Mês 6 · só ajo no fundo</label>
+        <label class="sc-opt"><input type="radio" name="c4"> Não ajo · espero recuperar</label>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-tag">C5 · Shiny object</div>
+      <div class="sc-title">Tema quente novo · IA / IPO / cripto</div>
+      <div class="sc-context">Surge <strong>oportunidade hot</strong>. Mídia, sócios, todos falam. Histórias de gente ganhando 10×.</div>
+      <div class="sc-q">"Como reage?"</div>
+      <div class="sc-options">
+        <label class="sc-opt"><input type="radio" name="c5"> Aloco rápido · não perco o trem</label>
+        <label class="sc-opt"><input type="radio" name="c5"> Pequena posição experimental</label>
+        <label class="sc-opt"><input type="radio" name="c5"> Observo 6 meses antes</label>
+        <label class="sc-opt"><input type="radio" name="c5"> Ignoro · fora do meu mandato</label>
+      </div>
+    </div>
+
+    <div class="sc">
+      <div class="sc-tag">C6 · Sinais contraditórios</div>
+      <div class="sc-title">Técnico vs fundamentalista</div>
+      <div class="sc-context">Análise <strong>técnica diz vender</strong>. Fundamentos dizem <strong>comprar</strong>. Os dois bem fundamentados.</div>
+      <div class="sc-q">"Qual prevalece pra você?"</div>
+      <div class="sc-options">
+        <label class="sc-opt"><input type="radio" name="c6"> Sigo a técnica · mercado tem razão</label>
+        <label class="sc-opt"><input type="radio" name="c6"> Sigo o fundamento · curto prazo é ruído</label>
+        <label class="sc-opt"><input type="radio" name="c6"> Peço terceira opinião · paraliso</label>
+        <label class="sc-opt"><input type="radio" name="c6"> Sigo regra preestabelecida · sem discussão</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="foot-status"><strong>0 de 6</strong> cenários respondidos</div>
+    <div class="foot-actions">
+      <a class="foot-back" href="lente-1-mandato.html">← Voltar · Mandato</a>
+      <button class="cta" onclick="window.location.href='ambicao.html'">Ambição <span class="cta-arrow">→</span></button>
+    </div>
+  </div>
+</div>
+<script>
+// ─── HARPIAN SESSION ──────────────────────────────────────────
+const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}},merge(s,p){const d=this.get();d[s]={...(d[s]||{}),...p};localStorage.setItem(this.KEY,JSON.stringify(d));return d;},clear(){localStorage.removeItem(this.KEY);}};
+
+const MAP_B = {
+  c1: ['sell_all','reduce','hold_disciplined','buy_more'],
+  c2: ['follow','slight','maintain_plan','reduce'],
+  c3: ['agree','cautious','ask_more_data','preset_rule'],
+  c4: ['month_2','month_4','month_6','never'],
+  c5: ['fast','small_experiment','observe','ignore'],
+  c6: ['technical','fundamental','paralyze','preset_rule']
+};
+const BKEY = {c1:'crisis_response',c2:'fomo_response',c3:'noise_response',c4:'gradual_dd_response',c5:'shiny_object_response',c6:'contradictory_signals'};
+
+window.addEventListener('DOMContentLoaded',()=>{
+  const b = HS.get().behavior || {};
+  Object.keys(BKEY).forEach(c=>{
+    const v = b[BKEY[c]];
+    if(v===undefined||v===null) return;
+    const idx = MAP_B[c].indexOf(v);
+    if(idx>=0){
+      const radios = document.querySelectorAll(`input[name="${c}"]`);
+      if(radios[idx]) radios[idx].checked = true;
+    }
+  });
+  updateScore();
+});
+
+function updateScore(){
+  const checked = document.querySelectorAll('input[type="radio"]:checked');
+  const groups = new Set();
+  let sumIdx = 0;
+  checked.forEach(r=>{
+    const g = document.querySelectorAll(`input[name="${r.name}"]`);
+    sumIdx += Array.from(g).indexOf(r);
+    groups.add(r.name);
+  });
+  // calibrated_score: range 30-66 baseado em avg idx (0-3)
+  if(groups.size === 6){
+    const avgIdx = sumIdx / 6;
+    const score = Math.round(30 + avgIdx * 12);
+    HS.merge('behavior',{calibrated_score:score});
+  }
+  document.querySelector('.foot-status').innerHTML=`<strong>${groups.size} de 6</strong> cenários respondidos`;
+}
+
+document.querySelectorAll('input[type="radio"]').forEach(r=>r.addEventListener('change',()=>{
+  const group = document.querySelectorAll(`input[name="${r.name}"]`);
+  const idx = Array.from(group).indexOf(r);
+  const key = BKEY[r.name];
+  const val = MAP_B[r.name][idx];
+  HS.merge('behavior',{[key]:val,[`${key}_idx`]:idx});
+  updateScore();
+}));
+</script>
+</body></html>

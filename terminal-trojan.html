@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — Terminal Intelligence · 30 dias grátis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#1A2438;
+  --cream:#F5EFE0; --cream2:#FBF7EA;
+  --gold:#B8902F; --gold2:#D4AF45;
+  --ink:#0B1626; --ink2:#3A4459; --muted:#7A8294;
+  --line:#E5DDC6; --line2:#D9D1BA;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--navy);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+
+/* HEADER */
+.h-top{padding:14px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.progress{padding:0 56px 10px;display:flex;gap:5px;flex-shrink:0;}
+.p-step{flex:1;height:3px;background:rgba(245,239,224,0.18);border-radius:2px;position:relative;}
+.p-step.done{background:var(--gold);}.p-step.active{background:var(--gold);box-shadow:0 0 0 1px var(--gold2);}
+.p-step::after{content:attr(data-lbl);position:absolute;top:7px;left:0;font-family:var(--mono);font-size:8.5px;letter-spacing:.10em;text-transform:uppercase;color:rgba(245,239,224,0.40);white-space:nowrap;}
+.p-step.active::after, .p-step.done::after{color:var(--gold2);}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);letter-spacing:0.02em;}
+.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,239,224,0.55);}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold2);}
+
+/* CONTENT */
+.wrap{flex:1;display:flex;flex-direction:column;padding:8px 56px 28px;min-height:0;}
+
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:0.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:16px;}
+.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:62px;font-weight:600;color:var(--cream);line-height:1.0;letter-spacing:-0.02em;margin-bottom:18px;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.sub{font-family:var(--sans);font-size:16px;line-height:1.55;color:rgba(245,239,224,0.82);max-width:1080px;margin-bottom:22px;}
+.sub strong{color:var(--gold2);font-weight:600;}
+.sub em{font-style:italic;color:var(--cream);}
+
+/* TERMINAL PREVIEW · 4 painéis mockup */
+.preview{background:linear-gradient(180deg,rgba(11,22,38,0.85) 0%,rgba(26,36,56,0.85) 100%);border:1px solid var(--gold);padding:18px;margin-bottom:20px;flex-shrink:0;position:relative;}
+.preview::before{content:'INTELLIGENCE TERMINAL · PREVIEW';position:absolute;top:-9px;left:24px;background:var(--navy);padding:0 12px;font-family:var(--mono);font-size:10px;letter-spacing:0.22em;color:var(--gold2);font-weight:700;}
+.preview-grid{display:grid;grid-template-columns:1fr 1fr 1fr 0.85fr;gap:12px;}
+.panel{background:rgba(11,22,38,0.55);border:1px solid rgba(184,144,47,0.25);padding:12px 14px;}
+.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid rgba(184,144,47,0.20);}
+.panel-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);font-weight:600;}
+.panel-mark{font-family:var(--mono);font-size:9px;color:rgba(245,239,224,0.40);}
+.panel-name{font-family:var(--serif);font-size:14px;font-weight:600;color:var(--cream);margin-bottom:10px;line-height:1.2;}
+.panel-val{font-family:var(--serif);font-size:24px;font-weight:700;line-height:1;}
+.panel-val-up{color:#5BBD7A;}
+.panel-val-gold{color:var(--gold2);}
+.panel-sub{font-family:var(--mono);font-size:10px;letter-spacing:0.08em;color:rgba(245,239,224,0.55);margin-top:4px;}
+.panel-mini-chart{height:46px;margin-top:8px;}
+
+/* Termômetro mini */
+.thermo-mini{display:flex;align-items:flex-end;gap:8px;margin-top:6px;}
+.thermo-bar{width:18px;height:50px;background:#1A2438;border:1px solid rgba(184,144,47,0.30);border-radius:10px;position:relative;overflow:hidden;}
+.thermo-fill{position:absolute;bottom:0;left:0;right:0;background:#5BBD7A;border-radius:10px;height:32%;}
+.thermo-info{flex:1;font-family:var(--mono);font-size:10px;letter-spacing:0.10em;text-transform:uppercase;color:rgba(245,239,224,0.65);line-height:1.4;}
+.thermo-info strong{color:#5BBD7A;font-weight:700;display:block;}
+
+/* QUOTE âncora */
+.anchor{background:linear-gradient(90deg,rgba(184,144,47,0.15) 0%,rgba(184,144,47,0.04) 100%);border-left:3px solid var(--gold);padding:18px 28px;margin-bottom:20px;flex-shrink:0;}
+.anchor-text{font-family:var(--serif);font-style:italic;font-size:22px;font-weight:500;color:var(--cream);line-height:1.3;}
+.anchor-text strong{color:var(--gold2);font-weight:600;font-style:normal;}
+
+/* CTA grande + secundário */
+.cta-block{display:flex;justify-content:space-between;align-items:center;gap:32px;margin-top:auto;padding-top:18px;border-top:1px solid rgba(184,144,47,0.25);flex-shrink:0;}
+.cta-left{display:flex;align-items:center;gap:20px;}
+.cta-badges{display:flex;gap:18px;font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(245,239,224,0.55);}
+.cta-badges span::before{content:'✓ ';color:var(--gold);font-weight:700;}
+.cta-secondary{font-family:var(--mono);font-size:11.5px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(245,239,224,0.60);text-decoration:none;border-bottom:1px dashed rgba(245,239,224,0.30);padding-bottom:2px;}
+.cta-secondary:hover{color:var(--gold2);border-color:var(--gold2);}
+.cta-primary{background:linear-gradient(180deg,#D4AF45 0%,#B8902F 100%);color:var(--navy);border:none;padding:20px 42px;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(184,144,47,0.45);position:relative;animation:pulseGold 2.4s ease-in-out infinite;}
+.cta-primary:hover{transform:translateY(-2px);box-shadow:0 6px 28px rgba(184,144,47,0.65);}
+.cta-arrow{font-family:var(--serif);font-size:20px;}
+@keyframes pulseGold {
+  0%, 100% { box-shadow:0 4px 20px rgba(184,144,47,0.45); }
+  50%      { box-shadow:0 4px 32px rgba(184,144,47,0.75); }
+}
+
+@media (max-width:1300px){
+  .headline{font-size:46px;}
+  .preview-grid{grid-template-columns:1fr 1fr;}
+  .cta-block{flex-direction:column;align-items:stretch;gap:18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-tag">AlphaDroid Engine</div>
+  <div class="h-step">Parte 2 · Comece hoje</div>
+</div>
+
+<div class="progress">
+  <div class="p-step done" data-lbl="Alinhamento"></div>
+  <div class="p-step done" data-lbl="3 lentes"></div>
+  <div class="p-step done" data-lbl="Mandato"></div>
+  <div class="p-step done" data-lbl="Perfil"></div>
+  <div class="p-step done" data-lbl="Ambição"></div>
+  <div class="p-step done" data-lbl="Portfólio"></div>
+  <div class="p-step done" data-lbl="Diagnóstico"></div>
+  <div class="p-step done" data-lbl="Coverage"></div>
+  <div class="p-step active" data-lbl="Terminal"></div>
+  <div class="p-step" data-lbl="Ativação"></div>
+</div>
+
+<div class="wrap">
+  <div class="kicker">Intelligence Terminal · acesso imediato</div>
+
+  <h1 class="headline">Acompanhe os dois portfólios.<br><em>Todo dia. Em tempo real.</em></h1>
+
+  <p class="sub">Você <strong>não precisa decidir nada agora</strong>. Ative o <strong>Intelligence Terminal</strong> por 30 dias — sem cartão, sem compromisso. Veja, todo dia, seu portfólio atual <em>ao lado</em> da AlphaDroid calibrada para você. <em>A decisão de migrar capital é sua</em>, no tempo que você quiser.</p>
+
+  <!-- TERMINAL PREVIEW (mockup) -->
+  <div class="preview">
+    <div class="preview-grid">
+
+      <!-- A · Portfolio atual -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-tag">A · Seu Portfólio</div>
+          <div class="panel-mark">LIVE</div>
+        </div>
+        <div class="panel-name">NAV atual</div>
+        <div class="panel-val">+12,4%</div>
+        <div class="panel-sub">12 meses · base 100</div>
+        <svg class="panel-mini-chart" viewBox="0 0 200 46" preserveAspectRatio="none">
+          <polyline points="0,34 20,32 40,33 60,28 80,30 100,26 120,29 140,24 160,22 180,20 200,18" stroke="#7A8294" stroke-width="1.8" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- B · AlphaDroid -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-tag">B · Harpian · Balance</div>
+          <div class="panel-mark">LIVE</div>
+        </div>
+        <div class="panel-name">NAV mesma janela</div>
+        <div class="panel-val panel-val-up">+24,5%</div>
+        <div class="panel-sub">CAGR 10A oficial</div>
+        <svg class="panel-mini-chart" viewBox="0 0 200 46" preserveAspectRatio="none">
+          <polyline points="0,38 20,33 40,30 60,26 80,22 100,18 120,16 140,12 160,10 180,7 200,4" stroke="#D4AF45" stroke-width="2.2" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- C · Diferença acumulada -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-tag">C · Diferença · 12 meses</div>
+          <div class="panel-mark">↑ GAP</div>
+        </div>
+        <div class="panel-name">A → B</div>
+        <div class="panel-val panel-val-gold">+12,1pp</div>
+        <div class="panel-sub">Pontos percentuais acumulados</div>
+        <svg class="panel-mini-chart" viewBox="0 0 200 46" preserveAspectRatio="none">
+          <defs><linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4AF45" stop-opacity="0.5"/><stop offset="100%" stop-color="#D4AF45" stop-opacity="0.05"/></linearGradient></defs>
+          <path d="M 0 44 L 20 42 L 40 38 L 60 33 L 80 28 L 100 24 L 120 19 L 140 14 L 160 11 L 180 7 L 200 4 L 200 46 L 0 46 Z" fill="url(#grad1)"/>
+          <polyline points="0,44 20,42 40,38 60,33 80,28 100,24 120,19 140,14 160,11 180,7 200,4" stroke="#D4AF45" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- D · CRS termômetro -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-tag">D · CRS · Regime</div>
+          <div class="panel-mark">HOJE</div>
+        </div>
+        <div class="panel-name">Termômetro</div>
+        <div class="thermo-mini">
+          <div class="thermo-bar"><div class="thermo-fill"></div></div>
+          <div class="thermo-info">
+            <strong>RISK-ON</strong>
+            CRS · 0,32<br>
+            HPC22 ativo
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="anchor">
+    <div class="anchor-text">Você está vendo os <strong>mesmos números</strong> que os sócios da Harpian veem agora.</div>
+  </div>
+
+  <div class="cta-block">
+    <div class="cta-left">
+      <div class="cta-badges">
+        <span>Sem cartão</span>
+        <span>Sem compromisso</span>
+        <span>Cancele quando quiser</span>
+      </div>
+    </div>
+    <div class="cta-left" style="gap:24px;">
+      <a class="cta-secondary" href="tour-v2.html">Ver tour guiado antes</a>
+      <button class="cta-primary" onclick="window.location.href='confirmacao-conta.html'">
+        Ativar Terminal · 30 dias grátis
+        <span class="cta-arrow">→</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

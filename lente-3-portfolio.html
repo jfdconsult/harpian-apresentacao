@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><title>HARPIAN — Lente III · Portfólio Atual</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+:root{--navy:#0B1626;--cream:#F5EFE0;--cream2:#FBF7EA;--gold:#B8902F;--gold2:#D4AF45;--ink:#0B1626;--ink2:#3A4459;--muted:#7A8294;--line:#E5DDC6;--line2:#D9D1BA;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(--sans);overflow:hidden;}body{display:flex;flex-direction:column;}
+.h-top{padding:18px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);}.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.progress{padding:0 56px 12px;display:flex;gap:6px;flex-shrink:0;}
+.p-step{flex:1;height:3px;background:var(--line);border-radius:2px;position:relative;}
+.p-step.done{background:var(--gold);}.p-step.active{background:var(--gold);box-shadow:0 0 0 1px var(--gold2);}
+.p-step::after{content:attr(data-lbl);position:absolute;top:8px;left:0;font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.p-step.active::after, .p-step.done::after{color:var(--gold);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:32px 56px 24px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);margin-bottom:10px;}.kicker::before{content:'★ ';}
+.headline{font-family:var(--serif);font-size:48px;font-weight:600;color:var(--ink);line-height:1.05;margin-bottom:8px;}
+.headline em{font-style:italic;color:var(--gold);font-weight:500;}
+.sub{font-family:var(--sans);font-size:14px;color:var(--ink2);margin-bottom:24px;max-width:980px;}.sub strong{color:var(--ink);font-weight:600;}.sub em{font-style:italic;color:var(--gold);}
+/* DUAL LAYOUT: upload + modelos */
+.dual{flex:1;display:grid;grid-template-columns:1fr 1.2fr;gap:24px;min-height:0;}
+/* Upload */
+.up-zone{background:#fff;border:2px dashed rgba(184,144,47,0.5);padding:32px 28px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;transition:all .25s;cursor:pointer;}
+.up-zone:hover{background:#FBF5E2;border-color:var(--gold);transform:scale(1.01);}
+.up-icon{width:64px;height:64px;border:2px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-family:var(--serif);font-size:36px;color:var(--gold);font-weight:700;}
+.up-h{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);margin-bottom:8px;line-height:1.15;}
+.up-h em{font-style:italic;color:var(--gold);}
+.up-sub{font-family:var(--sans);font-size:13.5px;color:var(--ink2);line-height:1.5;margin-bottom:18px;max-width:340px;}
+.up-formats{display:flex;gap:10px;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;}
+.up-formats span{padding:5px 10px;border:1px solid var(--line2);border-radius:3px;background:#FBF7EA;}
+.up-btn{margin-top:18px;background:var(--ink);color:var(--cream);border:none;padding:12px 28px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;}
+.up-btn:hover{background:var(--gold);color:var(--navy);}
+.up-secure{margin-top:14px;font-family:var(--mono);font-size:10.5px;letter-spacing:.10em;color:var(--muted);text-transform:uppercase;}
+.up-secure::before{content:'🔒 ';}
+/* Modelos */
+.models-h{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}.models-h::before{content:'OU · ';color:var(--muted);}
+.models{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.m{background:#fff;border:1px solid var(--line2);padding:12px 14px;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;}
+.m:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 4px 16px rgba(184,144,47,0.15);}
+.m-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+.m-name{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);margin-top:3px;margin-bottom:6px;line-height:1.1;}
+.m-mix{display:flex;gap:4px;margin-bottom:6px;}
+.m-mix span{flex:1;height:5px;border-radius:2px;}
+.m-mix .a{background:#3D7DB3;}.m-mix .b{background:#9A7621;}.m-mix .c{background:#7A8294;}
+.m-desc{font-family:var(--sans);font-size:11.5px;color:var(--ink2);line-height:1.4;margin-top:auto;}
+.foot{margin-top:14px;display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--line);flex-shrink:0;}
+.foot-status{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}.foot-status strong{color:var(--ink);font-weight:600;}
+.foot-actions{display:flex;align-items:center;gap:20px;}
+.foot-back{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);text-decoration:none;border-bottom:1px dashed var(--muted);}
+.foot-back:hover{color:var(--gold);border-color:var(--gold);}
+.cta{background:var(--ink);color:var(--cream);border:none;padding:14px 32px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:10px;}
+.cta:hover{background:var(--gold);color:var(--navy);}
+.cta-arrow{font-family:var(--serif);font-size:18px;}
+</style>
+</head>
+<body>
+<div class="h-top"><div class="h-logo">Harpian</div><div class="h-tag">AlphaDroid Engine</div><div class="h-step">Parte 2 · Lente III · Portfólio</div></div>
+<div class="progress">
+  <div class="p-step done" data-lbl="Alinhamento"></div>
+  <div class="p-step done" data-lbl="3 lentes"></div>
+  <div class="p-step done" data-lbl="Mandato"></div>
+  <div class="p-step done" data-lbl="Perfil"></div>
+  <div class="p-step done" data-lbl="Ambição"></div>
+  <div class="p-step active" data-lbl="Portfólio"></div>
+  <div class="p-step" data-lbl="Diagnóstico"></div>
+  <div class="p-step" data-lbl="Coverage"></div>
+  <div class="p-step" data-lbl="Terminal"></div>
+  <div class="p-step" data-lbl="Ativação"></div>
+</div>
+<div class="wrap">
+  <div class="kicker">Lente III · Estrutura atual</div>
+  <h1 class="headline">O que está alocado <em>hoje?</em></h1>
+  <p class="sub">A lente <strong>estrutural</strong> mostra <em>concentração real</em>, correlação efetiva e risco escondido. Suba seu portfólio (anônimo · processado em sessão) ou escolha um modelo de referência.</p>
+
+  <div class="dual">
+    <!-- Upload -->
+    <div class="up-zone" onclick="pickUpload()">
+      <div class="up-icon">↑</div>
+      <div class="up-h">Suba o <em>seu</em> portfólio</div>
+      <div class="up-sub">Arraste o arquivo aqui ou clique para selecionar. Aceita posições com peso, ticker ou valor de mercado.</div>
+      <div class="up-formats"><span>CSV</span><span>XLSX</span><span>JSON</span></div>
+      <button class="up-btn">Selecionar arquivo</button>
+      <div class="up-secure">Processado localmente · não persistimos dados</div>
+    </div>
+    <!-- Modelos -->
+    <div>
+      <div class="models-h">USE UM MODELO DE REFERÊNCIA</div>
+      <div class="models">
+        <div class="m" onclick="pickModel('yale_endowment','Endowment estilo Yale',55,12,0.32)">
+          <div class="m-tag">Conservative · US</div>
+          <div class="m-name">Endowment estilo Yale</div>
+          <div class="m-mix"><span class="a" style="flex:.3"></span><span class="b" style="flex:.3"></span><span class="c" style="flex:.4"></span></div>
+          <div class="m-desc">Endowment institucional · diversificação ampla · foco em preservação multigeracional</div>
+        </div>
+        <div class="m" onclick="pickModel('fo_br','Family Office BR padrão',45,10,0.28)">
+          <div class="m-tag">Conservative · BR</div>
+          <div class="m-name">Family Office BR padrão</div>
+          <div class="m-mix"><span class="a" style="flex:.2"></span><span class="b" style="flex:.5"></span><span class="c" style="flex:.3"></span></div>
+          <div class="m-desc">Renda fixa BR predominante · multimercado · pequena alocação em equities</div>
+        </div>
+        <div class="m" onclick="pickModel('60_40','60/40 clássico',50,8,0.30)">
+          <div class="m-tag">Moderate</div>
+          <div class="m-name">60/40 clássico</div>
+          <div class="m-mix"><span class="a" style="flex:.6"></span><span class="b" style="flex:.3"></span><span class="c" style="flex:.1"></span></div>
+          <div class="m-desc">60% equity · 40% renda fixa · benchmark global tradicional</div>
+        </div>
+        <div class="m" onclick="pickModel('all_weather','All Weather (Bridgewater)',48,15,0.22)">
+          <div class="m-tag">Balanced</div>
+          <div class="m-name">All Weather (Bridgewater)</div>
+          <div class="m-mix"><span class="a" style="flex:.3"></span><span class="b" style="flex:.55"></span><span class="c" style="flex:.15"></span></div>
+          <div class="m-desc">Risk parity · equilíbrio entre cenários inflacionários e deflacionários</div>
+        </div>
+        <div class="m" onclick="pickModel('aggressive_tech','Equity-Heavy Growth',88,14,0.58)" style="grid-column:1/-1;">
+          <div class="m-tag">Aggressive · Tech</div>
+          <div class="m-name">Equity-Heavy Growth</div>
+          <div class="m-mix"><span class="a" style="flex:.85"></span><span class="b" style="flex:.10"></span><span class="c" style="flex:.05"></span></div>
+          <div class="m-desc">85% ações com concentração em tech · longo prazo · alta tolerância a drawdown</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // ─── HARPIAN SESSION ──────────────────────────────────────────
+    const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}},merge(s,p){const d=this.get();d[s]={...(d[s]||{}),...p};localStorage.setItem(this.KEY,JSON.stringify(d));return d;}};
+    function pickModel(id,label,rn,positions,conc){
+      HS.merge('portfolio',{source:'model',model_id:id,model_label:label,positions:positions,aum_brl:32500000,current_risk_number:rn,concentration_top5:conc,current_cagr_estimated:0.09});
+      window.location.href='alinhamento-risco.html';
+    }
+    function pickUpload(){
+      // mock: usa Vera Hollanda
+      HS.merge('portfolio',{source:'uploaded',model_id:null,model_label:'Portfólio Vera Hollanda (upload)',positions:14,aum_brl:32500000,current_risk_number:78,concentration_top5:0.45,current_cagr_estimated:0.09});
+      window.location.href='alinhamento-risco.html';
+    }
+  </script>
+
+  <div class="foot">
+    <div class="foot-status">Selecione um modelo ou faça <strong>upload</strong></div>
+    <div class="foot-actions">
+      <a class="foot-back" href="ambicao.html">← Voltar · Ambição</a>
+      <button class="cta" onclick="window.location.href='alinhamento-risco.html'">Diagnóstico <span class="cta-arrow">→</span></button>
+    </div>
+  </div>
+</div>
+</body></html>

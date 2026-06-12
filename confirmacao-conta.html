@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><title>HARPIAN — Ativar Terminal · Confirmação</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+:root{--navy:#0B1626;--navy2:#162338;--cream:#F5EFE0;--cream2:#FBF7EA;--gold:#B8902F;--gold2:#D4AF45;--ink:#0B1626;--ink2:#3A4459;--muted:#7A8294;--line:#E5DDC6;--line2:#D9D1BA;--green:#5BBD7A;--red:#D0463C;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+
+.h-top{padding:16px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);}
+.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+
+.progress{padding:0 56px 10px;display:flex;gap:5px;flex-shrink:0;}
+.p-step{flex:1;height:3px;background:var(--line);border-radius:2px;position:relative;}
+.p-step.done{background:var(--gold);}
+.p-step.active{background:var(--gold);box-shadow:0 0 0 1px var(--gold2);}
+.p-step::after{content:attr(data-lbl);position:absolute;top:8px;left:0;font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.p-step.active::after, .p-step.done::after{color:var(--gold);}
+
+.wrap{flex:1;display:flex;flex-direction:column;padding:32px 56px 18px;min-height:0;}
+
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.kicker::before{content:'★ ';}
+.headline{font-family:var(--serif);font-size:42px;font-weight:600;color:var(--ink);line-height:1.05;margin-bottom:6px;}
+.headline em{font-style:italic;color:var(--gold);font-weight:500;}
+.sub{font-family:var(--sans);font-size:14px;color:var(--ink2);margin-bottom:18px;max-width:1080px;line-height:1.5;}
+.sub strong{color:var(--ink);font-weight:600;}
+.sub em{font-style:italic;color:var(--gold);}
+
+/* DUAL GRID: perfil + formulário */
+.dual{flex:1;display:grid;grid-template-columns:1.05fr 1fr;gap:22px;min-height:0;}
+
+/* PERFIL CALIBRADO · esquerda */
+.profile{background:linear-gradient(180deg,#fff 0%,#FBF5E2 100%);border:2px solid var(--gold);padding:22px 26px;display:flex;flex-direction:column;overflow:hidden;position:relative;}
+.profile::before{content:'★ PERFIL CALIBRADO';position:absolute;top:-1px;right:18px;background:var(--gold);color:var(--navy);font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.18em;padding:4px 10px;}
+.p-h{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.1;}
+.p-h em{font-style:italic;color:var(--gold);}
+.p-sub{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;}
+
+.p-section{margin-top:12px;padding-top:12px;border-top:1px dashed rgba(184,144,47,0.35);}
+.p-section:first-of-type{margin-top:0;padding-top:0;border-top:none;}
+.p-section-h{font-family:var(--mono);font-size:10px;letter-spacing:.20em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px;}
+
+.p-row{display:flex;justify-content:space-between;align-items:baseline;padding:5px 0;font-family:var(--sans);font-size:12.5px;}
+.p-row-k{color:var(--ink2);}
+.p-row-v{color:var(--ink);font-weight:600;font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;}
+.p-row-v.green{color:#3a8a52;}
+.p-row-v.red{color:var(--red);}
+.p-row-v.gold{color:var(--gold);font-weight:700;}
+
+.gap-box{margin-top:14px;background:rgba(208,70,60,0.08);border-left:3px solid var(--red);padding:10px 14px;display:flex;justify-content:space-between;align-items:center;}
+.gap-l{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);font-weight:700;}
+.gap-v{font-family:var(--serif);font-size:22px;color:var(--red);font-weight:700;font-style:italic;}
+
+.rec-box{margin-top:10px;background:rgba(91,189,122,0.10);border-left:3px solid var(--green);padding:10px 14px;}
+.rec-l{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:#2d7a44;font-weight:700;margin-bottom:4px;}
+.rec-v{font-family:var(--serif);font-size:15px;color:#1f5a30;font-style:italic;line-height:1.3;}
+.rec-v strong{font-weight:700;color:#1a4527;}
+
+/* FORM · direita */
+.form{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line2);padding:22px 26px;overflow:hidden;}
+.f-h{font-family:var(--serif);font-size:22px;font-weight:700;color:var(--ink);margin-bottom:4px;line-height:1.1;}
+.f-h em{font-style:italic;color:var(--gold);}
+.f-sub{font-family:var(--sans);font-size:12.5px;color:var(--ink2);margin-bottom:18px;line-height:1.4;}
+
+.f-group{margin-bottom:11px;}
+.f-label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink2);margin-bottom:4px;font-weight:600;}
+.f-label .req{color:var(--gold);}
+.f-input,.f-select{width:100%;padding:9px 12px;border:1.5px solid var(--line2);background:#FBF7EA;font-family:var(--sans);font-size:13px;color:var(--ink);border-radius:2px;transition:all .2s;outline:none;}
+.f-input:focus,.f-select:focus{border-color:var(--gold);background:#fff;box-shadow:0 0 0 3px rgba(184,144,47,0.12);}
+.f-select{cursor:pointer;}
+
+.f-consent{margin-top:10px;display:flex;align-items:flex-start;gap:9px;font-family:var(--sans);font-size:11.5px;color:var(--ink2);line-height:1.45;cursor:pointer;}
+.f-consent input{margin-top:2px;accent-color:var(--gold);}
+.f-consent strong{color:var(--ink);font-weight:600;}
+
+.ctas{margin-top:14px;display:grid;grid-template-columns:1.4fr 1fr;gap:10px;}
+.cta-primary{background:var(--gold);color:var(--navy);border:none;padding:13px 14px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:flex-start;gap:3px;position:relative;}
+.cta-primary::before{content:'RECOMENDADO';position:absolute;top:-8px;left:14px;background:var(--navy);color:var(--gold);font-size:8.5px;font-weight:700;letter-spacing:.16em;padding:2px 7px;border-radius:2px;}
+.cta-primary:hover{background:var(--navy);color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 20px rgba(11,22,38,0.25);}
+.cta-primary-title{font-size:12.5px;font-weight:700;letter-spacing:.08em;display:flex;align-items:center;gap:8px;}
+.cta-primary-title .arrow{font-family:var(--serif);font-size:18px;}
+.cta-primary-sub{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.02em;text-transform:none;opacity:.75;}
+
+.cta-secondary{background:transparent;color:var(--ink);border:1.5px solid var(--ink);padding:13px 14px;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:flex-start;gap:3px;}
+.cta-secondary:hover{background:var(--ink);color:var(--cream);transform:translateY(-2px);}
+.cta-secondary-title{font-size:12.5px;font-weight:700;letter-spacing:.08em;display:flex;align-items:center;gap:8px;}
+.cta-secondary-title .arrow{font-family:var(--serif);font-size:18px;}
+.cta-secondary-sub{font-family:var(--sans);font-size:10px;font-weight:500;letter-spacing:.02em;text-transform:none;opacity:.75;}
+
+.tour-link{margin-top:11px;text-align:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.10em;color:var(--muted);text-transform:uppercase;}
+.tour-link a{color:var(--ink2);text-decoration:none;border-bottom:1px dashed var(--muted);padding-bottom:1px;}
+.tour-link a:hover{color:var(--gold);border-color:var(--gold);}
+
+/* FOOTER · selos */
+.foot{margin-top:14px;display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--line);flex-shrink:0;}
+.foot-back{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);text-decoration:none;border-bottom:1px dashed var(--muted);}
+.foot-back:hover{color:var(--gold);border-color:var(--gold);}
+.foot-seals{display:flex;gap:18px;align-items:center;}
+.seal{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.seal::before{content:'';width:6px;height:6px;background:var(--green);border-radius:50%;}
+.seal strong{color:var(--ink);font-weight:600;}
+
+/* SUCCESS MODAL · escondido */
+.modal-bg{position:fixed;inset:0;background:rgba(11,22,38,0.85);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:1000;animation:fadeIn .3s ease;}
+.modal-bg.show{display:flex;}
+.modal{background:var(--cream);width:560px;max-width:90vw;padding:42px 44px;text-align:center;position:relative;animation:popIn .4s cubic-bezier(.16,1,.3,1);}
+.modal::before{content:'';position:absolute;top:0;left:0;right:0;height:5px;background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.modal-check{width:72px;height:72px;border-radius:50%;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:42px;font-weight:700;margin:0 auto 18px;animation:checkPop .6s cubic-bezier(.16,1,.3,1) .2s both;}
+.modal-h{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--ink);line-height:1.15;margin-bottom:10px;}
+.modal-h em{font-style:italic;color:var(--gold);}
+.modal-sub{font-family:var(--sans);font-size:13.5px;color:var(--ink2);line-height:1.55;margin-bottom:22px;}
+.modal-sub strong{color:var(--ink);font-weight:600;}
+.modal-license{background:#fff;border:1px dashed var(--gold);padding:14px 18px;margin-bottom:22px;font-family:var(--mono);font-size:11px;letter-spacing:.10em;color:var(--ink2);}
+.modal-license-l{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:5px;}
+.modal-license-v{font-size:15px;letter-spacing:.20em;color:var(--ink);font-weight:700;}
+.modal-cta{background:var(--ink);color:var(--cream);border:none;padding:14px 28px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:all .2s;}
+.modal-cta:hover{background:var(--gold);color:var(--navy);}
+.modal-cta .arrow{font-family:var(--serif);font-size:18px;}
+.modal-redirect{margin-top:14px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;}
+
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes popIn{from{opacity:0;transform:scale(0.9) translateY(20px);}to{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes checkPop{0%{transform:scale(0);}60%{transform:scale(1.15);}100%{transform:scale(1);}}
+
+@media (max-width:1300px){.headline{font-size:34px;}.dual{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-tag">AlphaDroid Engine</div>
+  <div class="h-step">Ativação · Intelligence Terminal</div>
+</div>
+<div class="progress">
+  <div class="p-step done" data-lbl="Alinhamento"></div>
+  <div class="p-step done" data-lbl="3 lentes"></div>
+  <div class="p-step done" data-lbl="Mandato"></div>
+  <div class="p-step done" data-lbl="Perfil"></div>
+  <div class="p-step done" data-lbl="Ambição"></div>
+  <div class="p-step done" data-lbl="Portfólio"></div>
+  <div class="p-step done" data-lbl="Diagnóstico"></div>
+  <div class="p-step done" data-lbl="Coverage"></div>
+  <div class="p-step done" data-lbl="Terminal"></div>
+  <div class="p-step active" data-lbl="Ativação"></div>
+</div>
+<div class="wrap">
+  <div class="kicker">Ativação · 30 segundos</div>
+  <h1 class="headline">Seu Terminal está <em>quase pronto.</em></h1>
+  <p class="sub">Confirme os dados do seu Family Office. Em <strong>30 segundos</strong> você está dentro do Intelligence Terminal — com <em>seu perfil já carregado</em>, sua carteira já mapeada, e nosso JIM acompanhando o gap.</p>
+
+  <div class="dual">
+    <!-- PERFIL CALIBRADO -->
+    <div class="profile" id="profileBox">
+      <div class="p-h">Tudo que <em>calibramos</em> juntos</div>
+      <div class="p-sub" id="pSub">Resumo da sessão · pronto pra subir</div>
+
+      <div class="p-section">
+        <div class="p-section-h">Mandato (Lente I)</div>
+        <div class="p-row"><span class="p-row-k">Objetivo</span><span class="p-row-v" id="rObjective">—</span></div>
+        <div class="p-row"><span class="p-row-k">Horizonte</span><span class="p-row-v" id="rHorizon">—</span></div>
+        <div class="p-row"><span class="p-row-k">Drawdown máximo aceito</span><span class="p-row-v" id="rMaxDD">—</span></div>
+        <div class="p-row"><span class="p-row-k">Liquidez</span><span class="p-row-v" id="rLiquidity">—</span></div>
+      </div>
+
+      <div class="p-section">
+        <div class="p-section-h">Perfil comportamental (Lente II)</div>
+        <div class="p-row"><span class="p-row-k">Score calibrado</span><span class="p-row-v gold" id="rScore">—</span></div>
+        <div class="p-row"><span class="p-row-k">Resposta a crise</span><span class="p-row-v" id="rCrisis">—</span></div>
+        <div class="p-row"><span class="p-row-k">Sinais contraditórios</span><span class="p-row-v" id="rContradictory">—</span></div>
+      </div>
+
+      <div class="p-section">
+        <div class="p-section-h">Ambição · 5 anos</div>
+        <div class="p-row"><span class="p-row-k">Alvo declarado</span><span class="p-row-v gold" id="rTarget">—</span></div>
+        <div class="p-row"><span class="p-row-k">CAGR implícito</span><span class="p-row-v gold" id="rCAGR">—</span></div>
+        <div class="p-row"><span class="p-row-k">Categoria</span><span class="p-row-v" id="rCategory">—</span></div>
+      </div>
+
+      <div class="p-section">
+        <div class="p-section-h" id="rPortHeader">Portfólio (Lente III)</div>
+        <div class="p-row"><span class="p-row-k">Posições</span><span class="p-row-v" id="rPositions">—</span></div>
+        <div class="p-row"><span class="p-row-k">AUM</span><span class="p-row-v" id="rAUM">—</span></div>
+        <div class="p-row"><span class="p-row-k">Risk Number atual</span><span class="p-row-v red" id="rRN">—</span></div>
+        <div class="p-row"><span class="p-row-k">Concentração top-5</span><span class="p-row-v red" id="rConc">—</span></div>
+      </div>
+
+      <div class="gap-box" id="gapBox">
+        <div class="gap-l">⚠ Gap de alinhamento</div>
+        <div class="gap-v" id="gapV">—</div>
+      </div>
+
+      <div class="rec-box">
+        <div class="rec-l">★ Recomendação pré-montada no terminal</div>
+        <div class="rec-v" id="recV">—</div>
+      </div>
+    </div>
+
+    <!-- FORMULÁRIO -->
+    <div class="form">
+      <div class="f-h">Ativar <em>seu</em> acesso</div>
+      <div class="f-sub">5 campos · sem cartão · sem compromisso · 30 dias completos</div>
+
+      <div class="f-group">
+        <label class="f-label">Email institucional <span class="req">*</span></label>
+        <input class="f-input" type="email" id="email" placeholder="manager@familyoffice.com.br" required>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label">Nome do gestor <span class="req">*</span></label>
+        <input class="f-input" type="text" id="nome" placeholder="João Daniel" required>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label">Nome do Family Office <span class="req">*</span></label>
+        <input class="f-input" type="text" id="fo" placeholder="JD Capital Family Office" required>
+      </div>
+
+      <div class="f-group">
+        <label class="f-label">AUM aproximado sob gestão <span class="req">*</span></label>
+        <select class="f-select" id="aum" required>
+          <option value="">Selecione a faixa</option>
+          <option value="50-100M">R$ 50M – R$ 100M</option>
+          <option value="100-500M">R$ 100M – R$ 500M</option>
+          <option value="500M-1B">R$ 500M – R$ 1B</option>
+          <option value="1B+">Acima de R$ 1B</option>
+        </select>
+      </div>
+
+      <label class="f-consent">
+        <input type="checkbox" id="consent" required>
+        <span>Concordo com os <strong>termos de uso</strong> e com a política <strong>LGPD</strong>. Meus dados serão usados apenas para personalizar o terminal e gerar análises da minha carteira.</span>
+      </label>
+
+      <div class="ctas">
+        <button class="cta-primary" onclick="ativar('demo')">
+          <div class="cta-primary-title">Acompanhar 30 dias <span class="arrow">→</span></div>
+          <div class="cta-primary-sub">Terminal grátis · sem reunião obrigatória</div>
+        </button>
+        <button class="cta-secondary" onclick="ativar('investir')">
+          <div class="cta-secondary-title">Investir agora <span class="arrow">→</span></div>
+          <div class="cta-secondary-sub">Reunião com sócio · esta semana</div>
+        </button>
+      </div>
+
+      <div class="tour-link">
+        Antes de criar conta · <a href="tour-v2.html">ver tour guiado do terminal →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <a class="foot-back" href="terminal-trojan.html">← Voltar · Terminal</a>
+    <div class="foot-seals">
+      <div class="seal">Custódia · <strong>BNY Mellon</strong></div>
+      <div class="seal">Execução · <strong>Interactive Brokers</strong></div>
+      <div class="seal">Contabilidade · <strong>LYNK</strong></div>
+      <div class="seal">Auditoria · <strong>Deloitte</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DE SUCESSO -->
+<div class="modal-bg" id="modal">
+  <div class="modal">
+    <div class="modal-check">✓</div>
+    <div class="modal-h">Bem-vindo ao <em>Intelligence Terminal</em></div>
+    <div class="modal-sub" id="modalSub">Sua conta foi criada. Seu perfil calibrado e seu portfólio já foram enviados pro terminal. <strong>JIM já está analisando o gap de +16</strong> e prepara as primeiras observações.</div>
+    <div class="modal-license">
+      <div class="modal-license-l">Sua licença de acesso</div>
+      <div class="modal-license-v" id="licenseCode">HPN-XXXX-XXXX-XXXX</div>
+    </div>
+    <button class="modal-cta" onclick="window.location.href='proximos-passos.html'">
+      Entrar no Terminal <span class="arrow">→</span>
+    </button>
+    <div class="modal-redirect" id="redirectMsg">Redirecionando em <span id="countdown">5</span>s · enviamos a licença pro seu email também</div>
+  </div>
+</div>
+
+<script>
+// ─── HARPIAN SESSION ──────────────────────────────────────────
+const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}},clear(){localStorage.removeItem(this.KEY);}};
+
+// Labels institucionais em PT
+const LBL_OBJ={preservation:'PRESERVAÇÃO',balance_growth:'BALANCE GROWTH',max_return:'MAX RETURN',income:'RENDA'};
+const LBL_HOR={multigenerational:'MULTIGERACIONAL',generational:'GERACIONAL (5–10 ANOS)',medium:'MÉDIO (3–5 ANOS)',short:'CURTO (até 3 anos)'};
+const LBL_LIQ={intraday:'INTRADAY',['T+1']:'T+1',monthly:'MENSAL',lockup:'LOCKUP'};
+const LBL_CAT={preservation:'PRESERVAÇÃO',balance:'EQUILÍBRIO',growth:'CRESCIMENTO',maximization:'MAXIMIZAÇÃO'};
+const LBL_CRIS={sell_all:'VENDER TUDO',reduce:'REDUZIR',hold_disciplined:'DISCIPLINA',buy_more:'AUMENTAR'};
+const LBL_CONTRA={technical:'TÉCNICA',fundamental:'FUNDAMENTO',paralyze:'PARALISAR',preset_rule:'REGRA PRÉ-DEFINIDA'};
+
+function fmt(n){return n.toLocaleString('pt-BR');}
+
+function hydrate(){
+  const d = HS.get();
+  const m = d.mandate || {};
+  const b = d.behavior || {};
+  const a = d.ambition || {};
+  const p = d.portfolio || {};
+
+  // Detectar se temos dados reais ou usar defaults (caso entrem direto na URL)
+  const hasData = Object.keys(d).length > 0;
+  if(!hasData){
+    document.getElementById('pSub').innerHTML='<span style="color:#D0463C;">⚠ Sem dados de sessão</span> · valores exemplo abaixo';
+  }
+
+  // ─── MANDATO ───
+  document.getElementById('rObjective').textContent = LBL_OBJ[m.objective] || 'BALANCE GROWTH';
+  document.getElementById('rHorizon').textContent = LBL_HOR[m.horizon] || 'MULTIGERACIONAL';
+  document.getElementById('rMaxDD').textContent = (m.max_dd!==undefined?m.max_dd:-15)+'%';
+  document.getElementById('rLiquidity').textContent = LBL_LIQ[m.liquidity] || 'T+1';
+
+  // ─── PERFIL ───
+  const score = b.calibrated_score || 62;
+  document.getElementById('rScore').textContent = score+' / 100';
+  document.getElementById('rCrisis').textContent = LBL_CRIS[b.crisis_response] || 'DISCIPLINA';
+  document.getElementById('rContradictory').textContent = LBL_CONTRA[b.contradictory_signals] || 'REGRA PRÉ-DEFINIDA';
+
+  // ─── AMBIÇÃO ───
+  const target = a.target_value_usd || 200000;
+  const cagr = a.required_cagr || 0.149;
+  document.getElementById('rTarget').textContent = '$ '+fmt(target);
+  document.getElementById('rCAGR').textContent = (cagr*100).toFixed(1).replace('.',',')+'% / ano';
+  document.getElementById('rCategory').textContent = LBL_CAT[a.category] || 'CRESCIMENTO';
+
+  // ─── PORTFÓLIO ───
+  document.getElementById('rPortHeader').textContent = p.source==='uploaded' ? 'Portfólio uploadado (Lente III)' : (p.model_label ? `Modelo "${p.model_label}" (Lente III)` : 'Portfólio (Lente III)');
+  const positions = p.positions || 14;
+  const aumBrl = p.aum_brl || 32500000;
+  const currentRn = p.current_risk_number || 78;
+  const conc = p.concentration_top5 || 0.45;
+  document.getElementById('rPositions').textContent = positions;
+  document.getElementById('rAUM').textContent = 'R$ '+(aumBrl/1000000).toFixed(1).replace('.',',')+'M';
+  document.getElementById('rRN').textContent = currentRn+' / 100';
+  document.getElementById('rConc').textContent = Math.round(conc*100)+'%';
+
+  // ─── COMPUTED · RN-alvo baseado no mandato + score comportamental ───
+  // Heurística: target_rn ≈ score do perfil + ajuste pelo DD aceito do mandato
+  const targetRn = Math.max(25, Math.min(85, score));
+  const gap = currentRn - targetRn;
+  const gapV = (gap>=0?'+':'')+gap+' · '+(gap>5?'misaligned':(gap<-5?'underexposed':'aligned'));
+  document.getElementById('gapV').textContent = gapV;
+
+  // Recomendação
+  let hpc22Pct, hpc11Pct;
+  if(gap > 10){ hpc22Pct = 25; hpc11Pct = 15; }
+  else if(gap > 5){ hpc22Pct = 20; hpc11Pct = 15; }
+  else if(gap > -5){ hpc22Pct = 15; hpc11Pct = 15; }
+  else { hpc22Pct = 10; hpc11Pct = 20; }
+  document.getElementById('recV').innerHTML = `<strong>HPC22 ${hpc22Pct}%</strong> + <strong>HPC11 ${hpc11Pct}%</strong> · projeta RN <strong>${targetRn}</strong> alinhado ao mandato`;
+
+  // Guardar computed pro payload
+  window.__HS_COMPUTED = {target_rn:targetRn,gap_alignment:gap,status:gap>5?'MISALIGNED':(gap<-5?'UNDEREXPOSED':'ALIGNED'),recommended_allocation:{hpc22:hpc22Pct/100,hpc11:hpc11Pct/100}};
+}
+
+window.addEventListener('DOMContentLoaded',hydrate);
+
+function genLicense(){
+  const seg=()=>{const c='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let s='';for(let i=0;i<4;i++)s+=c[Math.floor(Math.random()*c.length)];return s;};
+  return `HPN-${seg()}-${seg()}-${seg()}`;
+}
+
+function ativar(modo){
+  const email=document.getElementById('email').value.trim();
+  const nome=document.getElementById('nome').value.trim();
+  const fo=document.getElementById('fo').value.trim();
+  const aum=document.getElementById('aum').value;
+  const consent=document.getElementById('consent').checked;
+
+  if(!email||!nome||!fo||!aum){
+    alert('Preencha todos os campos para ativar seu terminal.');
+    return;
+  }
+  if(!consent){
+    alert('Aceite os termos de uso e LGPD para continuar.');
+    return;
+  }
+
+  // PAYLOAD ──────────────────────────────────────
+  const d = HS.get();
+  const payload = {
+    fo_name:fo, manager_name:nome, manager_email:email, aum_range:aum,
+    mandate: d.mandate || {},
+    behavior_profile: d.behavior || {},
+    ambition: d.ambition || {},
+    portfolio: d.portfolio || {},
+    computed: window.__HS_COMPUTED || {},
+    source:'presentation_funnel_v1', consent_lgpd:true, activation_mode:modo,
+    timestamp:new Date().toISOString()
+  };
+  console.log('[HARPIAN] Payload enviado ao terminal:', payload);
+
+  // MODAL ────────────────────────────────────────────────
+  const license=genLicense();
+  document.getElementById('licenseCode').textContent=license;
+
+  if(modo==='investir'){
+    document.getElementById('modalSub').innerHTML='Sua conta foi criada e <strong>seu sócio Harpian recebeu seus dados</strong>. Em até <strong>2 dias úteis</strong> você receberá contato pra agendar reunião de onboarding. Enquanto isso, seu terminal já está liberado.';
+  }
+  document.getElementById('modal').classList.add('show');
+
+  // Countdown ────────────────────────────────────────────
+  let s=5;
+  const tick=setInterval(()=>{
+    s--;
+    document.getElementById('countdown').textContent=s;
+    if(s<=0){clearInterval(tick);window.location.href='proximos-passos.html';}
+  },1000);
+}
+
+// Atalho: Enter envia (modo demo)
+document.addEventListener('keydown',(e)=>{
+  if(e.key==='Enter'&&!document.getElementById('modal').classList.contains('show')){
+    ativar('demo');
+  }
+});
+</script>
+</body></html>

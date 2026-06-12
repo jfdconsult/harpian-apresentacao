@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — Telemetria Institucional</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#1A2438;
+  --cream:#F5EFE0; --cream2:#FBF7EA;
+  --gold:#B8902F; --gold2:#D4AF45;
+  --ink:#0B1626; --ink2:#3A4459; --muted:#7A8294;
+  --line:#E5DDC6; --green:#5BBD7A; --blue:#7FB4D4; --red:#D0463C;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+.h-top{padding:22px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);letter-spacing:0.02em;}
+.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(245,239,224,0.55);}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold2);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:10px 56px 24px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:0.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:14px;}
+.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:60px;font-weight:600;color:var(--cream);line-height:1.0;letter-spacing:-0.02em;margin-bottom:12px;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.sub{font-family:var(--sans);font-size:16.5px;line-height:1.5;color:rgba(245,239,224,0.78);max-width:1000px;}
+.sub strong{color:var(--gold2);font-weight:600;}
+
+/* FLUXO 4 passos */
+.tel-flow{display:grid;grid-template-columns:1fr 40px 1fr 40px 1fr 40px 1fr;align-items:stretch;gap:0;margin-top:30px;flex:1;}
+.tel-step{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding:8px 10px;opacity:0;}
+.tel-h{font-family:var(--mono);font-size:13px;letter-spacing:.10em;text-transform:uppercase;font-weight:700;color:var(--gold2);line-height:1.3;min-height:34px;display:flex;align-items:center;}
+.tel-vis{flex:1;display:flex;align-items:center;justify-content:center;width:100%;}
+.tel-vis svg{width:200px;height:auto;overflow:visible;}
+.tel-d{font-family:var(--sans);font-size:14px;line-height:1.45;color:rgba(245,239,224,0.74);max-width:240px;}
+.tel-arrow{display:flex;align-items:center;justify-content:center;font-size:26px;color:var(--gold);opacity:0;align-self:center;}
+@keyframes telIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes telArr{0%,100%{opacity:.45;transform:translateX(0);}50%{opacity:1;transform:translateX(4px);}}
+body.go .tel-step:nth-of-type(1){animation:telIn .6s ease .2s both;}
+body.go .tel-arrow:nth-of-type(1){animation:telIn .5s ease .7s both, telArr 1.8s ease-in-out 1.2s infinite;}
+body.go .tel-step:nth-of-type(2){animation:telIn .6s ease .9s both;}
+body.go .tel-arrow:nth-of-type(2){animation:telIn .5s ease 1.4s both, telArr 1.8s ease-in-out 1.9s infinite;}
+body.go .tel-step:nth-of-type(3){animation:telIn .6s ease 1.6s both;}
+body.go .tel-arrow:nth-of-type(3){animation:telIn .5s ease 2.1s both, telArr 1.8s ease-in-out 2.6s infinite;}
+body.go .tel-step:nth-of-type(4){animation:telIn .6s ease 2.3s both;}
+
+/* labels dos visuais */
+.v-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.06em;fill:rgba(245,239,224,0.6);text-transform:uppercase;}
+.v-cap{font-family:var(--mono);font-size:11px;letter-spacing:.10em;color:var(--gold2);text-transform:uppercase;margin-top:-4px;font-weight:700;}
+
+/* FOOTER */
+.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(184,144,47,0.22);flex-shrink:0;}
+.foot-line{font-family:var(--serif);font-style:italic;font-size:26px;font-weight:600;color:var(--gold2);}
+.foot-line strong{color:var(--cream);font-style:normal;}
+.cta{background:var(--gold);color:var(--navy);border:none;padding:15px 34px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;cursor:pointer;transition:all .25s;display:inline-flex;align-items:center;gap:10px;white-space:nowrap;}
+.cta:hover{background:var(--gold2);transform:translateX(3px);}
+.cta-arrow{font-family:var(--serif);font-size:18px;}
+</style>
+</head>
+<body>
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-tag">AlphaDroid Engine · 11 Strategies</div>
+  <div class="h-step">Parte 2 · Telemetria Institucional</div>
+</div>
+
+<div class="wrap">
+  <div class="kicker">A 2ª etapa · telemetria institucional</div>
+  <h1 class="headline">Risco é mensurável. <em>Retorno é estrutural.</em></h1>
+  <p class="sub">Antes de calibrar o seu portfólio, veja o <strong>processo de correção integrado</strong> — do número de risco à realocação protegida. Quatro passos, um sistema.</p>
+
+  <div class="tel-flow">
+    <!-- PASSO 1 · GAUGE -->
+    <div class="tel-step">
+      <div class="tel-h">Definição de Risco</div>
+      <div class="tel-vis">
+        <svg viewBox="0 0 200 150">
+          <defs><linearGradient id="gz" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="#5BBD7A"/><stop offset="0.4" stop-color="#7FB4D4"/><stop offset="0.7" stop-color="#D4AF45"/><stop offset="1" stop-color="#D0463C"/>
+          </linearGradient></defs>
+          <path d="M 20 110 A 80 80 0 0 1 180 110" fill="none" stroke="url(#gz)" stroke-width="14" stroke-linecap="round"/>
+          <text class="v-lbl" x="16" y="128">Baixo</text>
+          <text class="v-lbl" x="158" y="128">Crítico</text>
+          <text class="v-lbl" x="44" y="44">Moderado</text>
+          <text class="v-lbl" x="128" y="44">Alto</text>
+          <!-- ponteiro em ~85 (zona alto/dourado) -->
+          <line x1="100" y1="110" x2="142" y2="62" stroke="#D4AF45" stroke-width="3.5" stroke-linecap="round"/>
+          <circle cx="100" cy="110" r="7" fill="#D4AF45"/>
+          <text x="100" y="138" text-anchor="middle" font-family="Inter" font-size="22" font-weight="700" fill="#D4AF45">85</text>
+        </svg>
+      </div>
+      <div class="v-cap">Calibração quantitativa</div>
+      <div class="tel-d">Estabelece um <strong style="color:var(--cream)">número de risco base</strong> através de calibração quantitativa.</div>
+    </div>
+    <div class="tel-arrow">→</div>
+
+    <!-- PASSO 2 · ANÉIS DE REGIME -->
+    <div class="tel-step">
+      <div class="tel-h">Análise do Portfólio Atual</div>
+      <div class="tel-vis">
+        <svg viewBox="0 0 220 150">
+          <g fill="none" stroke-width="3">
+            <circle cx="45" cy="78" r="26" stroke="#5BBD7A"/><circle cx="45" cy="78" r="16" stroke="#5BBD7A" opacity="0.6"/>
+            <text class="v-lbl" x="45" y="36" text-anchor="middle">Normal</text>
+            <circle cx="110" cy="78" r="28" stroke="#7FB4D4"/><circle cx="110" cy="78" r="17" stroke="#7FB4D4" opacity="0.6"/>
+            <text class="v-lbl" x="110" y="32" text-anchor="middle">Transição</text>
+            <text class="v-lbl" x="110" y="82" text-anchor="middle" fill="#7FB4D4">sistêmico</text>
+            <circle cx="178" cy="78" r="30" stroke="#D0463C"/><circle cx="178" cy="78" r="18" stroke="#D0463C" opacity="0.6"/>
+            <text class="v-lbl" x="178" y="30" text-anchor="middle">Tendência</text>
+            <text class="v-lbl" x="178" y="42" text-anchor="middle">de baixa</text>
+          </g>
+        </svg>
+      </div>
+      <div class="v-cap">4 regimes de mercado</div>
+      <div class="tel-d">Rastreia o estado do portfólio através de <strong style="color:var(--cream)">quatro condições distintas</strong> de mercado.</div>
+    </div>
+    <div class="tel-arrow">→</div>
+
+    <!-- PASSO 3 · DIVERGÊNCIA -->
+    <div class="tel-step">
+      <div class="tel-h">Identificação de Desalinhamentos</div>
+      <div class="tel-vis">
+        <svg viewBox="0 0 200 150">
+          <g stroke="rgba(245,239,224,0.10)" stroke-width="1">
+            <line x1="20" y1="30" x2="190" y2="30"/><line x1="20" y1="65" x2="190" y2="65"/><line x1="20" y1="100" x2="190" y2="100"/>
+          </g>
+          <!-- linha desejada (suave) -->
+          <path d="M 20 110 L 190 50" fill="none" stroke="#7FB4D4" stroke-width="2.5" stroke-dasharray="5,4"/>
+          <!-- linha real (zigzag) -->
+          <polyline points="20,108 50,72 80,98 110,46 140,66 170,38 190,52" fill="none" stroke="#D4AF45" stroke-width="3" stroke-linejoin="round"/>
+          <g fill="#D4AF45"><circle cx="50" cy="72" r="3.5"/><circle cx="110" cy="46" r="3.5"/><circle cx="170" cy="38" r="3.5"/></g>
+        </svg>
+      </div>
+      <div class="v-cap">Real × desejado</div>
+      <div class="tel-d">Aponta a <strong style="color:var(--cream)">divergência</strong> entre os perfis de risco reais e desejados.</div>
+    </div>
+    <div class="tel-arrow">→</div>
+
+    <!-- PASSO 4 · CUBO ETP -->
+    <div class="tel-step">
+      <div class="tel-h">Correção através da Alocação</div>
+      <div class="tel-vis">
+        <svg viewBox="0 0 200 150">
+          <!-- setas convergindo -->
+          <g stroke="#D4AF45" stroke-width="2.5" fill="none">
+            <path d="M 30 30 L 62 56"/><path d="M 100 14 L 100 44"/><path d="M 170 30 L 138 56"/>
+            <path d="M 30 120 L 62 94"/><path d="M 100 136 L 100 106"/><path d="M 170 120 L 138 94"/>
+          </g>
+          <g fill="#D4AF45"><path d="M 62 56 l -8 -2 l 4 8 z"/><path d="M 100 44 l -4 -7 l 8 0 z"/><path d="M 138 56 l 4 8 l 4 -10 z"/><path d="M 62 94 l -8 2 l 4 -8 z"/><path d="M 100 106 l -4 7 l 8 0 z"/><path d="M 138 94 l 8 -2 l -4 8 z"/></g>
+          <!-- cubo isométrico ETP -->
+          <g>
+            <polygon points="100,52 138,72 100,92 62,72" fill="#16323a" stroke="#D4AF45" stroke-width="1.5"/>
+            <polygon points="62,72 100,92 100,118 62,98" fill="#0e2026" stroke="#D4AF45" stroke-width="1.5"/>
+            <polygon points="138,72 100,92 100,118 138,98" fill="#1a3a44" stroke="#D4AF45" stroke-width="1.5"/>
+            <text x="83" y="106" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="#D4AF45">ETP</text>
+            <text x="106" y="108" font-family="JetBrains Mono" font-size="11" font-weight="700" fill="rgba(212,175,69,0.65)">ETP</text>
+          </g>
+        </svg>
+      </div>
+      <div class="v-cap">Estrutura unificada</div>
+      <div class="tel-d">Realoca ativos numa <strong style="color:var(--cream)">estrutura unificada e protegida</strong> — os ETPs.</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="foot-line">O risco não é teórico. <strong>Ele é mensurável.</strong></div>
+    <button class="cta" onclick="window.location.href='como-avaliamos-risco.html'">
+      Começar o alinhamento
+      <span class="cta-arrow">→</span>
+    </button>
+  </div>
+</div>
+
+<script>
+  requestAnimationFrame(()=>requestAnimationFrame(()=>document.body.classList.add('go')));
+</script>
+</body>
+</html>

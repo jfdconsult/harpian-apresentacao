@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><title>HARPIAN — Espelho · Como cobrimos os gaps</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+:root{--navy:#0B1626;--cream:#F5EFE0;--cream2:#FBF7EA;--gold:#B8902F;--gold2:#D4AF45;--ink:#0B1626;--ink2:#3A4459;--muted:#7A8294;--line:#E5DDC6;--line2:#D9D1BA;--green:#5BBD7A;--red:#D0463C;--amber:#E68B3A;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(--sans);overflow:hidden;}body{display:flex;flex-direction:column;}
+.h-top{padding:18px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);}.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.progress{padding:0 56px 12px;display:flex;gap:6px;flex-shrink:0;}
+.p-step{flex:1;height:3px;background:var(--line);border-radius:2px;position:relative;}
+.p-step.done{background:var(--gold);}.p-step.active{background:var(--gold);box-shadow:0 0 0 1px var(--gold2);}
+.p-step::after{content:attr(data-lbl);position:absolute;top:8px;left:0;font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.p-step.active::after, .p-step.done::after{color:var(--gold);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:14px 56px 12px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}.kicker::before{content:'★ ';}
+.headline{font-family:var(--serif);font-size:42px;font-weight:600;color:var(--ink);line-height:1.04;margin-bottom:6px;}
+.headline em{font-style:italic;color:var(--gold);font-weight:500;}
+.sub{font-family:var(--sans);font-size:14px;color:var(--ink2);margin-bottom:13px;max-width:1080px;}.sub strong{color:var(--ink);font-weight:600;}.sub em{font-style:italic;color:var(--gold);}
+/* DUAS COLUNAS: 2 portfólios AlphaDroid (HPC11 ETFs + HPC22 Ações) */
+.mirror{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:13px;flex-shrink:0;}
+.m-col{background:#fff;border:1px solid var(--line2);padding:13px 22px;display:flex;flex-direction:column;gap:6px;position:relative;}
+.m-col::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--gold);}
+.m-col.b22::before{background:var(--green);}
+.m-shield{position:absolute;top:14px;right:18px;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;background:rgba(91,189,122,0.12);border:1px solid var(--green);color:#2d7a44;font-weight:700;padding:4px 9px;border-radius:2px;}
+.m-shield.off{background:rgba(208,70,60,0.10);border-color:var(--red);color:var(--red);}
+.m-shield::before{content:'◉ ';}
+.m-col-tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;}
+.m-col-h{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--ink);line-height:1.15;}
+.m-col-h em{font-style:italic;color:var(--gold);}
+.m-row{padding:5px 0;border-bottom:1px dashed var(--line);}.m-row:last-child{border-bottom:none;}
+.m-row-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.m-row-val{font-family:var(--serif);font-size:15px;color:var(--ink);font-weight:600;line-height:1.25;}
+.m-row-val em{font-style:italic;color:var(--gold);}
+.m-row-val.red{color:var(--red);}
+.m-row-val.green{color:var(--green);}
+/* COMPARATIVO (Antes vs Depois Harpian) */
+.comp{background:linear-gradient(180deg,#FBF7EA,#F5EFE0);border:1px solid var(--gold);padding:12px 24px;margin-bottom:11px;flex-shrink:0;}
+.comp-h{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:14px;}
+.comp-cell{display:flex;flex-direction:column;gap:4px;}
+.comp-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);}
+.comp-now{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--ink2);text-decoration:line-through;text-decoration-color:rgba(208,70,60,0.6);text-decoration-thickness:2px;}
+.comp-arrow{display:inline-block;margin:0 8px;color:var(--gold);font-family:var(--serif);font-size:16px;}
+.comp-new{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--gold);line-height:1;}
+.comp-flow{display:flex;align-items:baseline;gap:8px;}
+/* QUOTE âncora */
+.anchor{background:linear-gradient(90deg,rgba(184,144,47,.10),rgba(184,144,47,.02));border-left:3px solid var(--gold);padding:10px 22px;margin-bottom:10px;flex-shrink:0;}
+.anchor-text{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink);font-weight:500;line-height:1.3;}
+.anchor-text strong{color:var(--gold);font-weight:600;font-style:normal;}
+/* FOOT */
+.foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;padding-top:14px;border-top:1px solid var(--line);flex-shrink:0;}
+.foot-status{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}.foot-status strong{color:var(--ink);font-weight:600;}
+.foot-actions{display:flex;align-items:center;gap:20px;}
+.foot-back{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);text-decoration:none;border-bottom:1px dashed var(--muted);}
+.foot-back:hover{color:var(--gold);border-color:var(--gold);}
+.cta{background:var(--navy);color:var(--cream);border:none;padding:14px 32px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:10px;}
+.cta:hover{background:var(--gold);color:var(--navy);}
+.cta-arrow{font-family:var(--serif);font-size:18px;}
+</style>
+</head>
+<body>
+<div class="h-top"><div class="h-logo">Harpian</div><div class="h-tag">AlphaDroid Engine · 11 Strategies</div><div class="h-step">Parte 2 · Portfólios AlphaDroid</div></div>
+<div class="progress">
+  <div class="p-step done" data-lbl="Alinhamento"></div>
+  <div class="p-step done" data-lbl="3 lentes"></div>
+  <div class="p-step done" data-lbl="Mandato"></div>
+  <div class="p-step done" data-lbl="Perfil"></div>
+  <div class="p-step done" data-lbl="Ambição"></div>
+  <div class="p-step done" data-lbl="Portfólio"></div>
+  <div class="p-step done" data-lbl="Diagnóstico"></div>
+  <div class="p-step done" data-lbl="Coverage"></div>
+  <div class="p-step active" data-lbl="Espelho"></div>
+  <div class="p-step" data-lbl="Terminal"></div>
+  <div class="p-step" data-lbl="Ativação"></div>
+</div>
+<div class="wrap">
+  <div class="kicker">Dois motores · duas abordagens · seu nome em ambos</div>
+  <h1 class="headline">Mesmo motor. <em>Dois portfólios.</em> Defesa binária, porém dinâmica.</h1>
+  <p class="sub">O <strong>AlphaDroid</strong> roda <strong>11 estratégias</strong> que alimentam dois portfólios independentes — um de <em>ETFs</em>, um de <em>ações</em>. Em cada um, a defesa é o <em>StormGuard</em>: a decisão é <strong>binária</strong> — dentro ou fora do risco — mas a proteção é <strong>dinâmica</strong>, migrando para o ativo certo do momento. <strong>Ambos podem ser oferecidos como ETP white-label — com a marca do seu escritório.</strong></p>
+
+  <div class="mirror">
+
+    <!-- HPC11 · ETFs -->
+    <div class="m-col">
+      <div class="m-shield">StormGuard · IN</div>
+      <div class="m-col-tag">Portfólio AlphaDroid · ETFs</div>
+      <div class="m-col-h">HPC11 · <em>ETF Rotation</em></div>
+      <div class="m-row">
+        <div class="m-row-lbl">Universo</div>
+        <div class="m-row-val"><em>349 ETFs</em> globais · 80 buckets setoriais</div>
+      </div>
+      <div class="m-row">
+        <div class="m-row-lbl">Motor</div>
+        <div class="m-row-val">AlphaDroid · <em>11 estratégias</em> · 10 ofensivas + 1 defesa binária e dinâmica</div>
+      </div>
+      <div class="m-row">
+        <div class="m-row-lbl">Sistema de defesa</div>
+        <div class="m-row-val"><em>StormGuard</em> · binário na decisão (IN/OUT) · dinâmico na proteção ($CASH · Treasuries · Bonds)</div>
+      </div>
+      <div class="m-row">
+        <div class="m-row-lbl">Lógica anti-concentração</div>
+        <div class="m-row-val">Categoria-diversidade obrigatória · elimina correlação &gt; 0,8</div>
+      </div>
+      <div class="m-row">
+        <div class="m-row-lbl">Resultado esperado</div>
+        <div class="m-row-val green">Diversificação efetiva · DD dentro do mandato</div>
+      </div>
+    </div>
+
+    <!-- HPC22 · Ações -->
+    <div class="m-col b22">
+      <div class="m-shield">StormGuard · IN</div>
+      <div class="m-col-tag">Portfólio AlphaDroid · Ações</div>
+      <div class="m-col-h">HPC22 · <em>Equity Selection</em></div>
+      <div class="m-row">
+        <div class="m-row-lbl">Universo</div>
+        <div class="m-row-val"><em>S&P 500</em> · seleção por força relativa setorial</div>
+      </div>
+      <div class="m-row">
+        <div class="m-row-lbl">Motor</div>
+        <div class="m-row-val">AlphaDroid · <em>11 estratégias</em> · próprio book independente do HPC11</div>
+      </div>
+      <div class="m-row">
+        <div class="m-row-lbl">Sistema de defesa</div>
+        <div class="m-row-val"><em>StormGuard</em> · binário na decisão (IN/OUT) · dinâmico na proteção ($CASH · Treasuries · Bonds)</div>
+      </div>
+      <div class="m-row">
+        <div class="m-row-lbl">Lógica de captura</div>
+        <div class="m-row-val">Convexidade ofensiva quando o regime confirma · sem ETF</div>
+      </div>
+      <div class="m-row">
+        <div class="m-row-lbl">Resultado esperado</div>
+        <div class="m-row-val green">Alpha estrutural · independente · sem sobreposição com HPC11</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="comp">
+    <div class="comp-h">Comparativo · seu portfólio atual <span style="color:var(--muted)">→</span> AlphaDroid (HPC11 + HPC22 combinados)</div>
+    <div class="comp-grid">
+      <div class="comp-cell">
+        <div class="comp-lbl">CAGR esperado</div>
+        <div class="comp-flow"><span class="comp-now">~9%</span><span class="comp-arrow">→</span><span class="comp-new">24,5%</span></div>
+      </div>
+      <div class="comp-cell">
+        <div class="comp-lbl">MaxDD</div>
+        <div class="comp-flow"><span class="comp-now">-22%</span><span class="comp-arrow">→</span><span class="comp-new">-12,1%</span></div>
+      </div>
+      <div class="comp-cell">
+        <div class="comp-lbl">Sharpe</div>
+        <div class="comp-flow"><span class="comp-now">0,55</span><span class="comp-arrow">→</span><span class="comp-new">1,32</span></div>
+      </div>
+      <div class="comp-cell">
+        <div class="comp-lbl">Calmar</div>
+        <div class="comp-flow"><span class="comp-now">0,41</span><span class="comp-arrow">→</span><span class="comp-new">2,02</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="anchor">
+    <div class="anchor-text">Você não precisa <strong>migrar tudo de uma vez</strong>. Comece pelo Terminal — veja, todo dia, <strong>HPC11 e HPC22</strong> rodando lado a lado com sua carteira atual.</div>
+  </div>
+
+  <div class="foot">
+    <div class="foot-status">AlphaDroid calibrado para perfil <strong>Balance</strong> · ajustável a qualquer momento</div>
+    <div class="foot-actions">
+      <a class="foot-back" href="coverage-area.html">← Voltar · Coverage</a>
+      <button class="cta" onclick="window.location.href='lideres.html'">Ver a consequência <span class="cta-arrow">→</span></button>
+    </div>
+  </div>
+</div>
+</body></html>

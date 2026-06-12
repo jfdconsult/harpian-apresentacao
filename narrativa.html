@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — Narrativa</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#162338; --navy3:#1A2438;
+  --cream:#F5EFE0; --cream2:#FBF7EA;
+  --gold:#B8902F; --gold2:#D4AF45; --gold3:#F0D27A;
+  --ink:#0B1626; --ink2:#3A4459; --muted:#7A8294;
+  --line:#E5DDC6; --line2:#D8CFB5;
+  --green:#5BBD7A; --green2:#3F9A5E;
+  --red:#D0463C; --red2:#A93429;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:var(--sans);color:var(--ink);}
+body{background:var(--cream);}
+body.bg-navy{background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);}
+
+/* SLIDE BASE */
+.slide{position:absolute;inset:0;width:100vw;height:100vh;padding:56px 84px;display:none;flex-direction:column;animation:slideIn .4s ease both;}
+.slide.active{display:flex;}
+.slide.navy{color:var(--cream);}
+@keyframes slideIn{from{opacity:0;}to{opacity:1;}}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:18px;}
+.slide.navy .kicker{color:var(--gold2);}
+.kicker::before{content:'★ ';}
+.headline{font-family:var(--serif);font-weight:600;line-height:1.0;letter-spacing:-0.02em;color:var(--ink);}
+.slide.navy .headline{color:var(--cream);}
+.headline em{font-style:italic;color:var(--gold);font-weight:500;}
+.slide.navy .headline em{color:var(--gold2);}
+.sub{font-family:var(--sans);font-size:18px;line-height:1.5;color:var(--ink2);max-width:1100px;margin-top:14px;}
+.slide.navy .sub{color:rgba(245,239,224,0.78);}
+.sub strong{color:var(--gold);font-weight:600;}
+.slide.navy .sub strong{color:var(--gold2);}
+
+/* TOP BAR */
+.top{position:fixed;top:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:22px 56px;z-index:50;pointer-events:none;}
+.top-l{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--ink);letter-spacing:.02em;}
+body.bg-navy .top-l{color:var(--cream);}
+.top-r{font-family:var(--mono);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:var(--muted);}
+body.bg-navy .top-r{color:rgba(245,239,224,0.55);}
+
+/* BOTTOM NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:22px 56px;z-index:50;}
+.nav-l{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--muted);}
+body.bg-navy .nav-l{color:rgba(245,239,224,0.5);}
+.nav-l b{color:var(--ink);font-weight:600;}
+body.bg-navy .nav-l b{color:var(--cream);}
+.progress{display:flex;gap:6px;}
+.pd{width:34px;height:3px;background:rgba(122,130,148,0.3);cursor:pointer;transition:all .25s;}
+.pd.done{background:var(--gold);}
+.pd.active{background:var(--gold2);width:50px;}
+body.bg-navy .pd{background:rgba(245,239,224,0.18);}
+body.bg-navy .pd.done{background:var(--gold);}
+body.bg-navy .pd.active{background:var(--gold2);}
+.nav-r{display:flex;gap:14px;}
+.nav-btn{background:none;border:1px solid rgba(122,130,148,0.4);color:var(--ink);font-family:var(--mono);font-size:12px;letter-spacing:.08em;padding:10px 22px;border-radius:3px;cursor:pointer;transition:all .2s;}
+body.bg-navy .nav-btn{border-color:rgba(245,239,224,0.25);color:var(--cream);}
+.nav-btn:hover{background:rgba(184,144,47,0.08);border-color:var(--gold);}
+.nav-btn.gold{background:linear-gradient(180deg,#D4AF45,#B8902F);color:var(--navy);border-color:#A87C24;font-weight:700;}
+.nav-btn.gold:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(212,175,69,0.35);}
+.nav-btn:disabled{opacity:.35;cursor:not-allowed;}
+
+/* =========================================================
+   SLIDE 1 — MANIFESTO
+   ========================================================= */
+.s-manif{justify-content:center;align-items:center;text-align:center;padding:120px 100px;background:radial-gradient(ellipse at center,#1A2640 0%,#0B1626 70%);}
+.manif-eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:.35em;color:var(--gold2);text-transform:uppercase;margin-bottom:60px;opacity:0;}
+.manif-head{font-family:var(--serif);font-weight:500;color:var(--cream);line-height:1.05;letter-spacing:-0.02em;}
+.manif-l{font-size:88px;display:block;margin-bottom:14px;opacity:0;}
+.manif-l strong{font-weight:700;color:var(--gold2);text-transform:uppercase;font-family:var(--mono);font-size:64px;letter-spacing:.08em;margin-right:18px;}
+.manif-l em{font-style:italic;color:var(--gold3);}
+.manif-foot{margin-top:80px;font-family:var(--sans);font-size:18px;color:rgba(245,239,224,0.7);letter-spacing:.06em;opacity:0;}
+.manif-foot strong{color:var(--gold2);font-weight:600;}
+.s-manif.active .manif-eyebrow{animation:manifIn 1s ease .3s both;}
+.s-manif.active .manif-l:nth-of-type(1){animation:manifIn 1.2s ease 1.0s both;}
+.s-manif.active .manif-l:nth-of-type(2){animation:manifIn 1.2s ease 2.4s both;}
+.s-manif.active .manif-l:nth-of-type(3){animation:manifIn 1.2s ease 3.8s both;}
+.s-manif.active .manif-foot{animation:manifIn 1s ease 5.5s both;}
+@keyframes manifIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* =========================================================
+   SLIDE 2 — QUEM SOMOS · 3 DIMENSÕES CLICÁVEIS
+   ========================================================= */
+.s-qs{padding-top:120px;}
+.s-qs .head-wrap{max-width:1500px;}
+.s-qs h1{font-size:60px;}
+.qs-stage{display:grid;grid-template-columns:1fr 1.1fr;gap:60px;margin-top:50px;flex:1;align-items:center;}
+.qs-orbs{display:flex;flex-direction:column;gap:22px;}
+.qs-orb{display:flex;align-items:center;gap:24px;padding:24px 28px;background:#FBF7EA;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:5px;cursor:pointer;transition:all .3s;}
+.qs-orb:hover{background:linear-gradient(90deg,#FBF7EA,#F5EFE0);border-left-color:var(--gold);transform:translateX(4px);}
+.qs-orb.on{background:linear-gradient(90deg,rgba(184,144,47,0.14),rgba(184,144,47,0.04));border:1px solid var(--gold);border-left:4px solid var(--gold);}
+.qs-orb-n{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:18px;font-weight:700;color:var(--gold);border:2px solid var(--gold);flex-shrink:0;background:#fff;transition:all .3s;}
+.qs-orb.on .qs-orb-n{background:linear-gradient(180deg,#D4AF45,#B8902F);color:#fff;border-color:#A87C24;}
+.qs-orb-t{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--ink);line-height:1;}
+.qs-orb-s{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.qs-panel{background:linear-gradient(180deg,#16323a,#0B1626);border-radius:8px;padding:48px 54px;color:var(--cream);min-height:480px;display:flex;flex-direction:column;justify-content:center;box-shadow:0 24px 60px rgba(11,22,38,0.15);position:relative;overflow:hidden;}
+.qs-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));}
+.qs-panel-k{font-family:var(--mono);font-size:12px;letter-spacing:.24em;color:var(--gold2);text-transform:uppercase;margin-bottom:20px;}
+.qs-panel-h{font-family:var(--serif);font-size:46px;font-weight:600;color:var(--cream);line-height:1.05;margin-bottom:24px;}
+.qs-panel-h em{font-style:italic;color:var(--gold2);font-weight:500;}
+.qs-panel-d{font-family:var(--sans);font-size:18px;line-height:1.55;color:rgba(245,239,224,0.85);}
+.qs-panel-d strong{color:var(--gold2);font-weight:600;}
+.qs-foot{margin-top:30px;padding-top:24px;border-top:1px solid rgba(184,144,47,0.22);text-align:center;font-family:var(--serif);font-style:italic;font-size:24px;font-weight:600;color:var(--gold);opacity:0;}
+.s-qs.active .qs-foot{animation:manifIn .8s ease 1.5s both;}
+
+/* =========================================================
+   SLIDE 3 — REALIDADE DO MERCADO · 5 FLIP CARDS
+   ========================================================= */
+.s-mer{padding-top:120px;}
+.s-mer h1{font-size:54px;}
+.mer-hint{display:inline-flex;align-items:center;gap:8px;margin-top:14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);background:rgba(184,144,47,0.08);border:1px solid rgba(184,144,47,0.35);border-radius:3px;padding:8px 18px;}
+.mer-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-top:40px;flex:1;align-items:stretch;}
+.mer-card{perspective:1400px;cursor:pointer;min-height:0;}
+.mer-flip{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .65s cubic-bezier(.4,0,.2,1);}
+.mer-card.flipped .mer-flip{transform:rotateY(180deg);}
+.mer-face{position:absolute;inset:0;display:flex;flex-direction:column;backface-visibility:hidden;border-radius:6px;padding:28px 24px;}
+.mer-front{background:#FBF7EA;border:1px solid var(--line);justify-content:space-between;}
+.mer-front:hover{box-shadow:0 14px 38px rgba(11,22,38,0.10);}
+.mer-card:not(.flipped):hover .mer-front{border-color:var(--gold);}
+.mer-n{font-family:var(--mono);font-size:13px;letter-spacing:.18em;color:var(--gold);font-weight:700;}
+.mer-h{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);line-height:1.18;}
+.mer-cta{font-family:var(--mono);font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px;}
+.mer-cta::before{content:'▸';color:var(--gold);}
+.mer-back{background:linear-gradient(180deg,#16323a,#0B1626);transform:rotateY(180deg);color:var(--cream);justify-content:center;text-align:left;}
+.mer-back::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));}
+.mer-back-n{font-family:var(--mono);font-size:12px;letter-spacing:.18em;color:var(--gold2);margin-bottom:14px;font-weight:700;}
+.mer-stat{font-family:var(--serif);font-size:48px;font-weight:700;color:var(--gold2);line-height:1;margin-bottom:14px;}
+.mer-d{font-family:var(--sans);font-size:14px;line-height:1.5;color:rgba(245,239,224,0.85);}
+.mer-d strong{color:var(--gold2);}
+.mer-foot{margin-top:30px;padding:16px 28px;background:linear-gradient(90deg,rgba(184,144,47,0.13),rgba(184,144,47,0.04));border-left:3px solid var(--gold);text-align:center;font-family:var(--serif);font-style:italic;font-size:20px;font-weight:600;color:#8a6d1f;}
+
+/* =========================================================
+   SLIDE 4 — SUA DOR
+   ========================================================= */
+.s-dor{padding-top:120px;background:#F5EFE0;}
+.s-dor h1{font-size:60px;}
+.dor-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:50px;flex:1;align-items:stretch;}
+.dor-card{background:linear-gradient(180deg,rgba(208,70,60,0.06),rgba(208,70,60,0.02));border:1px solid rgba(208,70,60,0.28);border-left:4px solid var(--red);border-radius:5px;padding:38px 32px;display:flex;flex-direction:column;gap:20px;opacity:0;}
+.s-dor.active .dor-card:nth-child(1){animation:dorIn .6s ease .25s both;}
+.s-dor.active .dor-card:nth-child(2){animation:dorIn .6s ease .55s both;}
+.s-dor.active .dor-card:nth-child(3){animation:dorIn .6s ease .85s both;}
+@keyframes dorIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.dor-x{font-family:var(--mono);font-size:28px;color:var(--red);font-weight:700;}
+.dor-h{font-family:var(--serif);font-size:34px;font-weight:700;color:var(--ink);line-height:1.05;}
+.dor-d{font-family:var(--sans);font-size:15.5px;line-height:1.55;color:var(--ink2);margin-top:auto;}
+.dor-foot{margin-top:36px;background:linear-gradient(90deg,rgba(184,144,47,0.20),rgba(184,144,47,0.06));border:1px solid var(--gold);border-radius:5px;padding:24px 36px;text-align:center;font-family:var(--serif);font-size:30px;font-weight:600;color:#8a6d1f;line-height:1.2;opacity:0;cursor:pointer;transition:all .25s;}
+.dor-foot em{font-style:italic;color:var(--gold);}
+.dor-foot:hover{background:linear-gradient(90deg,rgba(184,144,47,0.32),rgba(184,144,47,0.12));}
+.s-dor.active .dor-foot{animation:dorIn .8s ease 1.2s both;}
+
+/* =========================================================
+   SLIDE 5 — COMO RESOLVEMOS · 5 PILARES
+   ========================================================= */
+.s-pil{padding-top:120px;}
+.s-pil h1{font-size:54px;}
+.pil-stage{display:grid;grid-template-columns:1fr 1.05fr;gap:50px;margin-top:34px;flex:1;align-items:stretch;}
+.pil-list{display:flex;flex-direction:column;gap:13px;}
+.pil-row{display:flex;align-items:center;gap:20px;padding:18px 22px;background:#FBF7EA;border:1px solid var(--line);border-left:4px solid var(--line);border-radius:5px;cursor:pointer;transition:all .3s;}
+.pil-row:hover{transform:translateX(4px);border-left-color:var(--gold);}
+.pil-row.on{background:linear-gradient(90deg,rgba(184,144,47,0.16),rgba(184,144,47,0.04));border:1px solid var(--gold);border-left:4px solid var(--gold);}
+.pil-ico{width:54px;height:54px;border-radius:50%;background:#fff;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;transition:all .3s;}
+.pil-row.on .pil-ico{background:linear-gradient(180deg,#D4AF45,#B8902F);border-color:#A87C24;}
+.pil-txt{flex:1;}
+.pil-t{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--ink);line-height:1.1;}
+.pil-s{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:3px;}
+.pil-row.on .pil-s{color:var(--gold);}
+.pil-panel{background:linear-gradient(180deg,#16323a,#0B1626);border-radius:8px;padding:46px 50px;color:var(--cream);display:flex;flex-direction:column;position:relative;overflow:hidden;box-shadow:0 24px 60px rgba(11,22,38,0.15);}
+.pil-panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold));}
+.pil-panel-k{font-family:var(--mono);font-size:12px;letter-spacing:.24em;color:var(--gold2);text-transform:uppercase;margin-bottom:18px;}
+.pil-panel-h{font-family:var(--serif);font-size:38px;font-weight:600;color:var(--cream);line-height:1.05;margin-bottom:20px;}
+.pil-panel-h em{font-style:italic;color:var(--gold2);font-weight:500;}
+.pil-panel-d{font-family:var(--sans);font-size:16.5px;line-height:1.55;color:rgba(245,239,224,0.85);}
+.pil-panel-d strong{color:var(--gold2);font-weight:600;}
+.pil-panel-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px;}
+.pil-tag{font-family:var(--mono);font-size:11px;letter-spacing:.10em;color:var(--gold2);background:rgba(212,175,69,0.10);border:1px solid rgba(212,175,69,0.35);border-radius:3px;padding:6px 12px;}
+.pil-mantra{margin-top:24px;padding:14px 24px;border-top:1px solid rgba(184,144,47,0.22);text-align:center;font-family:var(--serif);font-style:italic;font-size:20px;font-weight:600;color:var(--gold);}
+.pil-mantra strong{color:var(--gold2);font-style:normal;font-family:var(--mono);font-size:13px;letter-spacing:.18em;text-transform:uppercase;}
+
+/* =========================================================
+   SLIDE 6 — FIDELIZAÇÃO · COFRE COM 4 CHAVES (Opção C)
+   ========================================================= */
+.s-fid{padding-top:100px;justify-content:flex-start;}
+.s-fid .head-wrap{text-align:center;max-width:1700px;margin:0 auto;}
+.s-fid h1{font-size:54px;text-align:center;margin:0 auto;}
+.s-fid .sub{margin:12px auto 0;text-align:center;}
+.fid-stage{display:grid;grid-template-columns:0.78fr 1.32fr;gap:28px;margin-top:24px;flex:1;align-items:start;max-width:1820px;margin-left:auto;margin-right:auto;width:100%;}
+
+/* COFRE */
+.vault-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;position:relative;}
+.vault{position:relative;width:480px;height:420px;}
+.vault-box{position:absolute;inset:30px 50px 30px 50px;background:linear-gradient(135deg,#1A2640 0%,#0B1626 100%);border:5px solid var(--gold);border-radius:10px;box-shadow:0 30px 60px rgba(0,0,0,0.5), inset 0 0 40px rgba(212,175,69,0.10);overflow:hidden;}
+.vault-door{position:absolute;inset:0;background:linear-gradient(135deg,#1A2640 0%,#0B1626 70%,#162338 100%);border-right:3px solid rgba(184,144,47,0.5);display:flex;align-items:center;justify-content:center;transition:transform 1.4s cubic-bezier(.5,0,.5,1);transform-origin:left center;z-index:3;}
+.vault-door::before{content:'';position:absolute;inset:14px;border:1px solid rgba(184,144,47,0.4);border-radius:6px;}
+.vault-dial{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#D4AF45 0%,#A87C24 70%,#7A5A1A 100%);border:6px solid #16323a;box-shadow:0 0 20px rgba(212,175,69,0.4), inset 0 0 14px rgba(0,0,0,0.5);position:relative;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:#16323a;font-weight:700;letter-spacing:.18em;}
+.vault-dial::before{content:'';position:absolute;width:8px;height:48px;background:#16323a;top:8px;left:50%;transform:translateX(-50%);border-radius:4px;}
+.vault-keyholes{position:absolute;inset:0;pointer-events:none;}
+.vault-kh{position:absolute;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle,#000 30%,#0B1626 100%);border:2px solid rgba(184,144,47,0.6);box-shadow:0 0 0 4px #1A2640;display:flex;align-items:center;justify-content:center;color:rgba(212,175,69,0.5);font-family:var(--mono);font-size:11px;font-weight:700;}
+.vault-kh::after{content:'';position:absolute;bottom:-7px;width:12px;height:5px;background:rgba(184,144,47,0.4);}
+.vault-kh.tl{top:88px;left:115px;}
+.vault-kh.tr{top:88px;right:115px;}
+.vault-kh.bl{bottom:88px;left:115px;}
+.vault-kh.br{bottom:88px;right:115px;}
+.vault-kh.filled{background:radial-gradient(circle,#F0D27A 30%,#B8902F 100%);border-color:var(--gold3);box-shadow:0 0 0 4px #1A2640, 0 0 18px rgba(240,210,122,0.6);color:#16323a;}
+
+/* CONTEÚDO REVELADO QUANDO O COFRE ABRE */
+.vault-inner{position:absolute;inset:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;transition:opacity .6s ease .8s;z-index:1;}
+.vault-inner-k{font-family:var(--mono);font-size:11px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:6px;}
+.vault-inner-h{font-family:var(--serif);font-size:54px;font-weight:700;color:var(--gold3);font-style:italic;line-height:1;letter-spacing:.02em;background:linear-gradient(180deg,#F0D27A,#D4AF45 60%,#B8902F);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.vault-inner-d{font-family:var(--sans);font-size:13px;color:rgba(245,239,224,0.75);margin-top:10px;max-width:280px;line-height:1.4;}
+
+/* ESTADO ABERTO */
+.vault.open .vault-door{transform:perspective(900px) rotateY(-105deg);box-shadow:0 0 50px rgba(212,175,69,0.5);}
+.vault.open .vault-inner{opacity:1;}
+
+/* CHAVES (4 douradas) */
+.keys-rail{display:flex;gap:18px;justify-content:center;align-items:center;margin-top:8px;}
+.key{cursor:pointer;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+.key:hover{transform:translateY(-4px);}
+.key.used{opacity:.35;cursor:default;pointer-events:none;}
+.key.used:hover{transform:none;}
+.key svg{width:62px;height:36px;filter:drop-shadow(0 4px 10px rgba(184,144,47,0.4));}
+.key-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;}
+.key.used .key-lbl{color:rgba(245,239,224,0.4);}
+
+.vault-hint{font-family:var(--mono);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:rgba(245,239,224,0.55);margin-top:4px;}
+.vault-reset{background:none;border:1px solid rgba(184,144,47,0.45);color:var(--gold2);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;padding:7px 16px;border-radius:3px;cursor:pointer;text-transform:uppercase;margin-top:6px;}
+.vault-reset:hover{background:rgba(184,144,47,0.10);}
+
+/* ARGUMENTO (4 passos que acendem ao clicar na chave) */
+.fid-arg{display:flex;flex-direction:column;gap:18px;}
+.fid-step{display:flex;gap:18px;align-items:flex-start;padding:14px 18px;border-radius:5px;background:rgba(245,239,224,0.025);border-left:3px solid rgba(245,239,224,0.12);opacity:.45;transition:all .5s ease;}
+.fid-step.on{background:linear-gradient(90deg,rgba(184,144,47,0.18),rgba(184,144,47,0.04));border-left-color:var(--gold2);opacity:1;}
+.fid-num{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.08em;border:2px solid rgba(184,144,47,0.5);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(184,144,47,0.06);transition:all .4s;}
+.fid-step.on .fid-num{background:linear-gradient(180deg,#D4AF45,#B8902F);color:#0B1626;border-color:#A87C24;box-shadow:0 0 14px rgba(212,175,69,0.5);}
+.fid-txt{flex:1;font-family:var(--sans);font-size:17px;line-height:1.50;font-weight:400;color:rgba(245,239,224,0.85);letter-spacing:-0.005em;}
+.fid-step.on .fid-txt{color:var(--cream);}
+.fid-txt strong{color:var(--gold2);font-weight:600;}
+.fid-txt em{font-style:italic;color:var(--gold2);font-weight:500;}
+.fid-tag{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--gold2);margin-bottom:7px;letter-spacing:.18em;}
+.fid-step .fid-tag{opacity:.75;}
+.fid-step.on .fid-tag{color:var(--gold3);opacity:1;}
+
+/* =========================================================
+   SLIDE 7 — ZERO OVERHEAD + PONTE
+   ========================================================= */
+.s-zo{padding-top:120px;background:var(--cream);}
+.s-zo h1{font-size:56px;}
+.zo-table{display:grid;grid-template-columns:1.1fr 1.1fr;gap:0;margin-top:34px;flex:1;border-radius:8px;overflow:hidden;box-shadow:0 18px 50px rgba(11,22,38,0.10);max-height:540px;}
+.zo-col{display:flex;flex-direction:column;}
+.zo-col-h{padding:22px 30px;font-family:var(--mono);font-size:12px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;text-align:center;}
+.zo-bad .zo-col-h{background:linear-gradient(180deg,#3A1A14,#2A0C09);color:#E8857A;}
+.zo-good .zo-col-h{background:linear-gradient(180deg,#D4AF45,#B8902F);color:var(--navy);}
+.zo-row{padding:13px 30px;display:flex;align-items:center;justify-content:space-between;font-family:var(--sans);font-size:15.5px;border-bottom:1px solid rgba(11,22,38,0.06);flex:1;}
+.zo-bad .zo-row{background:#FBF7EA;color:var(--ink);}
+.zo-good .zo-row{background:#FBF7EA;color:var(--ink);}
+.zo-good .zo-row{background:linear-gradient(90deg,rgba(184,144,47,0.06),rgba(184,144,47,0.02));}
+.zo-row b{font-family:var(--mono);font-size:13px;font-weight:700;}
+.zo-bad .zo-row b{color:var(--red);}
+.zo-good .zo-row b{color:var(--green2);}
+.zo-good .zo-row b::before{content:'✓ ';color:var(--green2);}
+.zo-tot{padding:20px 30px;font-family:var(--mono);font-size:14px;letter-spacing:.06em;font-weight:700;text-align:right;}
+.zo-bad .zo-tot{background:#3A1A14;color:#E8857A;}
+.zo-good .zo-tot{background:linear-gradient(90deg,#D4AF45,#B8902F);color:var(--navy);}
+.zo-foot{margin-top:30px;display:flex;justify-content:space-between;align-items:center;gap:30px;padding-top:24px;border-top:1px solid rgba(184,144,47,0.22);}
+.zo-foot-l{font-family:var(--serif);font-style:italic;font-size:26px;font-weight:600;color:var(--ink2);max-width:60%;line-height:1.25;}
+.zo-foot-l b{font-style:normal;color:var(--gold);}
+.zo-cta{background:linear-gradient(180deg,#D4AF45,#B8902F);color:var(--navy);border:none;font-family:var(--mono);font-size:14px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:18px 38px;border-radius:4px;cursor:pointer;transition:all .25s;}
+.zo-cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(212,175,69,0.4);}
+/* ── SLIDE 7 v2 — ESFORÇO + REVEAL ── */
+.s-zo{padding-top:80px;}
+.zo2-wrap{margin-top:14px;display:flex;flex-direction:column;max-height:590px;border-radius:6px;overflow:hidden;}
+.zo2-hdr{display:flex;align-items:stretch;background:var(--navy);flex-shrink:0;}
+.zo2-hdr-act{flex:1;padding:10px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:rgba(245,239,224,0.55);}
+.zo2-hdr-cost{width:190px;flex-shrink:0;padding:10px 16px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:rgba(245,239,224,0.55);text-align:right;border-left:1px solid rgba(255,255,255,0.08);}
+.zo2-hc{width:0;overflow:hidden;flex-shrink:0;transition:width .55s cubic-bezier(.16,1,.3,1);}
+.zo2-wrap.zo2-open .zo2-hc{width:180px;}
+.zo2-hdr-harp{width:180px;padding:10px 14px;font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:#88D5A2;border-left:1px solid rgba(136,213,162,0.25);text-align:center;box-sizing:border-box;}
+.zo2-body{flex:1;overflow-y:auto;border-left:1px solid rgba(11,22,38,0.09);border-right:1px solid rgba(11,22,38,0.09);}
+.zo2-cat{display:flex;align-items:center;background:rgba(184,144,47,0.08);border-top:1px solid rgba(184,144,47,0.18);border-bottom:1px solid rgba(184,144,47,0.12);}
+.zo2-cat-lbl{flex:1;padding:5px 16px;font-family:var(--mono);font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--gold);}
+.zo2-cat-cost{width:190px;flex-shrink:0;border-left:1px solid rgba(11,22,38,0.05);}
+.zo2-cat-hc{width:0;overflow:hidden;flex-shrink:0;transition:width .55s cubic-bezier(.16,1,.3,1);}
+.zo2-wrap.zo2-open .zo2-cat-hc{width:180px;}
+.zo2-cat-inner{width:180px;border-left:1px solid rgba(136,213,162,0.15);}
+.zo2-row{display:flex;align-items:center;border-bottom:1px solid rgba(11,22,38,0.055);}
+.zo2-row:hover{background:rgba(184,144,47,0.028);}
+.zo2-act{flex:1;padding:7px 16px;font-family:var(--sans);font-size:13.5px;color:var(--ink);line-height:1.3;}
+.zo2-cost-cell{width:190px;flex-shrink:0;padding:7px 16px;font-family:var(--mono);font-size:12.5px;font-weight:700;color:#C0392B;text-align:right;border-left:1px solid rgba(11,22,38,0.05);}
+.zo2-cost-cell small{font-weight:400;color:rgba(11,22,38,0.38);font-size:10.5px;display:block;}
+.zo2-cost-cell.neg{color:rgba(11,22,38,0.38);font-size:11px;font-weight:400;}
+.zo2-harp-inner{width:180px;padding:7px 14px;font-family:var(--sans);font-size:12.5px;color:#2E7D52;font-weight:600;border-left:1px solid rgba(136,213,162,0.18);box-sizing:border-box;white-space:nowrap;}
+.zo2-harp-inner em{font-style:normal;}
+.zo2-tot-row{display:flex;align-items:center;background:var(--navy);flex-shrink:0;}
+.zo2-tot-lbl{flex:1;padding:11px 16px;font-family:var(--mono);font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:rgba(245,239,224,0.50);}
+.zo2-tot-cost{width:190px;flex-shrink:0;padding:11px 16px;font-family:var(--mono);font-size:14px;font-weight:700;color:#E8857A;text-align:right;border-left:1px solid rgba(255,255,255,0.08);}
+.zo2-tot-harp-inner{width:180px;padding:11px 14px;font-family:var(--mono);font-size:13px;font-weight:700;color:#88D5A2;border-left:1px solid rgba(136,213,162,0.25);text-align:center;box-sizing:border-box;white-space:nowrap;}
+.zo2-tot-hc{width:0;overflow:hidden;flex-shrink:0;transition:width .55s cubic-bezier(.16,1,.3,1) .08s;}
+.zo2-wrap.zo2-open .zo2-tot-hc{width:180px;}
+.zo2-btn-area{padding:14px 0 0;text-align:center;flex-shrink:0;}
+.zo2-btn{background:transparent;border:1.5px solid var(--gold);color:var(--gold);font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:13px 30px;border-radius:4px;cursor:pointer;transition:all .25s;}
+.zo2-btn:hover{background:rgba(184,144,47,0.10);transform:translateY(-2px);box-shadow:0 8px 24px rgba(184,144,47,0.18);}
+/* ── SLIDE 7 v3 — 2-panel grid (no scroll) ── */
+.zo2-wrap{max-height:none !important;overflow:visible !important;}
+.zo2-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px;}
+.zo2-panel{border-radius:4px;overflow:hidden;display:flex;flex-direction:column;}
+.zo2-panel .zo2-body{overflow:hidden;flex:unset;}
+.zo2-panel .zo2-act{font-size:12.5px;padding:5px 12px;line-height:1.25;}
+.zo2-panel .zo2-cost-cell{width:148px;font-size:11px;padding:5px 10px;}
+.zo2-panel .zo2-cost-cell small{font-size:9px;}
+.zo2-panel .zo2-hdr-cost{width:148px;padding:8px 10px;}
+.zo2-panel .zo2-hdr-act{padding:8px 12px;}
+.zo2-panel .zo2-cat-lbl{padding:4px 12px;font-size:9px;}
+.zo2-panel .zo2-harp-inner{padding:5px 10px;font-size:11.5px;}
+.zo2-panel .zo2-hdr-harp{padding:8px 10px;}
+.zo2-panel .zo2-row:last-child{border-bottom:none;}
+
+/* HINT */
+.kbd-hint{position:fixed;bottom:80px;right:84px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);opacity:.55;z-index:60;pointer-events:none;transition:opacity .6s;}
+.kbd-hint.fade{opacity:0;}
+body.bg-navy .kbd-hint{color:rgba(245,239,224,0.4);}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top">
+  <div class="top-l">Harpian</div>
+  <div class="top-r">Apresentação Institucional · Family Offices</div>
+</div>
+
+<!-- SLIDE 1 — MANIFESTO -->
+<section class="slide s-manif navy active" data-bg="navy">
+  <div class="manif-eyebrow">A engenharia de portfólio adaptativa</div>
+  <h1 class="manif-head">
+    <span class="manif-l"><strong>Risco</strong> você <em>mensura.</em></span>
+    <span class="manif-l"><strong>Capital</strong> você <em>preserva.</em></span>
+    <span class="manif-l"><strong>Retorno</strong> é <em>estrutural.</em></span>
+  </h1>
+  <div class="manif-foot">A <strong>física do capital</strong> — comprovada há <strong>30 anos</strong>, agora ao seu alcance.</div>
+</section>
+
+<!-- SLIDE 2 — QUEM SOMOS -->
+<section class="slide s-qs" data-bg="cream">
+  <div class="head-wrap">
+    <div class="kicker">Quem somos · em uma frase</div>
+    <h1 class="headline">Não somos uma gestora de produtos.<br><em>Somos engenheiros de portfólio adaptativo.</em></h1>
+    <p class="sub">Adaptamos a exposição do portfólio a <strong>três dimensões em movimento</strong> — para que o resultado, no longo prazo, seja <em>consequência da engenharia</em>, não promessa de marketing. Clique em cada dimensão.</p>
+  </div>
+  <div class="qs-stage">
+    <div class="qs-orbs">
+      <div class="qs-orb on" onclick="qsPick(this,'mercado')">
+        <div class="qs-orb-n">I</div>
+        <div><div class="qs-orb-t">Mercado</div><div class="qs-orb-s">O que ele entrega · não o que prevemos</div></div>
+      </div>
+      <div class="qs-orb" onclick="qsPick(this,'regime')">
+        <div class="qs-orb-n">II</div>
+        <div><div class="qs-orb-t">Regime</div><div class="qs-orb-s">Bull · Bear · Transição</div></div>
+      </div>
+      <div class="qs-orb" onclick="qsPick(this,'risco')">
+        <div class="qs-orb-n">III</div>
+        <div><div class="qs-orb-t">Risco</div><div class="qs-orb-s">Calibrado ao limite do cliente</div></div>
+      </div>
+    </div>
+    <div class="qs-panel">
+      <div class="qs-panel-k" id="qsK">Dimensão I · Mercado</div>
+      <div class="qs-panel-h" id="qsH">Não acreditamos em previsões.<br><em>Interpretamos o mercado.</em></div>
+      <div class="qs-panel-d" id="qsD">Lemos em tempo real <strong>milhares de sinais</strong>, separamos o que é ruído, temos uma <strong>sólida estrutura</strong> e ajustamos a alocação ao estado real do mercado — todos os dias, sem exceção. A leitura é sistemática; a decisão é automatizada; o resultado é auditável.</div>
+      <div class="qs-foot">Risco você mensura · Capital você preserva · Retorno é estrutural.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 3 — REALIDADE DO MERCADO -->
+<section class="slide s-mer" data-bg="cream">
+  <div class="head-wrap">
+    <div class="kicker">Antes da engenharia · olha o terreno</div>
+    <h1 class="headline">O mercado em que você joga <em>já está vencido.</em></h1>
+    <div class="mer-hint">▸ clique em cada carta · veja o dado</div>
+  </div>
+  <div class="mer-grid">
+    <div class="mer-card" onclick="this.classList.toggle('flipped')">
+      <div class="mer-flip">
+        <div class="mer-face mer-front">
+          <div class="mer-n">01</div>
+          <div class="mer-h">Todos disputam <em>o mesmo cliente.</em></div>
+          <div class="mer-cta">Clique para ver</div>
+        </div>
+        <div class="mer-face mer-back">
+          <div class="mer-back-n">01 · Oceano vermelho</div>
+          <div class="mer-stat">Mesma família.</div>
+          <div class="mer-d">Mesma plataforma. Mesmo produto. Você tem rosto — o produto, não. <strong>O cliente compara por preço.</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="mer-card" onclick="this.classList.toggle('flipped')">
+      <div class="mer-flip">
+        <div class="mer-face mer-front">
+          <div class="mer-n">02</div>
+          <div class="mer-h">95% dos fundos ativos <em>não bate o S&P.</em></div>
+          <div class="mer-cta">Clique para ver</div>
+        </div>
+        <div class="mer-face mer-back">
+          <div class="mer-back-n">02 · A indústria perdeu</div>
+          <div class="mer-stat">95% falham.</div>
+          <div class="mer-d">15 anos rodando, dados SPIVA. <strong>Cobrar fee de gestão ativa virou indefensável</strong> — e seu cliente já sabe.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mer-card" onclick="this.classList.toggle('flipped')">
+      <div class="mer-flip">
+        <div class="mer-face mer-front">
+          <div class="mer-n">03</div>
+          <div class="mer-h">4.000 ETFs <em>nos Estados Unidos.</em></div>
+          <div class="mer-cta">Clique para ver</div>
+        </div>
+        <div class="mer-face mer-back">
+          <div class="mer-back-n">03 · A passividade ganhou</div>
+          <div class="mer-stat">4.000 ETFs.</div>
+          <div class="mer-d">A indústria reconheceu a derrota e migrou para o passivo. <strong>Diferenciação ativa virou exceção</strong> — e exige engenharia real, não opinião.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mer-card" onclick="this.classList.toggle('flipped')">
+      <div class="mer-flip">
+        <div class="mer-face mer-front">
+          <div class="mer-n">04</div>
+          <div class="mer-h">XP, BTG, Itaú <em>comeram seu rebate.</em></div>
+          <div class="mer-cta">Clique para ver</div>
+        </div>
+        <div class="mer-face mer-back">
+          <div class="mer-back-n">04 · A margem evaporou</div>
+          <div class="mer-stat">A plataforma fica.</div>
+          <div class="mer-d">A plataforma ficou com a fatia. Você ficou com o cliente — <strong>sem produto e sem margem.</strong> O rebate virou migalha.</div>
+        </div>
+      </div>
+    </div>
+    <div class="mer-card" onclick="this.classList.toggle('flipped')">
+      <div class="mer-flip">
+        <div class="mer-face mer-front">
+          <div class="mer-n">05</div>
+          <div class="mer-h">Offshore <em>perdeu o diferimento.</em></div>
+          <div class="mer-cta">Clique para ver</div>
+        </div>
+        <div class="mer-face mer-back">
+          <div class="mer-back-n">05 · O argumento sumiu</div>
+          <div class="mer-stat">Come-cotas.</div>
+          <div class="mer-d">Lei 14.754/2023 endureceu o offshore. Seu cliente paga come-cotas. <strong>Sumiu o argumento fiscal</strong> que você tinha contra a poupança.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mer-foot">Você está nadando num mar onde <strong>cinco correntes empurram contra você</strong> ao mesmo tempo.</div>
+</section>
+
+<!-- SLIDE 4 — SUA DOR -->
+<section class="slide s-dor" data-bg="cream">
+  <div class="head-wrap">
+    <div class="kicker">A consequência · o que sobrou para você</div>
+    <h1 class="headline">Resultado: você ficou <em>sem três coisas essenciais.</em></h1>
+    <p class="sub">Não é falta de esforço. É o desenho do mercado. Cada uma dessas três faltas tem solução de engenharia — e é exatamente o que vamos te mostrar agora.</p>
+  </div>
+  <div class="dor-grid">
+    <div class="dor-card">
+      <div class="dor-x">✕</div>
+      <div class="dor-h">Sem diferenciação</div>
+      <div class="dor-d">Vende exatamente o mesmo produto que o concorrente do andar de cima. Não há argumento — só preço.</div>
+    </div>
+    <div class="dor-card">
+      <div class="dor-x">✕</div>
+      <div class="dor-h">Sem margem</div>
+      <div class="dor-d">A plataforma fica com a fatia do produto. Você fica com a obrigação do relacionamento — sem o ativo que paga a conta.</div>
+    </div>
+    <div class="dor-card">
+      <div class="dor-x">✕</div>
+      <div class="dor-h">Sem barreira de saída</div>
+      <div class="dor-d">Nada prende o cliente. Se ele decidir trocar amanhã, leva o patrimônio inteiro e a receita junto.</div>
+    </div>
+  </div>
+  <div class="dor-foot" onclick="go(4)">Agora deixa eu te mostrar <em>como a Harpian resolve cada uma delas →</em></div>
+</section>
+
+<!-- SLIDE 5 — COMO RESOLVEMOS · 5 PILARES -->
+<section class="slide s-pil" data-bg="cream">
+  <div class="head-wrap">
+    <div class="kicker">A engenharia · cinco peças</div>
+    <h1 class="headline">Cinco pilares. <em>Uma engenharia.</em></h1>
+    <p class="sub">Cada pilar resolve uma das três faltas — e juntos, instalam uma <strong>vantagem estrutural</strong> que nenhuma plataforma replica. Clique em cada pilar para ver como.</p>
+  </div>
+  <div class="pil-stage">
+    <div class="pil-list">
+      <div class="pil-row on" onclick="pilPick(this,'transp')">
+        <div class="pil-ico">🏛</div>
+        <div class="pil-txt"><div class="pil-t">Transparência institucional</div><div class="pil-s">a casa Tier 1 onde o capital vive</div></div>
+      </div>
+      <div class="pil-row" onclick="pilPick(this,'dolar')">
+        <div class="pil-ico">💵</div>
+        <div class="pil-txt"><div class="pil-t">Exposição estratégica ao dólar</div><div class="pil-s">a moeda global · arena macro</div></div>
+      </div>
+      <div class="pil-row" onclick="pilPick(this,'fiscal')">
+        <div class="pil-ico">⚖</div>
+        <div class="pil-txt"><div class="pil-t">Eficiência tributária</div><div class="pil-s">diferimento total · só paga na venda</div></div>
+      </div>
+      <div class="pil-row" onclick="pilPick(this,'risco')">
+        <div class="pil-ico">🛡</div>
+        <div class="pil-txt"><div class="pil-t">Gestão de risco metódica</div><div class="pil-s">o motor operacional auditável</div></div>
+      </div>
+      <div class="pil-row" onclick="pilPick(this,'wl')">
+        <div class="pil-ico">🏷</div>
+        <div class="pil-txt"><div class="pil-t">Produto white-label</div><div class="pil-s">o seu nome · margem + barreira de saída</div></div>
+      </div>
+    </div>
+    <div class="pil-panel">
+      <div class="pil-panel-k" id="pilK">Pilar I · Transparência institucional</div>
+      <h2 class="pil-panel-h" id="pilH">Cinco instituições. <em>Nenhuma subordinada à outra.</em></h2>
+      <div class="pil-panel-d" id="pilD">O dinheiro <strong>nunca passa pela Harpian.</strong> Flui direto de <strong>BNY Mellon</strong> (custódia) para <strong>Interactive Brokers</strong> (execução). <strong>Deloitte</strong> audita. <strong>Bloomberg</strong> precifica. <strong>Bolsa de Viena</strong> lista. Cada função segregada por design — credibilidade que se prova no extrato.</div>
+      <div class="pil-panel-tags" id="pilT"><span class="pil-tag">Deloitte</span><span class="pil-tag">BNY Mellon</span><span class="pil-tag">Interactive Brokers</span><span class="pil-tag">Bloomberg</span><span class="pil-tag">Bolsa de Viena</span></div>
+      <div class="pil-mantra"><strong>Mantra</strong><br>Risco você mensura · Capital você preserva · Retorno é estrutural.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 6 — FIDELIZAÇÃO · COFRE -->
+<section class="slide s-fid navy" data-bg="navy">
+  <div class="head-wrap">
+    <div class="kicker">Vantagem competitiva sustentável</div>
+    <h1 class="headline">Switching cost incorporado à <em>arquitetura.</em> Não ao relacionamento.</h1>
+    <p class="sub">O advisor brasileiro compete num mercado onde o produto é <strong>commodity de prateleira</strong> e o relacionamento é o único vínculo.<br>A engenharia Harpian instala a <strong>primeira fonte estrutural de vantagem competitiva</strong> que você pode operar — incorporada ao veículo, não dependente da química. <strong>Clique nas 4 chaves abaixo</strong> e veja o cofre se abrir.</p>
+  </div>
+  <div class="fid-stage">
+    <div class="vault-wrap">
+      <div class="vault" id="vault">
+        <div class="vault-box">
+          <div class="vault-inner">
+            <div class="vault-inner-k">★ vantagem competitiva durável · Buffett</div>
+            <div class="vault-inner-h">MOAT</div>
+            <div class="vault-inner-d">O fosso institucional — <strong style="color:var(--gold2)">incorporado à arquitetura</strong>, não defendido pelo relacionamento.</div>
+          </div>
+          <div class="vault-door">
+            <div class="vault-dial">HPC</div>
+            <div class="vault-keyholes">
+              <div class="vault-kh tl" id="kh-1">1</div>
+              <div class="vault-kh tr" id="kh-2">2</div>
+              <div class="vault-kh bl" id="kh-3">3</div>
+              <div class="vault-kh br" id="kh-4">4</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="keys-rail">
+        <div class="key" id="key-1" onclick="vaultUseKey(1)">
+          <svg viewBox="0 0 62 36" xmlns="http://www.w3.org/2000/svg">
+            <defs><linearGradient id="kg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0D27A"/><stop offset="1" stop-color="#A87C24"/></linearGradient></defs>
+            <circle cx="12" cy="18" r="9" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1.5"/>
+            <circle cx="12" cy="18" r="3.5" fill="#0B1626"/>
+            <rect x="20" y="15" width="36" height="6" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1"/>
+            <rect x="46" y="21" width="4" height="6" fill="url(#kg1)"/>
+            <rect x="52" y="21" width="4" height="6" fill="url(#kg1)"/>
+          </svg>
+          <div class="key-lbl">Chave I</div>
+        </div>
+        <div class="key" id="key-2" onclick="vaultUseKey(2)">
+          <svg viewBox="0 0 62 36" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="18" r="9" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1.5"/>
+            <circle cx="12" cy="18" r="3.5" fill="#0B1626"/>
+            <rect x="20" y="15" width="36" height="6" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1"/>
+            <rect x="46" y="21" width="4" height="6" fill="url(#kg1)"/>
+            <rect x="52" y="21" width="4" height="6" fill="url(#kg1)"/>
+          </svg>
+          <div class="key-lbl">Chave II</div>
+        </div>
+        <div class="key" id="key-3" onclick="vaultUseKey(3)">
+          <svg viewBox="0 0 62 36" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="18" r="9" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1.5"/>
+            <circle cx="12" cy="18" r="3.5" fill="#0B1626"/>
+            <rect x="20" y="15" width="36" height="6" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1"/>
+            <rect x="46" y="21" width="4" height="6" fill="url(#kg1)"/>
+            <rect x="52" y="21" width="4" height="6" fill="url(#kg1)"/>
+          </svg>
+          <div class="key-lbl">Chave III</div>
+        </div>
+        <div class="key" id="key-4" onclick="vaultUseKey(4)">
+          <svg viewBox="0 0 62 36" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="12" cy="18" r="9" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1.5"/>
+            <circle cx="12" cy="18" r="3.5" fill="#0B1626"/>
+            <rect x="20" y="15" width="36" height="6" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1"/>
+            <rect x="46" y="21" width="4" height="6" fill="url(#kg1)"/>
+            <rect x="52" y="21" width="4" height="6" fill="url(#kg1)"/>
+          </svg>
+          <div class="key-lbl">Chave IV</div>
+        </div>
+      </div>
+      <div class="vault-hint" id="vaultHint">▸ Clique em cada chave · destranque uma barreira por vez</div>
+      <button class="vault-reset" onclick="vaultReset()">↻ Reiniciar</button>
+    </div>
+    <div class="fid-arg">
+      <div class="fid-step" id="fid-step-1">
+        <div class="fid-num">1</div>
+        <div class="fid-txt"><span class="fid-tag">Captive distribution</span>O cliente acessa o produto <strong>exclusivamente</strong> pelo canal que carrega a sua marca. A intermediação deixa de ser negociável — <em>passa a ser arquitetural.</em></div>
+      </div>
+      <div class="fid-step" id="fid-step-2">
+        <div class="fid-num">2</div>
+        <div class="fid-txt"><span class="fid-tag">Asset specificity</span>O movimento de saída exige <strong>passar pelo emissor</strong>. O atrito não é coerção — é <em>design de mandato</em>. Padrão observável em qualquer veículo segregado institucional.</div>
+      </div>
+      <div class="fid-step" id="fid-step-3">
+        <div class="fid-num">3</div>
+        <div class="fid-txt"><span class="fid-tag">Performance-as-moat</span>A saída tem <strong>custo de oportunidade explícito</strong>: o cliente abre mão de um histórico auditado de 26 anos. <em>Switching cost mensurado em retorno foregone.</em></div>
+      </div>
+      <div class="fid-step" id="fid-step-4">
+        <div class="fid-num">4</div>
+        <div class="fid-txt"><span class="fid-tag">Defensible position</span>O moat não está na relação — está no produto. <strong>Para o concorrente capturar o cliente, precisa replicar a arquitetura.</strong> <em>Replicar a arquitetura significa reconstruir a Harpian.</em></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SLIDE 7 — ESFORÇO + REVEAL v3 (2-panel grid) -->
+<section class="slide s-zo" data-bg="cream">
+  <div class="head-wrap" style="margin-bottom:0;">
+    <div class="kicker">★ A última pergunta · "quanto custa?"</div>
+    <h1 class="headline" style="font-size:46px;line-height:1.1;">Dois anos. Trinta e dois fornecedores. <em>Mais de US$ 1 milhão.</em></h1>
+    <p class="sub" style="margin-top:6px;max-width:860px;font-size:16px;">É o que existe por trás da arquitetura que você vai operar. Cada linha representa uma atividade, um contrato ou um risco regulatório — resolvido antes de você chegar.</p>
+  </div>
+
+  <div class="zo2-wrap" id="zo2Wrap">
+    <div class="zo2-grid">
+
+      <!-- PAINEL ESQUERDO: Estrutura Regulatória + Produto Listado -->
+      <div class="zo2-panel">
+        <div class="zo2-hdr">
+          <div class="zo2-hdr-act">Atividade</div>
+          <div class="zo2-hdr-cost">Custo estimado</div>
+          <div class="zo2-hc"><div class="zo2-hdr-harp">Com Harpian · incluso</div></div>
+        </div>
+        <div class="zo2-body">
+          <div class="zo2-cat"><div class="zo2-cat-lbl">Estrutura Regulatória</div><div class="zo2-cat-cost"></div><div class="zo2-cat-hc"><div class="zo2-cat-inner"></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Registro SEC · Form ADV + IARD filings</div><div class="zo2-cost-cell">US$ 10k–25k<small>setup</small></div><div class="zo2-hc"><div class="zo2-harp-inner">✓ <em>incluso</em></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Chief Compliance Officer (CCO outsourced)</div><div class="zo2-cost-cell">US$ 48k–72k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">Compliance SEC + CVM ✓</div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Estruturação jurídica · outside counsel</div><div class="zo2-cost-cell">US$ 20k–50k<small>setup</small></div><div class="zo2-hc"><div class="zo2-harp-inner">✓ <em>incluso</em></div></div></div>
+
+          <div class="zo2-cat"><div class="zo2-cat-lbl">Produto Listado (ETP)</div><div class="zo2-cat-cost"></div><div class="zo2-cat-hc"><div class="zo2-cat-inner"></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Registro do produto na SEC (outside counsel)</div><div class="zo2-cost-cell">US$ 50k–150k<small>setup</small></div><div class="zo2-hc"><div class="zo2-harp-inner">✓ <em>incluso</em></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Listagem em bolsa (Nasdaq / NYSE Arca)</div><div class="zo2-cost-cell">US$ 5k–30k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">Bolsa de Viena ✓</div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Trust · series trust + platform onboarding</div><div class="zo2-cost-cell">US$ 100k–200k<small>setup</small></div><div class="zo2-hc"><div class="zo2-harp-inner">✓ <em>incluso</em></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Market making · Authorized Participant</div><div class="zo2-cost-cell neg">negociado</div><div class="zo2-hc"><div class="zo2-harp-inner">✓ <em>incluso</em></div></div></div>
+        </div>
+      </div>
+
+      <!-- PAINEL DIREITO: Equipe + Custódia + Tecnologia -->
+      <div class="zo2-panel">
+        <div class="zo2-hdr">
+          <div class="zo2-hdr-act">Atividade</div>
+          <div class="zo2-hdr-cost">Custo estimado</div>
+          <div class="zo2-hc"><div class="zo2-hdr-harp">Com Harpian · incluso</div></div>
+        </div>
+        <div class="zo2-body">
+          <div class="zo2-cat"><div class="zo2-cat-lbl">Equipe Sênior</div><div class="zo2-cat-cost"></div><div class="zo2-cat-hc"><div class="zo2-cat-inner"></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Portfolio manager · gestor sênior</div><div class="zo2-cost-cell">US$ 300k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">Gestor Harpian ✓</div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Quantitative analyst (quant)</div><div class="zo2-cost-cell">US$ 200k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">Time quant proprietário ✓</div></div></div>
+
+          <div class="zo2-cat"><div class="zo2-cat-lbl">Custódia &amp; Operação</div><div class="zo2-cat-cost"></div><div class="zo2-cat-hc"><div class="zo2-cat-inner"></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Custódia institucional (BNY Mellon / State Street)</div><div class="zo2-cost-cell">US$ 40k–80k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">BNY Mellon ✓</div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Fund administrator + transfer agent</div><div class="zo2-cost-cell">US$ 40k–80k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">✓ <em>incluso</em></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Auditoria anual Big 4</div><div class="zo2-cost-cell">US$ 25k–80k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">Deloitte ✓</div></div></div>
+
+          <div class="zo2-cat"><div class="zo2-cat-lbl">Tecnologia &amp; Distribuição</div><div class="zo2-cat-cost"></div><div class="zo2-cat-hc"><div class="zo2-cat-inner"></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Bloomberg Terminal (2 licenças)</div><div class="zo2-cost-cell">US$ 48k–64k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">Bloomberg precifica ✓</div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Portfolio + risk management + compliance software</div><div class="zo2-cost-cell">US$ 65k–180k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">✓ <em>incluso</em></div></div></div>
+          <div class="zo2-row"><div class="zo2-act">Plataformas de distribuição + seguros E&amp;O</div><div class="zo2-cost-cell">US$ 25k–100k<small>/ano</small></div><div class="zo2-hc"><div class="zo2-harp-inner">Wisen distribui ✓</div></div></div>
+        </div>
+      </div>
+
+    </div><!-- /.zo2-grid -->
+
+    <!-- TOTAL — linha única abaixo do grid -->
+    <div class="zo2-tot-row" style="border-radius:0 0 4px 4px;">
+      <div class="zo2-tot-lbl">Total · boutique institucional · 18 meses · 32 fornecedores</div>
+      <div class="zo2-tot-cost">US$ 800k–1,15M/ano</div>
+      <div class="zo2-tot-hc"><div class="zo2-tot-harp-inner">US$ 0 · acesso imediato</div></div>
+    </div>
+
+    <div class="zo2-btn-area" id="zo2BtnArea">
+      <button class="zo2-btn" onclick="zo2Reveal()">Ver o que está incluso com a Harpian →</button>
+    </div>
+  </div><!-- /#zo2Wrap -->
+
+  <div class="zo-foot" id="zo2Foot" style="opacity:0;pointer-events:none;margin-top:12px;transition:opacity .5s ease;">
+    <div class="zo-foot-l">Agora você entendeu <b>o problema.</b> E entendeu <b>o caminho.</b> Vamos te mostrar como o motor funciona.</div>
+    <button class="zo-cta" onclick="window.location.href='doutrina.html'">Ver o Motor →</button>
+  </div>
+</section>
+
+<!-- BOTTOM NAV -->
+<div class="nav">
+  <div class="nav-l">Slide <b id="cur">01</b> · <span id="total">07</span></div>
+  <div class="progress" id="progress"></div>
+  <div class="nav-r">
+    <button class="nav-btn" id="prev" onclick="prev()">← Anterior</button>
+    <button class="nav-btn gold" id="next" onclick="next()">Próximo →</button>
+  </div>
+</div>
+
+<div class="kbd-hint">← → · clique nos elementos para descobrir</div>
+
+<script>
+// ============== NAVEGAÇÃO ==============
+const slides=[...document.querySelectorAll('.slide')];
+let i=0;
+const _qs=new URLSearchParams(location.search);
+const _ns=parseInt(_qs.get('slide'));
+if(!isNaN(_ns)&&_ns>=1&&_ns<=slides.length){i=_ns-1;}
+
+function render(){
+  slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+  document.getElementById('cur').textContent=String(i+1).padStart(2,'0');
+  document.getElementById('total').textContent=String(slides.length).padStart(2,'0');
+  document.getElementById('prev').disabled=(i===0);
+  document.getElementById('next').textContent=(i===slides.length-1)?'Ver o Motor →':'Próximo →';
+  const prog=document.getElementById('progress');
+  prog.innerHTML=slides.map((_,k)=>`<div class="pd ${k<i?'done':k===i?'active':''}" onclick="go(${k})"></div>`).join('');
+  const bg=slides[i].dataset.bg||'cream';
+  document.body.classList.toggle('bg-navy',bg==='navy');
+}
+function go(k){if(k>=0&&k<slides.length){i=k;render();fadeHint();}}
+let _hintFaded=false;
+function fadeHint(){if(_hintFaded)return;_hintFaded=true;const k=document.querySelector('.kbd-hint');if(k)k.classList.add('fade');}
+function next(){fadeHint();if(i<slides.length-1){i++;render();}else{window.location.href='doutrina.html';}}
+function prev(){fadeHint();if(i>0){i--;render();}}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')next();
+  else if(e.key==='ArrowLeft')prev();
+});
+setTimeout(fadeHint,9000);
+
+// ============== SLIDE 2 — Quem Somos ==============
+const QS={
+  mercado:{k:'Dimensão I · Mercado', h:'Não acreditamos em previsões.<br><em>Interpretamos o mercado.</em>', d:'Lemos em tempo real <strong>milhares de sinais</strong>, separamos o que é ruído, temos uma <strong>sólida estrutura</strong> e ajustamos a alocação ao estado real do mercado — todos os dias, sem exceção. A leitura é sistemática; a decisão é automatizada; o resultado é auditável.'},
+  regime:{k:'Dimensão II · Regime', h:'Classificamos o estado: <em>bull, bear ou transição.</em>', d:'A decisão é <strong>binária</strong>, sem zona cinza. Em Bull, o motor ataca os 11 setores selecionando os líderes. Em Bear, ele recolhe e a defesa StormGuard-Armor migra o capital para instrumentos de proteção. <strong>O modelo decide. O comitê audita.</strong>'},
+  risco:{k:'Dimensão III · Risco', h:'Calibramos a exposição <em>ao perfil do cliente.</em>', d:'Não existe "risco moderado, médio, equilibrado". <strong>Não existe subjetividade para nós.</strong><br>Cada cliente, cada gestor tem o risco calibrado ao seu <strong>mandato, perfil e ambição</strong>. O motor é o mesmo. <strong>O portfólio é exclusivo.</strong><br>Sem estratégia oculta, sem calibração diferenciada sob a mesa.'}
+};
+function qsPick(el,k){
+  const d=QS[k];if(!d)return;
+  document.querySelectorAll('.qs-orb').forEach(o=>o.classList.toggle('on',o===el));
+  document.getElementById('qsK').textContent=d.k;
+  document.getElementById('qsH').innerHTML=d.h;
+  document.getElementById('qsD').innerHTML=d.d;
+}
+
+// ============== SLIDE 5 — Pilares (ordem macro→micro) ==============
+const PIL={
+  transp:{k:'Pilar I · Transparência institucional', h:'Cinco instituições. <em>Nenhuma subordinada à outra.</em>', d:'O dinheiro <strong>nunca passa pela Harpian.</strong> Flui direto de <strong>BNY Mellon</strong> (custódia) para <strong>Interactive Brokers</strong> (execução). <strong>Deloitte</strong> audita. <strong>Bloomberg</strong> precifica. <strong>Bolsa de Viena</strong> lista. Cada função segregada por design — credibilidade que se prova no extrato.', t:['Deloitte','BNY Mellon','Interactive Brokers','Bloomberg','Bolsa de Viena']},
+  dolar:{k:'Pilar II · Exposição estratégica ao dólar', h:'Proteção cambial <em>embutida na arquitetura.</em>', d:'O produto é emitido no exterior, denominado em USD. O cliente brasileiro adquire um <strong>ativo dolarizado, listado em bolsa europeia</strong>, custodiado em instituição americana. Proteção patrimonial não é tese de portfólio — é a estrutura do veículo.', t:['Emissão USD','Custódia US','Listagem EU','Liquidez diária']},
+  fiscal:{k:'Pilar III · Eficiência tributária', h:'Diferimento total. <em>Sem come-cotas.</em>', d:'Os ETPs seguem o regime fiscal de <strong>ações no exterior</strong> — o investidor brasileiro só paga imposto na venda. Zero antecipação, zero come-cotas. Uma das <strong>últimas estruturas</strong> com esse benefício após a Lei 14.754/2023 ter endurecido os fundos offshore.', t:['IR só na venda','Sem come-cotas','Lei 14.754/2023','ETP exterior']},
+  risco:{k:'Pilar IV · Gestão de risco metódica', h:'Método auditável. <em>Não opinião.</em>', d:'O motor lê o regime do mercado, calibra a exposição setor por setor e ativa proteção quando os limiares de risco são rompidos. Toda decisão é <strong>registrada, justificada e auditável</strong>. <strong>O sistema indica, nosso time executa.</strong>', t:['11 setores','2 ETPs','StormGuard-Armor','Decisão binária']},
+  wl:{k:'Pilar V · Produto white-label', h:'Com o <em>seu nome.</em> Para os <em>seus clientes.</em>', d:'O ETP é emitido com a <strong>marca do seu escritório</strong>. Seu cliente acompanha o produto diariamente — vê o seu nome no extrato. Resolve <strong>margem</strong> (você participa da receita) e instala a <strong>barreira de saída</strong> (o produto fica do seu lado).', t:['Sua marca','Revenue share','Barreira de saída','Listado em bolsa']}
+};
+function pilPick(el,k){
+  const d=PIL[k];if(!d)return;
+  document.querySelectorAll('.pil-row').forEach(r=>r.classList.toggle('on',r===el));
+  document.getElementById('pilK').textContent=d.k;
+  document.getElementById('pilH').innerHTML=d.h;
+  document.getElementById('pilD').innerHTML=d.d;
+  document.getElementById('pilT').innerHTML=d.t.map(x=>`<span class="pil-tag">${x}</span>`).join('');
+}
+
+// ============== SLIDE 6 — Cofre com 4 chaves ==============
+let vaultUsed=new Set();
+function vaultUseKey(n){
+  if(vaultUsed.has(n))return;
+  vaultUsed.add(n);
+  document.getElementById('key-'+n).classList.add('used');
+  document.getElementById('kh-'+n).classList.add('filled');
+  document.getElementById('fid-step-'+n).classList.add('on');
+  const hint=document.getElementById('vaultHint');
+  const left=4-vaultUsed.size;
+  if(left>0) hint.textContent='▸ Falta '+left+' chave'+(left>1?'s':'')+' para abrir o cofre';
+  else { hint.textContent='✓ Cofre destrancado · barreira de saída instalada'; document.getElementById('vault').classList.add('open'); }
+}
+function vaultReset(){
+  vaultUsed.clear();
+  document.getElementById('vault').classList.remove('open');
+  for(let i=1;i<=4;i++){
+    document.getElementById('key-'+i).classList.remove('used');
+    document.getElementById('kh-'+i).classList.remove('filled');
+    document.getElementById('fid-step-'+i).classList.remove('on');
+  }
+  document.getElementById('vaultHint').textContent='▸ Clique em cada chave · destranque uma barreira por vez';
+}
+// reseta o cofre toda vez que volta pro slide
+const _obs=new MutationObserver(()=>{
+  const fid=document.querySelector('.s-fid');
+  if(fid && !fid.classList.contains('active') && vaultUsed.size>0){ vaultReset(); }
+});
+_obs.observe(document.querySelector('.s-fid'),{attributes:true,attributeFilter:['class']});
+
+// ============== SLIDE 7 — Esforço + Reveal ==============
+function zo2Reveal(){
+  document.getElementById('zo2Wrap').classList.add('zo2-open');
+  document.getElementById('zo2BtnArea').style.display='none';
+  setTimeout(function(){
+    var f=document.getElementById('zo2Foot');
+    f.style.opacity='1';
+    f.style.pointerEvents='auto';
+  },700);
+}
+
+// ============== Suporte a estados via URL para PDF ==============
+function applyPrintState(){
+  const p=new URLSearchParams(location.search);
+  const state=p.get('state');
+  const noNav=p.get('nochrome')==='1';
+  if(noNav){
+    document.querySelectorAll('.nav,.top,.kbd-hint').forEach(el=>el.style.display='none');
+    const st=document.createElement('style');
+    st.textContent='@page{size:1920px 1080px;margin:0;}html,body{width:1920px;height:1080px;margin:0;padding:0;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;}.slide{position:relative !important;width:1920px;height:1080px;display:flex !important;animation:none !important;page-break-after:always;}';
+    document.head.appendChild(st);
+  }
+  if(!state) return;
+  // Quem somos · dimensões
+  if(state==='qs-mercado'){qsPick(document.querySelectorAll('.qs-orb')[0],'mercado');}
+  if(state==='qs-regime'){qsPick(document.querySelectorAll('.qs-orb')[1],'regime');}
+  if(state==='qs-risco'){qsPick(document.querySelectorAll('.qs-orb')[2],'risco');}
+  // Realidade do mercado · flip all cards
+  if(state==='mer-flipped'){document.querySelectorAll('.mer-card').forEach(c=>c.classList.add('flipped'));}
+  // Pilares
+  const pilars=['risco','fiscal','transp','dolar','wl'];
+  pilars.forEach((k,idx)=>{ if(state==='pil-'+k){ pilPick(document.querySelectorAll('.pil-row')[idx],k); } });
+  // Cofre aberto
+  if(state==='vault-open'){vaultUseKey(1);vaultUseKey(2);vaultUseKey(3);vaultUseKey(4);}
+}
+applyPrintState();
+render();
+</script>
+</body>
+</html>

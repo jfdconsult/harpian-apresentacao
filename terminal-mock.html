@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><title>HARPIAN Intelligence Terminal · Live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#060E1A; --bg2:#0B1626; --bg3:#142036;
+  --cream:#E8E3D2; --cream2:#FBF7EA;
+  --gold:#B8902F; --gold2:#D4AF45; --gold-glow:rgba(212,175,69,0.45);
+  --green:#5BBD7A; --green2:#3BA85F;
+  --red:#D0463C; --amber:#E68B3A;
+  --line:rgba(184,144,47,0.18); --line2:rgba(245,239,224,0.10);
+  --muted:rgba(232,227,210,0.55);
+  --serif:'Cormorant Garamond',serif; --sans:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:var(--bg);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+
+/* ============== TOP BAR ============== */
+.t-bar{background:var(--bg2);border-bottom:1px solid var(--line);padding:8px 24px;display:flex;align-items:center;gap:24px;flex-shrink:0;}
+.t-brand{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--cream2);letter-spacing:0.02em;}
+.t-brand span{color:var(--gold2);font-weight:500;font-size:13px;letter-spacing:.16em;text-transform:uppercase;margin-left:8px;font-family:var(--mono);}
+.t-status{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--green);}
+.t-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 6px var(--green);animation:pulseLive 2s ease-in-out infinite;}
+@keyframes pulseLive{0%,100%{opacity:1;}50%{opacity:.4;}}
+
+.t-ticker{flex:1;display:flex;justify-content:center;gap:28px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.10em;text-transform:uppercase;overflow:hidden;}
+.t-ticker-item{display:flex;align-items:center;gap:6px;}
+.t-ticker-lbl{color:rgba(232,227,210,0.45);}
+.t-ticker-val{color:var(--cream2);font-weight:600;}
+.t-ticker-val.up{color:var(--green);}
+.t-ticker-val.down{color:var(--red);}
+.t-ticker-val.gold{color:var(--gold2);}
+
+.t-clock{display:flex;align-items:center;gap:14px;font-family:var(--mono);font-size:11px;letter-spacing:.10em;color:var(--muted);text-transform:uppercase;}
+.t-clock strong{color:var(--cream2);font-weight:600;}
+.t-back{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,227,210,0.50);text-decoration:none;border:1px solid var(--line);padding:6px 10px;border-radius:2px;transition:all .2s;}
+.t-back:hover{color:var(--gold2);border-color:var(--gold2);}
+
+/* ============== MAIN LAYOUT ============== */
+.t-layout{flex:1;display:grid;grid-template-columns:200px 1fr;min-height:0;}
+
+/* SIDEBAR */
+.t-side{background:var(--bg2);border-right:1px solid var(--line);padding:18px 0;display:flex;flex-direction:column;gap:2px;}
+.t-side-grp{padding:0 16px 6px;font-family:var(--mono);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:rgba(232,227,210,0.30);margin-top:14px;}
+.t-side-grp:first-child{margin-top:0;}
+.t-nav{padding:10px 16px;display:flex;align-items:center;gap:11px;font-family:var(--mono);font-size:11.5px;letter-spacing:.10em;text-transform:uppercase;color:var(--cream);cursor:pointer;border-left:2px solid transparent;transition:all .15s;}
+.t-nav:hover{background:rgba(184,144,47,0.05);color:var(--gold2);}
+.t-nav.active{background:rgba(184,144,47,0.10);border-left-color:var(--gold);color:var(--gold2);font-weight:600;}
+.t-nav-icon{font-family:var(--serif);font-size:14px;color:var(--gold);width:14px;text-align:center;}
+.t-nav-badge{margin-left:auto;background:var(--gold);color:var(--bg);font-size:9px;padding:1px 5px;border-radius:8px;font-weight:700;letter-spacing:0;}
+
+.t-side-anchor{margin-top:auto;padding:18px 16px;border-top:1px solid var(--line);}
+.t-side-anchor-txt{font-family:var(--serif);font-style:italic;font-size:12px;color:var(--gold2);line-height:1.4;}
+
+/* MAIN GRID */
+.t-main{display:grid;grid-template-columns:1.2fr 1.2fr 0.9fr;grid-template-rows:auto 1fr;gap:10px;padding:12px;min-height:0;overflow:hidden;}
+
+/* PANEL base */
+.pnl{background:var(--bg2);border:1px solid var(--line);display:flex;flex-direction:column;min-height:0;position:relative;overflow:hidden;}
+.pnl-head{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--bg3);flex-shrink:0;}
+.pnl-tag{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);font-weight:700;}
+.pnl-tag::before{content:'◆ ';color:var(--gold);}
+.pnl-status{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--green);}
+.pnl-status::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 4px var(--green);}
+.pnl-body{padding:14px 18px;flex:1;display:flex;flex-direction:column;min-height:0;}
+
+/* Panel A — Seu Portfólio */
+.pnl-a .num-big{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--cream2);line-height:1;letter-spacing:-0.02em;}
+.pnl-a .num-big::before{content:'$';color:var(--muted);font-size:24px;font-weight:400;margin-right:4px;}
+.pnl-a .num-delta{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--green);font-weight:600;margin-top:6px;}
+.pnl-a .num-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+/* Panel B — Harpian Balance */
+.pnl-b{border-color:rgba(184,144,47,0.40);background:linear-gradient(180deg,var(--bg2),rgba(184,144,47,0.04));}
+.pnl-b .pnl-tag{color:var(--gold2);}
+.pnl-b .num-big{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--gold2);line-height:1;letter-spacing:-0.02em;}
+.pnl-b .num-big::before{content:'$';color:var(--muted);font-size:24px;font-weight:400;margin-right:4px;}
+.pnl-b .num-delta{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--green);font-weight:600;margin-top:6px;}
+.pnl-b .num-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+/* Chart inline */
+.mini-chart{margin-top:auto;height:60px;}
+.pnl-a .mini-chart{margin-top:14px;}
+.pnl-b .mini-chart{margin-top:14px;}
+
+/* Panel C — Diferença */
+.pnl-c{grid-column:1 / 3;}
+.pnl-c .pnl-tag::before{content:'★ ';}
+.pnl-c-body{display:grid;grid-template-columns:1fr 1.6fr;gap:18px;align-items:center;flex:1;min-height:0;}
+.pnl-c-num{display:flex;flex-direction:column;}
+.pnl-c-num-v{font-family:var(--serif);font-size:54px;font-weight:800;color:var(--gold2);line-height:1;letter-spacing:-0.03em;}
+.pnl-c-num-v::before{content:'+';color:var(--green);font-size:36px;margin-right:6px;font-weight:600;}
+.pnl-c-num-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-top:6px;}
+.pnl-c-num-sub{font-family:var(--serif);font-style:italic;font-size:14px;color:var(--cream);margin-top:14px;line-height:1.4;}
+.pnl-c-num-sub strong{color:var(--gold2);font-weight:600;font-style:normal;}
+.pnl-c-chart{height:100%;min-height:0;}
+
+/* Panel D — CRS */
+.pnl-d-body{display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:6px;}
+.pnl-d-regime{font-family:var(--mono);font-size:13px;letter-spacing:.20em;text-transform:uppercase;color:var(--green);font-weight:700;}
+.pnl-d-thermo{display:flex;align-items:flex-end;gap:10px;width:100%;justify-content:center;height:140px;margin-top:6px;}
+.thermo-bar{width:34px;height:140px;background:#0B1626;border:1px solid var(--line);border-radius:18px;position:relative;overflow:hidden;}
+.thermo-fill{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(180deg,#5BBD7A,#3BA85F);border-radius:18px;transition:height .5s;height:32%;box-shadow:0 0 10px rgba(91,189,122,0.5);}
+.thermo-marks{display:flex;flex-direction:column;justify-content:space-between;height:140px;font-family:var(--mono);font-size:9px;color:var(--muted);}
+.pnl-d-crs{font-family:var(--serif);font-size:42px;font-weight:700;color:var(--green);line-height:1;letter-spacing:-0.02em;}
+.pnl-d-crs-lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+.pnl-d-motor{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);font-weight:600;margin-top:8px;padding:5px 10px;border:1px dashed rgba(184,144,47,0.4);border-radius:2px;}
+
+/* Panel E — News */
+.pnl-e{grid-column:3 / 4;grid-row:2 / 3;}
+.pnl-e .pnl-body{padding:0;}
+.news-row{padding:11px 16px;border-bottom:1px solid var(--line2);cursor:pointer;transition:background .15s;}
+.news-row:last-child{border-bottom:none;}
+.news-row:hover{background:rgba(184,144,47,0.05);}
+.news-time{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold2);font-weight:600;margin-bottom:3px;}
+.news-time.urgent{color:var(--red);}
+.news-time::after{content:'';display:inline-block;width:5px;height:5px;border-radius:50%;background:var(--gold2);margin-left:6px;vertical-align:middle;}
+.news-time.urgent::after{background:var(--red);box-shadow:0 0 4px var(--red);}
+.news-title{font-family:var(--sans);font-size:12.5px;color:var(--cream);line-height:1.35;font-weight:500;}
+.news-src{font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);margin-top:4px;}
+
+/* Floating CTA "Migrar X% pra Harpian" */
+.fab{position:fixed;bottom:24px;right:24px;display:flex;flex-direction:column;gap:6px;z-index:100;}
+.fab-card{background:linear-gradient(135deg,var(--bg2) 0%,#1A2438 100%);border:1px solid var(--gold);padding:14px 20px;border-radius:4px;box-shadow:0 10px 40px rgba(184,144,47,0.30);min-width:300px;animation:fabPulse 3s ease-in-out infinite;}
+@keyframes fabPulse{
+  0%,100%{box-shadow:0 10px 40px rgba(184,144,47,0.30);}
+  50%{box-shadow:0 10px 50px rgba(184,144,47,0.55);}
+}
+.fab-tag{font-family:var(--mono);font-size:9.5px;letter-spacing:.20em;text-transform:uppercase;color:var(--gold2);font-weight:700;margin-bottom:8px;}
+.fab-tag::before{content:'★ ';color:var(--gold);}
+.fab-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.fab-pct{font-family:var(--serif);font-size:30px;font-weight:700;color:var(--gold2);line-height:1;min-width:64px;}
+.fab-slider{flex:1;-webkit-appearance:none;appearance:none;height:6px;background:linear-gradient(90deg,rgba(208,70,60,0.6) 0%,rgba(184,144,47,0.6) 50%,rgba(91,189,122,0.6) 100%);border-radius:3px;outline:none;cursor:pointer;}
+.fab-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:linear-gradient(180deg,#F0CE5C,#B8902F);border:2px solid #FBF7EA;border-radius:50%;cursor:grab;}
+.fab-slider::-moz-range-thumb{width:18px;height:18px;background:linear-gradient(180deg,#F0CE5C,#B8902F);border:2px solid #FBF7EA;border-radius:50%;cursor:grab;}
+.fab-btn{display:block;width:100%;background:var(--gold);color:var(--bg);border:none;padding:11px 18px;font-family:var(--mono);font-size:11.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .2s;border-radius:2px;}
+.fab-btn:hover{background:var(--gold2);}
+.fab-hint{font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);text-align:center;margin-top:6px;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="t-bar">
+  <div class="t-brand">Harpian<span>· Intelligence Terminal</span></div>
+  <div class="t-status">LIVE · NYSE OPEN</div>
+  <div class="t-ticker">
+    <div class="t-ticker-item"><span class="t-ticker-lbl">CRS·</span><span class="t-ticker-val gold">0,32</span></div>
+    <div class="t-ticker-item"><span class="t-ticker-lbl">MOTOR·</span><span class="t-ticker-val up">A · ATIVO</span></div>
+    <div class="t-ticker-item"><span class="t-ticker-lbl">SPY·</span><span class="t-ticker-val up">+0,42%</span></div>
+    <div class="t-ticker-item"><span class="t-ticker-lbl">DXY·</span><span class="t-ticker-val down">−0,18%</span></div>
+    <div class="t-ticker-item"><span class="t-ticker-lbl">TLT·</span><span class="t-ticker-val down">−0,72%</span></div>
+    <div class="t-ticker-item"><span class="t-ticker-lbl">VIX·</span><span class="t-ticker-val">14,8</span></div>
+  </div>
+  <div class="t-clock"><span>NY</span><strong id="t-clock-ny">15:42</strong><span>·</span><span>BRL</span><strong id="t-clock-br">17:42</strong></div>
+  <a class="t-back" href="terminal-trojan.html">← Apresentação</a>
+</div>
+
+<div class="t-layout">
+
+  <!-- SIDEBAR -->
+  <div class="t-side">
+    <div class="t-side-grp">Visão</div>
+    <div class="t-nav active"><span class="t-nav-icon">◆</span> Home</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Seu Portfólio</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Harpian Balance</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Comparativo</div>
+
+    <div class="t-side-grp">Sistema</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> CRS · Regime</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Motores A · B · C</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Calibração</div>
+
+    <div class="t-side-grp">Mercado</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Notícias <span class="t-nav-badge">3</span></div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Macro</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Watchlist</div>
+
+    <div class="t-side-grp">Conta</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Custódia BNY</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Reports</div>
+    <div class="t-nav"><span class="t-nav-icon">◇</span> Comitê</div>
+
+    <div class="t-side-anchor">
+      <div class="t-side-anchor-txt">"Mesmos números que os sócios da Harpian veem agora."</div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID -->
+  <div class="t-main">
+
+    <!-- A · Seu Portfólio -->
+    <div class="pnl pnl-a">
+      <div class="pnl-head">
+        <div class="pnl-tag">A · Seu Portfólio</div>
+        <div class="pnl-status">LIVE</div>
+      </div>
+      <div class="pnl-body">
+        <div class="num-big">112.400</div>
+        <div class="num-delta">↗ +12,4% · 12 meses</div>
+        <div class="num-sub">CAGR esperado 9,0% · DD −22%</div>
+        <svg class="mini-chart" viewBox="0 0 240 60" preserveAspectRatio="none">
+          <defs><linearGradient id="gradA" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#E8E3D2" stop-opacity="0.25"/><stop offset="100%" stop-color="#E8E3D2" stop-opacity="0"/></linearGradient></defs>
+          <path d="M 0 48 L 24 46 L 48 47 L 72 42 L 96 44 L 120 38 L 144 41 L 168 35 L 192 32 L 216 29 L 240 26 L 240 60 L 0 60 Z" fill="url(#gradA)"/>
+          <polyline points="0,48 24,46 48,47 72,42 96,44 120,38 144,41 168,35 192,32 216,29 240,26" stroke="#A8B2C0" stroke-width="2" fill="none"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- B · Harpian Balance -->
+    <div class="pnl pnl-b">
+      <div class="pnl-head">
+        <div class="pnl-tag">B · Harpian Balance · mesma janela</div>
+        <div class="pnl-status">LIVE</div>
+      </div>
+      <div class="pnl-body">
+        <div class="num-big">124.500</div>
+        <div class="num-delta">↗ +24,5% · 12 meses</div>
+        <div class="num-sub">CAGR oficial 24,48% · DD −12,14%</div>
+        <svg class="mini-chart" viewBox="0 0 240 60" preserveAspectRatio="none">
+          <defs><linearGradient id="gradB" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4AF45" stop-opacity="0.40"/><stop offset="100%" stop-color="#D4AF45" stop-opacity="0"/></linearGradient></defs>
+          <path d="M 0 54 L 24 48 L 48 44 L 72 38 L 96 32 L 120 27 L 144 24 L 168 18 L 192 15 L 216 11 L 240 7 L 240 60 L 0 60 Z" fill="url(#gradB)"/>
+          <polyline points="0,54 24,48 48,44 72,38 96,32 120,27 144,24 168,18 192,15 216,11 240,7" stroke="#D4AF45" stroke-width="2.5" fill="none"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- D · CRS Termômetro -->
+    <div class="pnl pnl-d">
+      <div class="pnl-head">
+        <div class="pnl-tag">D · CRS · Regime</div>
+        <div class="pnl-status">06:00 NY</div>
+      </div>
+      <div class="pnl-body pnl-d-body">
+        <div class="pnl-d-crs">0,32</div>
+        <div class="pnl-d-crs-lbl">Coordinated Regime Score</div>
+        <div class="pnl-d-thermo">
+          <div class="thermo-marks">
+            <span>1,0</span><span>0,8</span><span>0,6</span><span>0,4</span><span>0,2</span><span>0,0</span>
+          </div>
+          <div class="thermo-bar"><div class="thermo-fill"></div></div>
+        </div>
+        <div class="pnl-d-regime">RISK-ON</div>
+        <div class="pnl-d-motor">MOTOR A · ATIVO</div>
+      </div>
+    </div>
+
+    <!-- C · Diferença acumulada (large) -->
+    <div class="pnl pnl-c">
+      <div class="pnl-head">
+        <div class="pnl-tag">C · Diferença acumulada · 12 meses · A → B</div>
+        <div class="pnl-status">↑ GAP</div>
+      </div>
+      <div class="pnl-body">
+        <div class="pnl-c-body">
+          <div class="pnl-c-num">
+            <div class="pnl-c-num-v">12.100</div>
+            <div class="pnl-c-num-lbl">USD · não capturados em 12 meses</div>
+            <div class="pnl-c-num-sub">Se tivesse migrado <strong>$50k</strong> para Harpian Balance há 12 meses, sua diferença seria <strong>+$6.050</strong> hoje.</div>
+          </div>
+          <svg class="pnl-c-chart" viewBox="0 0 400 180" preserveAspectRatio="none">
+            <defs>
+              <linearGradient id="gradC" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#D4AF45" stop-opacity="0.55"/>
+                <stop offset="100%" stop-color="#D4AF45" stop-opacity="0.02"/>
+              </linearGradient>
+            </defs>
+            <!-- grid -->
+            <g stroke="rgba(245,239,224,0.06)" stroke-width="0.5">
+              <line x1="0" y1="30" x2="400" y2="30"/>
+              <line x1="0" y1="70" x2="400" y2="70"/>
+              <line x1="0" y1="110" x2="400" y2="110"/>
+              <line x1="0" y1="150" x2="400" y2="150"/>
+            </g>
+            <!-- area chart of gap -->
+            <path d="M 0 170 L 33 165 L 66 158 L 99 148 L 132 138 L 165 122 L 198 105 L 231 88 L 264 70 L 297 55 L 330 42 L 363 32 L 396 25 L 400 24 L 400 180 L 0 180 Z" fill="url(#gradC)"/>
+            <polyline points="0,170 33,165 66,158 99,148 132,138 165,122 198,105 231,88 264,70 297,55 330,42 363,32 396,25 400,24" stroke="#D4AF45" stroke-width="2.5" fill="none"/>
+            <!-- end dot -->
+            <circle cx="400" cy="24" r="5" fill="#D4AF45"/>
+            <text x="385" y="14" font-family="JetBrains Mono" font-size="11" fill="#D4AF45" text-anchor="end" font-weight="700">+$12.1k</text>
+            <!-- axis labels -->
+            <text x="0" y="178" font-family="JetBrains Mono" font-size="9" fill="rgba(232,227,210,0.45)">JUN/24</text>
+            <text x="400" y="178" font-family="JetBrains Mono" font-size="9" fill="rgba(232,227,210,0.45)" text-anchor="end">JUN/25</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- E · Notícias -->
+    <div class="pnl pnl-e">
+      <div class="pnl-head">
+        <div class="pnl-tag">E · Notícias filtradas</div>
+        <div class="pnl-status">3 NOVAS</div>
+      </div>
+      <div class="pnl-body">
+        <div class="news-row">
+          <div class="news-time urgent">15:38 NY · URGENT</div>
+          <div class="news-title">Fed minutes signal pause; September cut probability falls to 38%.</div>
+          <div class="news-src">REUTERS · MOTOR A · IMPACTO BAIXO</div>
+        </div>
+        <div class="news-row">
+          <div class="news-time">15:21 NY</div>
+          <div class="news-title">Tech leaders rotate into defensives ahead of Q3 guidance season.</div>
+          <div class="news-src">BLOOMBERG · MOTOR B · IMPACTO MÉDIO</div>
+        </div>
+        <div class="news-row">
+          <div class="news-time">14:55 NY</div>
+          <div class="news-title">ECB hike path may extend; spread vs Treasuries reopens.</div>
+          <div class="news-src">REUTERS · DEFEND · MONITORAR</div>
+        </div>
+        <div class="news-row">
+          <div class="news-time">14:12 NY</div>
+          <div class="news-title">Oil consolidates after OPEC+ extension; ENOR shows momentum.</div>
+          <div class="news-src">FAST TRACK · HC-US 11 · TRACK</div>
+        </div>
+        <div class="news-row">
+          <div class="news-time">13:48 NY</div>
+          <div class="news-title">Comitê semanal: aprovado rebalance 0,8pp em MSFT e UNH.</div>
+          <div class="news-src">HARPIAN · COMITÊ · ATA ASSINADA</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FAB Floating CTA -->
+<div class="fab">
+  <div class="fab-card">
+    <div class="fab-tag">Migrar pra Harpian Balance</div>
+    <div class="fab-row">
+      <div class="fab-pct" id="migrPct">10%</div>
+      <input type="range" id="migrSlider" class="fab-slider" min="0" max="100" value="10" step="5">
+    </div>
+    <button class="fab-btn" onclick="alert('Ordem enviada ao comitê · revisão em 24h')">Enviar ao comitê</button>
+    <div class="fab-hint">Sujeito a aprovação humana · sign-off duplo</div>
+  </div>
+</div>
+
+<script>
+// Relógio NY (UTC-4) e BR (UTC-3)
+function updateClock(){
+  const now = new Date();
+  const ny = new Date(now.getTime() + (now.getTimezoneOffset() - 240) * 60000);
+  const br = new Date(now.getTime() + (now.getTimezoneOffset() - 180) * 60000);
+  const fmt = d => `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+  const ne = document.getElementById('t-clock-ny');
+  const be = document.getElementById('t-clock-br');
+  if(ne) ne.textContent = fmt(ny);
+  if(be) be.textContent = fmt(br);
+}
+updateClock();
+setInterval(updateClock, 30000);
+
+// Slider migração
+const s = document.getElementById('migrSlider');
+const p = document.getElementById('migrPct');
+if(s){
+  s.addEventListener('input', e => {
+    p.textContent = e.target.value + '%';
+  });
+}
+</script>
+
+</body></html>

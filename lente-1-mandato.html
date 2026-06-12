@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"><title>HARPIAN — Lente I · Mandato Family Office</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<style>
+:root{--navy:#0B1626;--cream:#F5EFE0;--cream2:#FBF7EA;--gold:#B8902F;--gold2:#D4AF45;--ink:#0B1626;--ink2:#3A4459;--muted:#7A8294;--line:#E5DDC6;--line2:#D9D1BA;--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;background:var(--cream2);color:var(--ink);font-family:var(--sans);overflow:hidden;}body{display:flex;flex-direction:column;}
+.h-top{padding:12px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--ink);}.h-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}.h-step{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);}
+.progress{padding:0 56px 10px;display:flex;gap:6px;flex-shrink:0;}
+.p-step{flex:1;height:3px;background:var(--line);border-radius:2px;position:relative;}
+.p-step.done{background:var(--gold);}.p-step.active{background:var(--gold);box-shadow:0 0 0 1px var(--gold2);}
+.p-step::after{content:attr(data-lbl);position:absolute;top:7px;left:0;font-family:var(--mono);font-size:9px;letter-spacing:.10em;text-transform:uppercase;color:var(--muted);white-space:nowrap;}
+.p-step.active::after, .p-step.done::after{color:var(--gold);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:22px 56px 18px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:11px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold);margin-bottom:4px;}.kicker::before{content:'★ ';}
+.headline{font-family:var(--serif);font-size:36px;font-weight:600;color:var(--ink);line-height:1.05;margin-bottom:4px;}
+.headline em{font-style:italic;color:var(--gold);font-weight:500;}
+.sub{font-family:var(--sans);font-size:13px;color:var(--ink2);margin-bottom:10px;}.sub strong{color:var(--ink);font-weight:600;}
+.instinct{background:linear-gradient(90deg,rgba(184,144,47,.18) 0%,rgba(184,144,47,.04) 100%);border-left:3px solid var(--gold);padding:7px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;flex-shrink:0;}
+.instinct-icon{font-family:var(--serif);font-size:20px;color:var(--gold);line-height:1;}
+.instinct-text{font-family:var(--mono);font-size:10.5px;letter-spacing:.10em;color:var(--ink2);text-transform:uppercase;}
+.instinct-text strong{color:var(--gold);font-weight:700;}
+/* GRID 3x2 */
+.qgrid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:12px;min-height:0;overflow:auto;}
+.q{background:#fff;border:1px solid var(--line2);padding:12px 16px;display:flex;flex-direction:column;transition:border .2s;}
+.q:hover{border-color:var(--gold);}
+.q-num{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:3px;}
+.q-text{font-family:var(--sans);font-size:14.5px;font-weight:600;color:var(--ink);margin-bottom:8px;line-height:1.3;letter-spacing:-0.005em;background:rgba(184,144,47,0.06);padding:6px 10px;border-radius:3px;}
+.q-text em{font-style:italic;color:var(--gold);font-weight:700;}
+.q-options{display:flex;flex-direction:column;gap:5px;}
+.q-opt{display:flex;align-items:center;gap:9px;padding:6px 9px;background:#FBF7EA;border:1px solid transparent;cursor:pointer;font-family:var(--sans);font-size:11.5px;color:var(--ink2);transition:all .12s;border-radius:3px;line-height:1.3;}
+.q-opt:hover{background:#F3EBD3;border-color:rgba(184,144,47,0.4);}
+.q-opt input{appearance:none;width:13px;height:13px;border:1.5px solid var(--muted);border-radius:50%;flex-shrink:0;position:relative;cursor:pointer;}
+.q-opt input:checked{border-color:var(--gold);}.q-opt input:checked::after{content:'';position:absolute;top:2px;left:2px;width:5px;height:5px;background:var(--gold);border-radius:50%;}
+.q-opt:has(input:checked){background:linear-gradient(90deg,rgba(184,144,47,.18) 0%,rgba(184,144,47,.04) 100%);border-color:var(--gold);color:var(--ink);font-weight:500;}
+.foot{margin-top:14px;display:flex;justify-content:space-between;align-items:center;padding-top:10px;border-top:1px solid var(--line);flex-shrink:0;}
+.foot-status{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}.foot-status strong{color:var(--ink);font-weight:600;}
+.foot-actions{display:flex;align-items:center;gap:20px;}
+.foot-back{font-family:var(--mono);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink2);text-decoration:none;border-bottom:1px dashed var(--muted);}
+.foot-back:hover{color:var(--gold);border-color:var(--gold);}
+.cta{background:var(--ink);color:var(--cream);border:none;padding:13px 30px;font-family:var(--mono);font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:all .2s;display:inline-flex;align-items:center;gap:10px;}
+.cta:hover{background:var(--gold);color:var(--navy);}
+.cta-arrow{font-family:var(--serif);font-size:18px;}
+</style>
+</head>
+<body>
+<div class="h-top"><div class="h-logo">Harpian</div><div class="h-tag">AlphaDroid Engine</div><div class="h-step">Parte 2 · Lente I · Mandato</div></div>
+<div class="progress">
+  <div class="p-step done" data-lbl="Alinhamento"></div>
+  <div class="p-step done" data-lbl="3 lentes"></div>
+  <div class="p-step active" data-lbl="Mandato"></div>
+  <div class="p-step" data-lbl="Perfil"></div>
+  <div class="p-step" data-lbl="Ambição"></div>
+  <div class="p-step" data-lbl="Portfólio"></div>
+  <div class="p-step" data-lbl="Diagnóstico"></div>
+  <div class="p-step" data-lbl="Coverage"></div>
+  <div class="p-step" data-lbl="Terminal"></div>
+  <div class="p-step" data-lbl="Ativação"></div>
+</div>
+<div class="wrap">
+  <div class="kicker">Lente I · Mandato Family Office</div>
+  <h1 class="headline">Antes do retorno, <em>o limite.</em></h1>
+  <p class="sub"><strong>6 questões institucionais</strong> · ≈ 90 segundos · sem certo ou errado, só calibração.</p>
+
+  <div class="instinct">
+    <div class="instinct-icon">⚡</div>
+    <div class="instinct-text">Responda <strong>de primeira</strong> · não calcule · o primeiro estalo é o que importa</div>
+  </div>
+
+  <div class="qgrid">
+    <div class="q">
+      <div class="q-num">Q1 · Objetivo</div>
+      <div class="q-text">Qual o <em>objetivo</em> do mandato?</div>
+      <div class="q-options">
+        <label class="q-opt"><input type="radio" name="q1"> Preservação ajustada à inflação</label>
+        <label class="q-opt"><input type="radio" name="q1"> Crescimento patrimonial moderado</label>
+        <label class="q-opt"><input type="radio" name="q1"> Maximização de retorno controlado</label>
+        <label class="q-opt"><input type="radio" name="q1"> Geração de renda recorrente</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-num">Q2 · Horizonte</div>
+      <div class="q-text">Qual o <em>horizonte</em> típico?</div>
+      <div class="q-options">
+        <label class="q-opt"><input type="radio" name="q2"> Multigeracional (10+ anos)</label>
+        <label class="q-opt"><input type="radio" name="q2"> Geracional (5–10 anos)</label>
+        <label class="q-opt"><input type="radio" name="q2"> Médio prazo (3–5 anos)</label>
+        <label class="q-opt"><input type="radio" name="q2"> Curto prazo (até 3 anos)</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-num">Q3 · Drawdown estrutural</div>
+      <div class="q-text">Qual <em>drawdown</em> o mandato tolera?</div>
+      <div class="q-options">
+        <label class="q-opt"><input type="radio" name="q3"> Até -5%</label>
+        <label class="q-opt"><input type="radio" name="q3"> Até -10%</label>
+        <label class="q-opt"><input type="radio" name="q3"> Até -15%</label>
+        <label class="q-opt"><input type="radio" name="q3"> Até -20% ou mais</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-num">Q4 · Liquidez</div>
+      <div class="q-text">Qual <em>liquidez</em> é exigida?</div>
+      <div class="q-options">
+        <label class="q-opt"><input type="radio" name="q4"> Intraday total</label>
+        <label class="q-opt"><input type="radio" name="q4"> T+1 (próximo pregão)</label>
+        <label class="q-opt"><input type="radio" name="q4"> Mensal aceitável</label>
+        <label class="q-opt"><input type="radio" name="q4"> Lockup permitido</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-num">Q5 · Moeda âncora</div>
+      <div class="q-text">Qual a <em>moeda âncora</em>?</div>
+      <div class="q-options">
+        <label class="q-opt"><input type="radio" name="q5"> USD · Dólar americano</label>
+        <label class="q-opt"><input type="radio" name="q5"> BRL · Real brasileiro</label>
+        <label class="q-opt"><input type="radio" name="q5"> EUR · Euro</label>
+        <label class="q-opt"><input type="radio" name="q5"> Multi-moeda balanceada</label>
+      </div>
+    </div>
+
+    <div class="q">
+      <div class="q-num">Q6 · Concentração máxima</div>
+      <div class="q-text">Quanto pode em <em>um único</em> setor/ativo?</div>
+      <div class="q-options">
+        <label class="q-opt"><input type="radio" name="q6"> Até 10% (diversificação obrigatória)</label>
+        <label class="q-opt"><input type="radio" name="q6"> Até 20% (concentração moderada)</label>
+        <label class="q-opt"><input type="radio" name="q6"> Até 30% (concentração tática)</label>
+        <label class="q-opt"><input type="radio" name="q6"> Sem limite estrutural</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="foot-status"><strong>0 de 6</strong> respondidas</div>
+    <div class="foot-actions">
+      <a class="foot-back" href="como-avaliamos-risco.html">← Voltar</a>
+      <button class="cta" onclick="window.location.href='lente-2-perfil.html'">Lente II · Perfil <span class="cta-arrow">→</span></button>
+    </div>
+  </div>
+</div>
+<script>
+// ─── HARPIAN SESSION ──────────────────────────────────────────
+const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}},merge(s,p){const d=this.get();d[s]={...(d[s]||{}),...p};localStorage.setItem(this.KEY,JSON.stringify(d));return d;},clear(){localStorage.removeItem(this.KEY);}};
+
+// Mapeamentos Lente I (índice 0-3 → semântica)
+const MAP_M = {
+  q1: ['preservation','balance_growth','max_return','income'],
+  q2: ['multigenerational','generational','medium','short'],
+  q3: [-5,-10,-15,-20],
+  q4: ['intraday','T+1','monthly','lockup'],
+  q5: ['USD','BRL','EUR','multi'],
+  q6: [10,20,30,100]
+};
+const MKEY = {q1:'objective',q2:'horizon',q3:'max_dd',q4:'liquidity',q5:'currency',q6:'concentration'};
+
+// Hidratação ao carregar (se voltar pra essa tela)
+window.addEventListener('DOMContentLoaded',()=>{
+  const m = HS.get().mandate || {};
+  Object.keys(MKEY).forEach(q=>{
+    const v = m[MKEY[q]];
+    if(v===undefined||v===null) return;
+    const idx = MAP_M[q].indexOf(v);
+    if(idx>=0){
+      const radios = document.querySelectorAll(`input[name="${q}"]`);
+      if(radios[idx]) radios[idx].checked = true;
+    }
+  });
+  updateCount();
+});
+
+function updateCount(){
+  const c=new Set();
+  document.querySelectorAll('input[type="radio"]:checked').forEach(x=>c.add(x.name));
+  document.querySelector('.foot-status').innerHTML=`<strong>${c.size} de 6</strong> respondidas`;
+}
+
+document.querySelectorAll('input[type="radio"]').forEach(r=>r.addEventListener('change',()=>{
+  // pega o índice dentro do grupo (0-3)
+  const group = document.querySelectorAll(`input[name="${r.name}"]`);
+  const idx = Array.from(group).indexOf(r);
+  const key = MKEY[r.name];
+  const val = MAP_M[r.name][idx];
+  HS.merge('mandate',{[key]:val,[`${key}_idx`]:idx});
+  updateCount();
+}));
+</script>
+</body></html>

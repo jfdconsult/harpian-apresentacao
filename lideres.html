@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — Antes dos números, a lógica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#162338;
+  --cream:#F5EFE0; --gold:#B8902F; --gold2:#D4AF45; --gold3:#F0D27A;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+.h-top{padding:22px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);letter-spacing:.02em;}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:0 56px 24px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;}
+.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:60px;font-weight:600;color:var(--cream);line-height:1.0;letter-spacing:-0.015em;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.sub{font-family:var(--sans);font-size:17px;line-height:1.5;color:rgba(245,239,224,0.78);max-width:1100px;margin-top:10px;}
+.sub strong{color:var(--gold2);font-weight:600;}
+
+/* VIDEO STAGE */
+.vid-stage{flex:1;display:grid;grid-template-columns:2.1fr 1fr;gap:36px;margin-top:24px;align-items:stretch;min-height:0;}
+.vid-frame{position:relative;background:#000;border:1px solid rgba(184,144,47,0.32);border-radius:8px;overflow:hidden;cursor:pointer;box-shadow:0 20px 50px rgba(0,0,0,0.4);min-height:0;}
+.vid-thumb{position:absolute;inset:0;background:url('https://i.ytimg.com/vi/F_1lKtrAIUU/maxresdefault.jpg') center/cover no-repeat;}
+.vid-play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(11,22,38,0.30);transition:background .3s;}
+.vid-play::after{content:'';width:90px;height:90px;border-radius:50%;background:linear-gradient(180deg,#F0D27A,#B8902F);border:3px solid rgba(245,239,224,0.8);display:flex;align-items:center;justify-content:center;box-shadow:0 0 50px rgba(212,175,69,0.5);}
+.vid-play::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) translateX(4px);width:0;height:0;border-left:30px solid #0B1626;border-top:18px solid transparent;border-bottom:18px solid transparent;z-index:2;}
+.vid-frame:hover .vid-play{background:rgba(11,22,38,0.10);}
+.vid-frame.playing .vid-thumb,
+.vid-frame.playing .vid-play{display:none;}
+.vid-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
+
+/* Coluna direita — contexto */
+.vid-side{display:flex;flex-direction:column;gap:18px;}
+.vid-tag{font-family:var(--mono);font-size:11.5px;letter-spacing:.20em;text-transform:uppercase;color:var(--gold2);font-weight:700;}
+.vid-h{font-family:var(--serif);font-size:36px;font-weight:700;color:var(--cream);line-height:1.05;}
+.vid-h em{font-style:italic;color:var(--gold2);font-weight:600;}
+.vid-d{font-family:var(--sans);font-size:15px;line-height:1.55;color:rgba(245,239,224,0.78);}
+.vid-d strong{color:var(--gold2);font-weight:600;}
+.vid-points{display:flex;flex-direction:column;gap:12px;margin-top:8px;}
+.vid-point{display:flex;gap:12px;align-items:flex-start;padding:12px 16px;background:rgba(245,239,224,0.04);border:1px solid rgba(184,144,47,0.22);border-left:3px solid var(--gold2);border-radius:4px;}
+.vid-point-n{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold2);letter-spacing:.10em;}
+.vid-point-txt{font-family:var(--serif);font-size:16px;line-height:1.4;color:rgba(245,239,224,0.92);font-style:italic;}
+.vid-point-txt strong{color:var(--gold2);font-style:normal;}
+
+/* BOTTOM CTAs */
+.cta-row{position:fixed;bottom:0;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:18px 56px;background:rgba(11,22,38,0.85);backdrop-filter:blur(6px);border-top:1px solid rgba(184,144,47,0.28);z-index:50;}
+.cta-back{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:rgba(245,239,224,0.7);text-decoration:none;padding:10px 22px;border:1px solid rgba(245,239,224,0.18);border-radius:3px;transition:all .2s;}
+.cta-back:hover{color:var(--cream);border-color:var(--gold2);}
+.cta-go{background:linear-gradient(180deg,#F0D27A,#D4AF45,#B8902F);color:var(--navy);border:none;padding:14px 32px;font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;border-radius:4px;display:inline-flex;align-items:center;gap:14px;box-shadow:0 8px 22px rgba(212,175,69,0.35);transition:all .25s;text-decoration:none;}
+.cta-go:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,175,69,0.55);}
+.cta-go .ar{font-family:var(--serif);font-size:20px;}
+
+@media (max-width:1200px){
+  .vid-stage{grid-template-columns:1fr;}
+  .headline{font-size:46px;}
+  .vid-h{font-size:28px;}
+}
+</style>
+</head>
+<body>
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-step">Etapa 4 · A Consequência · 1 de 3</div>
+</div>
+<div class="wrap">
+  <div class="kicker">A prova · em vídeo</div>
+  <h1 class="headline">Antes dos números, <em>a lógica.</em></h1>
+  <p class="sub">Antes da prova nos números, vale entender a <strong>lógica por trás do sistema</strong>: por que o líder de cada setor importa na construção do portfólio. <strong>Clique para assistir</strong> — depois você vê o resultado.</p>
+
+  <div class="vid-stage">
+    <div class="vid-frame" id="vidFrame" onclick="loadVid()">
+      <div class="vid-thumb"></div>
+      <div class="vid-play"></div>
+    </div>
+    <div class="vid-side">
+      <div class="vid-tag">A lógica do momentum</div>
+      <div class="vid-h">Who Leads <em>Matters</em></div>
+      <div class="vid-d">Por que seguir o <strong>líder de cada setor</strong> — a lógica que rege a construção de portfólio da Harpian. Em cada setor da economia há, em cada momento, um único ativo puxando o regime. <strong>Identificar e seguir o líder</strong> é o que separa o método estrutural da seleção discricionária.</div>
+      <div class="vid-points">
+        <div class="vid-point"><div class="vid-point-n">01</div><div class="vid-point-txt"><strong>Setores giram em ondas.</strong> Tecnologia lidera, depois energia, depois saúde — nunca igualmente.</div></div>
+        <div class="vid-point"><div class="vid-point-n">02</div><div class="vid-point-txt"><strong>Em cada onda há um líder claro.</strong> O método identifica e segue — não opina.</div></div>
+        <div class="vid-point"><div class="vid-point-n">03</div><div class="vid-point-txt"><strong>O composto vem dessa rotação disciplinada</strong> — não de previsão genial.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-row">
+  <a class="cta-back" href="coverage-area.html">← Voltar</a>
+  <a class="cta-go" href="consequencia.html">Ver os números agora <span class="ar">→</span></a>
+</div>
+
+<script>
+function loadVid(){
+  const el=document.getElementById('vidFrame');
+  el.classList.add('playing');
+  el.innerHTML='<iframe src="https://www.youtube-nocookie.com/embed/F_1lKtrAIUU?autoplay=1&rel=0&modestbranding=1" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; fullscreen" allowfullscreen></iframe>';
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight'||e.key===' ')window.location.href='consequencia.html';
+  else if(e.key==='ArrowLeft')window.location.href='coverage-area.html';
+});
+</script>
+</body>
+</html>

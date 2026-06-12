@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — As respostas dele estão na mesa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#162338; --navy3:#1A2438;
+  --cream:#F5EFE0; --cream2:#FBF7EA;
+  --gold:#B8902F; --gold2:#D4AF45; --gold3:#F0D27A;
+  --ink:#0B1626; --muted:#7A8294;
+  --green:#5BBD7A; --green2:#3F9A5E; --green3:#88D5A2;
+  --amber:#D4AF45; --orange:#E69841;
+  --red:#D0463C; --red3:#E8857A;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+
+.h-top{padding:18px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:1px solid rgba(184,144,47,0.10);}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);letter-spacing:.02em;}
+.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,239,224,0.55);}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);}
+
+.wrap{flex:1;display:flex;flex-direction:column;padding:22px 56px;min-height:0;}
+.head{flex-shrink:0;}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;}
+.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:46px;font-weight:600;line-height:1.0;letter-spacing:-0.015em;display:flex;flex-wrap:wrap;gap:14px;}
+.title-part{display:inline-block;}
+.title-static{color:rgba(245,239,224,0.92);}
+.title-zones{color:var(--gold2);font-style:italic;font-weight:600;transition:color .3s;}
+.title-zones.aligned{color:var(--green3);}
+.title-align{color:var(--red3);font-style:italic;font-weight:600;transition:color .3s;}
+.title-align.aligned{color:var(--green3);}
+.sub{font-family:var(--sans);font-size:15.5px;line-height:1.5;color:rgba(245,239,224,0.78);max-width:1300px;margin-top:8px;}
+.sub strong{color:var(--gold2);font-weight:600;}
+.sub em{font-style:italic;color:var(--gold2);font-weight:500;}
+
+/* 4 CARDS lado a lado */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px;flex-shrink:0;}
+.card{background:rgba(245,239,224,0.04);border:1px solid rgba(184,144,47,0.22);border-radius:8px;padding:20px 22px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.card.def::before{background:linear-gradient(90deg,#3F9A5E,#5BBD7A);}
+.card.mod::before{background:linear-gradient(90deg,#B8902F,#D4AF45);}
+.card.agr::before{background:linear-gradient(90deg,#D0463C,#E69841);}
+
+.card-num{font-family:var(--serif);font-size:48px;font-weight:300;color:rgba(184,144,47,0.32);line-height:1;position:absolute;top:12px;right:20px;}
+.card-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;}
+.card.def .card-tag{color:var(--green3);}
+.card.mod .card-tag{color:var(--gold2);}
+.card.agr .card-tag{color:var(--orange);}
+.card.def .card-h-em{color:var(--green3);font-style:italic;}
+.card.mod .card-h-em{color:var(--gold2);font-style:italic;}
+.card.agr .card-h-em{color:var(--orange);font-style:italic;}
+
+/* Selo de "alinhado com outra lente" */
+.card-pair{position:absolute;top:10px;left:10px;display:none;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold2);background:rgba(184,144,47,0.14);border:1px solid rgba(212,175,69,0.45);border-radius:3px;padding:3px 7px;}
+.card.paired .card-pair{display:inline-block;}
+.card.paired{box-shadow:0 0 0 1px rgba(212,175,69,0.30) inset;}
+
+.card-h{font-family:var(--serif);font-size:24px;font-weight:700;color:var(--cream);line-height:1.05;}
+.card-q{font-family:var(--serif);font-size:13.5px;color:rgba(245,239,224,0.62);font-style:italic;line-height:1.35;}
+
+.card-rn{display:flex;align-items:baseline;gap:10px;margin-top:8px;padding-top:10px;border-top:1px dashed rgba(184,144,47,0.20);}
+.card-rn-n{font-family:var(--mono);font-size:54px;font-weight:700;letter-spacing:-0.04em;line-height:0.9;}
+.card.def .card-rn-n{color:var(--green3);}
+.card.mod .card-rn-n{color:var(--gold2);}
+.card.agr .card-rn-n{color:var(--orange);}
+.card-rn-zone{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;}
+.card.def .card-rn-zone{color:var(--green3);}
+.card.mod .card-rn-zone{color:var(--gold2);}
+.card.agr .card-rn-zone{color:var(--orange);}
+
+/* SCALE 0-99 com 4 dots */
+.scale-band{margin-top:26px;background:rgba(245,239,224,0.03);border:1px solid rgba(184,144,47,0.18);border-radius:8px;padding:24px 32px;flex-shrink:0;position:relative;overflow:hidden;}
+.scale-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:18px;}
+.scale-h{font-family:var(--mono);font-size:11.5px;letter-spacing:.20em;text-transform:uppercase;font-weight:700;color:var(--gold2);}
+.scale-h em{font-family:var(--serif);font-size:14px;color:rgba(245,239,224,0.62);font-style:italic;text-transform:none;letter-spacing:0;font-weight:500;margin-left:12px;}
+.scale-legend{display:flex;gap:18px;font-family:var(--mono);font-size:10px;letter-spacing:.10em;color:rgba(245,239,224,0.55);text-transform:uppercase;}
+.scale-legend span{display:flex;align-items:center;gap:6px;}
+.scale-legend i{width:10px;height:10px;border-radius:50%;}
+.scale-legend .ldef{background:var(--green);}
+.scale-legend .lmod{background:var(--gold2);}
+.scale-legend .lagr{background:var(--orange);}
+
+.scale-track{position:relative;height:64px;}
+.scale-bg{position:absolute;left:0;right:0;top:24px;height:18px;border-radius:9px;background:linear-gradient(90deg,#3F9A5E 0%,#5BBD7A 25%,#D4AF45 50%,#E69841 75%,#D0463C 100%);box-shadow:inset 0 2px 6px rgba(0,0,0,0.3);}
+.scale-ticks{position:absolute;left:0;right:0;top:48px;display:flex;justify-content:space-between;font-family:var(--mono);font-size:9px;letter-spacing:.08em;color:rgba(245,239,224,0.4);}
+
+.dot{position:absolute;top:14px;width:44px;height:44px;border-radius:50%;background:linear-gradient(180deg,#16323a,#0B1626);border:3px solid;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:14px;font-weight:700;color:var(--cream);transform:translateX(-50%);box-shadow:0 4px 14px rgba(0,0,0,0.4);}
+.dot.def{border-color:var(--green3);}
+.dot.mod{border-color:var(--gold2);}
+.dot.agr{border-color:var(--orange);}
+.dot-lbl{position:absolute;top:60px;font-family:var(--mono);font-size:9.5px;letter-spacing:.10em;text-transform:uppercase;font-weight:700;transform:translateX(-50%);text-align:center;white-space:nowrap;}
+.dot.def + .dot-lbl{color:var(--green3);}
+
+/* GAP destacado */
+.gap-banner{display:flex;align-items:center;justify-content:center;gap:30px;margin-top:22px;padding:20px 30px;background:linear-gradient(90deg,rgba(208,70,60,0.12) 0%,rgba(184,144,47,0.10) 50%,rgba(208,70,60,0.12) 100%);border:1px solid rgba(184,144,47,0.32);border-radius:8px;flex-shrink:0;}
+.gap-l{font-family:var(--mono);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:var(--gold2);font-weight:700;}
+.gap-l strong{color:var(--cream);display:block;font-weight:700;font-size:13px;margin-top:2px;letter-spacing:.10em;}
+.gap-n{font-family:var(--mono);font-size:64px;font-weight:700;letter-spacing:-0.04em;line-height:1;color:var(--gold2);}
+.gap-n-sub{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:rgba(245,239,224,0.55);text-transform:uppercase;margin-top:4px;text-align:center;}
+.gap-msg{flex:1;font-family:var(--serif);font-size:18px;font-style:italic;color:rgba(245,239,224,0.85);line-height:1.4;max-width:740px;}
+.gap-msg strong{color:var(--gold2);font-style:normal;font-weight:600;}
+
+/* FOOTER */
+.foot-row{flex-shrink:0;margin-top:auto;padding-top:18px;border-top:1px solid rgba(184,144,47,0.18);display:flex;justify-content:space-between;align-items:center;gap:24px;}
+.foot-quote{font-family:var(--serif);font-size:17px;font-style:italic;color:rgba(245,239,224,0.78);max-width:1080px;line-height:1.35;}
+.foot-quote strong{color:var(--gold2);font-weight:600;font-style:normal;}
+.foot-cta{display:flex;gap:14px;flex-shrink:0;align-items:center;}
+.cta-back{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.62);text-decoration:none;padding:11px 22px;border:1px solid rgba(245,239,224,0.16);border-radius:3px;transition:all .2s;}
+.cta-back:hover{color:var(--cream);border-color:var(--gold2);}
+.cta-go{background:linear-gradient(180deg,#F0D27A,#D4AF45,#B8902F);color:var(--navy);border:none;padding:14px 30px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:4px;display:inline-flex;align-items:center;gap:12px;text-decoration:none;box-shadow:0 8px 22px rgba(212,175,69,0.32);transition:all .25s;}
+.cta-go:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,175,69,0.5);}
+.cta-go .ar{font-family:var(--serif);font-size:18px;}
+</style>
+</head>
+<body>
+
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-tag">AlphaDroid Engine</div>
+  <div class="h-step">Parte 2 · Diagnóstico · O Desalinhamento</div>
+</div>
+
+<div class="wrap">
+  <div class="head">
+    <div class="kicker">As respostas dele estão na mesa</div>
+    <h1 class="headline">
+      <span class="title-part title-static">Quatro respostas.</span>
+      <span class="title-part title-zones" id="ttlZones">— zonas.</span>
+      <span class="title-part title-align" id="ttlAlign">Um desalinhamento.</span>
+    </h1>
+    <p class="sub" id="subText">Cada lente que você acabou de preencher devolveu um Risk Number.</p>
+  </div>
+
+  <!-- 4 CARDS · class de zona aplicada via JS -->
+  <div class="cards">
+    <div class="card" data-key="mandato">
+      <div class="card-num">I</div>
+      <div class="card-pair" data-pair-lbl>—</div>
+      <div class="card-tag">Lente I · Mandato</div>
+      <div class="card-h">O que o <em class="card-h-em">patrimônio</em> precisa</div>
+      <div class="card-q">"objetivo institucional, horizonte e drawdown que o mandato tolera estruturalmente"</div>
+      <div class="card-rn">
+        <div class="card-rn-n" data-rn>—</div>
+        <div>
+          <div class="card-rn-zone" data-zone>—</div>
+          <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:rgba(245,239,224,0.45);margin-top:2px;">de 99</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-key="tolerancia">
+      <div class="card-num">II</div>
+      <div class="card-pair" data-pair-lbl>—</div>
+      <div class="card-tag">Lente II · Tolerância</div>
+      <div class="card-h">O que ele <em class="card-h-em">aguenta</em></div>
+      <div class="card-q">"como ele reage em crise real, qual queda suporta sem mexer"</div>
+      <div class="card-rn">
+        <div class="card-rn-n" data-rn>—</div>
+        <div>
+          <div class="card-rn-zone" data-zone>—</div>
+          <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:rgba(245,239,224,0.45);margin-top:2px;">de 99</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-key="ambicao">
+      <div class="card-num">III</div>
+      <div class="card-pair" data-pair-lbl>—</div>
+      <div class="card-tag">Lente III · Ambição</div>
+      <div class="card-h">O que ele <em class="card-h-em">espera</em></div>
+      <div class="card-q">"a expectativa de retorno que torna a estrutura coerente"</div>
+      <div class="card-rn">
+        <div class="card-rn-n" data-rn>—</div>
+        <div>
+          <div class="card-rn-zone" data-zone>—</div>
+          <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:rgba(245,239,224,0.45);margin-top:2px;">de 99</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" data-key="portfolio">
+      <div class="card-num">IV</div>
+      <div class="card-pair" data-pair-lbl>—</div>
+      <div class="card-tag">Lente IV · Portfólio</div>
+      <div class="card-h">O que ele <em class="card-h-em">tem hoje</em></div>
+      <div class="card-q">"análise do que está alocado, concentração real, herança de decisões passadas"</div>
+      <div class="card-rn">
+        <div class="card-rn-n" data-rn>—</div>
+        <div>
+          <div class="card-rn-zone" data-zone>—</div>
+          <div style="font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;color:rgba(245,239,224,0.45);margin-top:2px;">de 99</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ESCALA 0-99 COM 4 DOTS -->
+  <div class="scale-band">
+    <div class="scale-head">
+      <div class="scale-h">Escala institucional 1–99 <em>Risk Number · Nitrogen</em></div>
+      <div class="scale-legend">
+        <span><i class="ldef"></i>Defensivo</span>
+        <span><i class="lmod"></i>Moderado</span>
+        <span><i class="lagr"></i>Agressivo</span>
+      </div>
+    </div>
+    <div class="scale-track" id="scaleTrack">
+      <div class="scale-bg"></div>
+      <div class="scale-ticks"><span>1</span><span>20</span><span>35</span><span>50</span><span>65</span><span>80</span><span>99</span></div>
+      <!-- Dots gerados via JS dentro de #dotsHost -->
+      <div id="dotsHost"></div>
+    </div>
+  </div>
+
+  <!-- GAP · dinâmico via JS -->
+  <div class="gap-banner" id="gapBanner">
+    <div>
+      <div class="gap-l">Gap entre extremos<strong id="gapPair">— × —</strong></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;">
+      <div class="gap-n" id="gapN">—</div>
+      <div class="gap-n-sub">pontos de distância</div>
+    </div>
+    <div class="gap-msg" id="gapMsg">—</div>
+  </div>
+
+  <div class="foot-row">
+    <div class="foot-quote" id="footQuote">—</div>
+    <div class="foot-cta">
+      <a class="cta-back" href="lente-3-portfolio.html">← Voltar · Portfólio</a>
+      <a class="cta-go" href="coverage-area.html">Vamos realinhar <span class="ar">→</span></a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============== CONFIGURAÇÃO ==============
+ * Risk Numbers das 4 lentes do cliente piloto.
+ * Em produção viriam do localStorage (preenchido pelas lentes).
+ * Margem de erro: ±3 pontos · qualquer 2 valores dentro desta janela contam como mesma zona.
+ */
+const NUMS = { mandato: 55, tolerancia: 38, ambicao: 70, portfolio: 43 };
+const TOLERANCE = 3;
+const LABELS = {
+  mandato:    { nome: 'Mandato',    em: 'patrimônio' },
+  tolerancia: { nome: 'Tolerância', em: 'aguenta' },
+  ambicao:    { nome: 'Ambição',    em: 'espera' },
+  portfolio:  { nome: 'Portfólio',  em: 'tem hoje' }
+};
+
+// ============== HELPERS ==============
+function zoneOf(rn){
+  // Faixas alinhadas ao padrão Nitrogen
+  if(rn <= 40) return {key:'def', name:'defensivo', color:'#88D5A2'};
+  if(rn <= 65) return {key:'mod', name:'moderado',  color:'#D4AF45'};
+  return            {key:'agr', name:'agressivo',  color:'#E69841'};
+}
+
+function countUniqueZones(arr, tol){
+  // Agrupa valores que estão a no máximo `tol` de um vizinho — single-linkage cluster
+  const sorted = [...arr].sort((a,b)=>a-b);
+  let groups = 1;
+  for(let i=1;i<sorted.length;i++){
+    if(sorted[i] - sorted[i-1] > tol) groups++;
+  }
+  return groups;
+}
+
+function pairsAligned(numsObj, tol){
+  // Retorna pares de chaves que estão a ±tol uns dos outros
+  const keys = Object.keys(numsObj);
+  const pairs = [];
+  for(let i=0;i<keys.length;i++)
+    for(let j=i+1;j<keys.length;j++)
+      if(Math.abs(numsObj[keys[i]] - numsObj[keys[j]]) <= tol)
+        pairs.push([keys[i], keys[j]]);
+  return pairs;
+}
+
+const NUM_WORDS = ['', 'Uma', 'Duas', 'Três', 'Quatro'];
+const NUM_WORDS_LC = ['', 'uma', 'duas', 'três', 'quatro'];
+
+// ============== RENDER ==============
+function render(){
+  const arr = Object.values(NUMS);
+  const min = Math.min(...arr), max = Math.max(...arr);
+  const gap = max - min;
+  const zones = countUniqueZones(arr, TOLERANCE);
+  const aligned = gap <= TOLERANCE*2; // alinhamento total se gap ≤ 6
+  const pairs = pairsAligned(NUMS, TOLERANCE);
+
+  // TÍTULO dinâmico
+  const ttlZones = document.getElementById('ttlZones');
+  const ttlAlign = document.getElementById('ttlAlign');
+  ttlZones.textContent = NUM_WORDS[zones] + ' zona' + (zones>1?'s':'') + '.';
+  ttlZones.classList.toggle('aligned', zones===1);
+  ttlAlign.classList.toggle('aligned', aligned);
+  if(aligned){
+    ttlAlign.textContent = 'Alinhamento natural.';
+  } else if(zones === 4){
+    ttlAlign.textContent = 'Desalinhamento grave.';
+  } else if(gap >= 25){
+    ttlAlign.textContent = 'Um desalinhamento.';
+  } else {
+    ttlAlign.textContent = 'Um desalinhamento sutil.';
+  }
+
+  // SUBTÍTULO
+  const subT = document.getElementById('subText');
+  if(aligned){
+    subT.innerHTML = `Cada lente devolveu um Risk Number. As respostas do seu cliente <strong>convergem naturalmente</strong> dentro da margem institucional de ±${TOLERANCE} pontos — caso raro. <em>Aqui o trabalho é manter o alinhamento estrutural, não corrigir um gap.</em>`;
+  } else {
+    // Identifica o par extremo (min e max) para narrar
+    let keyMin, keyMax;
+    for(const k of Object.keys(NUMS)){
+      if(NUMS[k]===min) keyMin = k;
+      if(NUMS[k]===max) keyMax = k;
+    }
+    subT.innerHTML = `Cada lente devolveu um Risk Number. <strong>${LABELS[keyMax].nome} ${max}</strong> (zona ${zoneOf(max).name}) e <strong>${LABELS[keyMin].nome} ${min}</strong> (zona ${zoneOf(min).name}) ocupam extremos opostos. <em>É essa distância que a engenharia precisa fechar.</em>`;
+  }
+
+  // CARDS
+  document.querySelectorAll('.card').forEach(card=>{
+    const k = card.dataset.key;
+    const rn = NUMS[k];
+    const z = zoneOf(rn);
+    card.classList.remove('def','mod','agr');
+    card.classList.add(z.key);
+    card.querySelector('[data-rn]').textContent = rn;
+    card.querySelector('[data-zone]').textContent = z.name;
+    // selo de alinhamento
+    const pair = pairs.find(p=>p.includes(k));
+    if(pair){
+      const other = pair.find(x=>x!==k);
+      card.classList.add('paired');
+      card.querySelector('[data-pair-lbl]').textContent = '↔ alinhado com '+LABELS[other].nome;
+    } else {
+      card.classList.remove('paired');
+    }
+  });
+
+  // RÉGUA · plota dots dinamicamente
+  const host = document.getElementById('dotsHost');
+  host.innerHTML = '';
+  // Detecta sobreposição (valores muito próximos) e empilha
+  const order = ['mandato','tolerancia','ambicao','portfolio'];
+  const positions = order.map(k => ({k, pct: ((NUMS[k]-1)/98)*100, val:NUMS[k]}));
+  // Marca quem deve ir "acima" (se sobrepõe com vizinho já alocado abaixo)
+  const allocBelow = new Set();
+  const allocAbove = new Set();
+  positions.forEach((p, i)=>{
+    let overlap = false;
+    [...allocBelow].forEach(other=>{
+      const o = positions.find(x=>x.k===other);
+      if(Math.abs(p.pct - o.pct) < 4) overlap = true;
+    });
+    if(overlap) allocAbove.add(p.k);
+    else allocBelow.add(p.k);
+  });
+  positions.forEach(p=>{
+    const z = zoneOf(p.val);
+    const above = allocAbove.has(p.k);
+    const dot = document.createElement('div');
+    dot.className = 'dot '+z.key;
+    dot.textContent = p.val;
+    dot.style.left = p.pct.toFixed(1)+'%';
+    if(above) dot.style.cssText += ';transform:translateX(-50%) translateY(-46px);';
+    host.appendChild(dot);
+    const lbl = document.createElement('div');
+    lbl.className = 'dot-lbl';
+    lbl.textContent = LABELS[p.k].nome;
+    lbl.style.left = p.pct.toFixed(1)+'%';
+    lbl.style.color = z.color;
+    if(above){ lbl.style.cssText += ';top:0;transform:translateX(-50%) translateY(-18px);'; }
+    else { lbl.style.cssText += ';top:60px;'; }
+    host.appendChild(lbl);
+  });
+
+  // GAP banner
+  let keyMin, keyMax;
+  for(const k of Object.keys(NUMS)){
+    if(NUMS[k]===min) keyMin = k;
+    if(NUMS[k]===max) keyMax = k;
+  }
+  document.getElementById('gapN').textContent = gap;
+  document.getElementById('gapPair').textContent = LABELS[keyMin].nome + ' × ' + LABELS[keyMax].nome;
+
+  let gapMsg;
+  if(aligned){
+    gapMsg = `Os quatro números do seu cliente caem em <strong>uma única zona</strong> (dentro da margem de ±${TOLERANCE} pts). <em>Não há gap a fechar</em> — o trabalho aqui é manter o alinhamento com o sistema correto de defesa.`;
+  } else {
+    const zMin = zoneOf(min).name, zMax = zoneOf(max).name;
+    gapMsg = `Seu cliente <strong>${LABELS[keyMax].nome.toLowerCase()} ${zMax}</strong> mas <strong>${LABELS[keyMin].nome.toLowerCase()} ${zMin}</strong>. ${pairs.length>0 ? `(${pairs.map(p=>LABELS[p[0]].nome+' e '+LABELS[p[1]].nome).join('; ')} já estão alinhados entre si.)` : ''} <em>É exatamente esta distância que a engenharia Harpian resolve</em> — entregando mais retorno por unidade de risco.`;
+  }
+  document.getElementById('gapMsg').innerHTML = gapMsg;
+
+  // RODAPÉ
+  const footQ = document.getElementById('footQuote');
+  if(aligned){
+    footQ.innerHTML = `Alinhamento de origem é raro. <strong>Manter</strong> esse alinhamento sob mudança de regime exige um motor disciplinado. <em>É o que vamos te mostrar a seguir.</em>`;
+  } else {
+    footQ.innerHTML = `${LABELS[keyMax].nome.toLowerCase()} ${zoneOf(max).name} + ${LABELS[keyMin].nome.toLowerCase()} ${zoneOf(min).name} = só funciona com um motor que entrega <strong>menos risco com mais retorno</strong>. <em>É o que vamos te mostrar a seguir.</em>`;
+  }
+}
+
+render();
+</script>
+
+</body>
+</html>

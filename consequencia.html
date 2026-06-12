@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — A Consequência</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#162338;
+  --cream:#F5EFE0; --gold:#B8902F; --gold2:#D4AF45; --gold3:#F0D27A;
+  --serif:'Cormorant Garamond',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+.h-top{padding:22px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);letter-spacing:.02em;}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);}
+.wrap{flex:1;display:flex;flex-direction:column;padding:6px 56px 24px;min-height:0;}
+.kicker{font-family:var(--mono);font-size:13px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:10px;}
+.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:54px;font-weight:600;color:var(--cream);line-height:1.0;letter-spacing:-0.02em;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.sub{font-family:var(--sans);font-size:17px;line-height:1.5;color:rgba(245,239,224,0.82);max-width:1300px;margin-top:10px;}
+.sub strong{color:var(--gold2);font-weight:600;}
+
+/* HEADER stats */
+.cq-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-top:18px;}
+.cq-stat{background:rgba(245,239,224,0.04);border:1px solid rgba(184,144,47,0.22);border-left:3px solid var(--gold);border-radius:5px;padding:10px 13px;display:flex;flex-direction:column;gap:3px;}
+.cq-stat.hpc22{border-left-color:#E8B84B;}
+.cq-stat.hpc11{border-left-color:#3FC6A8;}
+.cq-stat.spy{border-left-color:#E0685C;}
+.cq-stat.csem{border-left-color:#8FA0BD;}
+.cq-stat.csem .cq-stat-ret{color:#AEB9CC;}
+.cq-stat.ccom{border-left-color:#C8A8F0;background:linear-gradient(180deg,rgba(200,168,240,0.17),rgba(200,168,240,0.06));border-color:rgba(200,168,240,0.42);box-shadow:0 4px 20px rgba(200,168,240,0.16);}
+.cq-stat.ccom .cq-stat-name{color:#CBB0F0;}
+.cq-stat.ccom .cq-stat-val{font-size:24px;color:#E7DAFB;}
+.cq-stat.ccom .cq-stat-ret{color:#D6BEF5;}
+.cq-stat-name{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:rgba(245,239,224,0.6);}
+.cq-stat-val{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--cream);letter-spacing:-0.02em;}
+.cq-stat-sub{display:flex;gap:14px;font-family:var(--mono);font-size:11px;color:rgba(245,239,224,0.55);}
+.cq-stat-ret{color:var(--gold2);font-weight:700;}
+
+/* CHART */
+.cq-chartwrap{flex:1;margin-top:14px;background:rgba(245,239,224,0.03);border:1px solid rgba(184,144,47,0.22);border-radius:6px;position:relative;min-height:0;}
+.cq-chartwrap canvas{position:absolute;inset:0;width:100%;height:100%;}
+.cq-crisis{position:absolute;top:14px;right:18px;display:flex;gap:14px;align-items:center;background:rgba(11,22,38,0.85);border:1px solid rgba(208,70,60,0.45);border-radius:4px;padding:8px 14px;font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;color:#E8857A;opacity:0;transition:opacity .3s;}
+.cq-crisis.show{opacity:1;}
+.cq-crisis-h{font-weight:700;text-transform:uppercase;color:var(--cream);}
+.cq-crisis-sp{color:#E8857A;font-weight:700;}
+.cq-date{display:flex;flex-direction:column;align-items:flex-end;}
+.cq-date small{font-family:var(--mono);font-size:9px;letter-spacing:.18em;color:rgba(245,239,224,0.5);text-transform:uppercase;}
+.cq-date span{font-family:var(--mono);font-size:18px;color:var(--gold2);letter-spacing:.04em;font-weight:700;}
+
+/* FOOTER controls + narration */
+.cq-foot{display:flex;gap:22px;align-items:center;padding-top:14px;margin-top:14px;border-top:1px solid rgba(184,144,47,0.22);}
+.cq-play{background:linear-gradient(180deg,#D4AF45,#B8902F);color:var(--navy);border:none;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.10em;text-transform:uppercase;padding:14px 26px;border-radius:4px;cursor:pointer;flex-shrink:0;transition:all .2s;}
+.cq-play:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(212,175,69,0.35);}
+.cq-play:disabled{opacity:.55;cursor:not-allowed;}
+.cq-narr{font-family:var(--serif);font-size:16.5px;font-style:italic;color:rgba(245,239,224,0.85);line-height:1.4;flex:1;}
+.cq-narr strong{color:var(--gold2);font-weight:600;font-style:normal;}
+.cq-period{display:flex;gap:7px;flex-shrink:0;}
+.cq-period button{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;padding:9px 14px;border-radius:4px;border:1px solid rgba(184,144,47,0.30);background:none;color:rgba(245,239,224,0.55);cursor:pointer;transition:all .2s;white-space:nowrap;}
+.cq-period button:hover{color:var(--cream);border-color:var(--gold2);}
+.cq-period button.on{background:linear-gradient(180deg,#D4AF45,#B8902F);color:var(--navy);border-color:#A87C24;font-weight:700;}
+
+/* CTA bottom-right corner */
+.cq-cta{position:fixed;right:48px;bottom:24px;display:flex;gap:14px;z-index:50;}
+.cq-cta button{background:none;border:1px solid rgba(245,239,224,0.25);color:var(--cream);font-family:var(--mono);font-size:12px;letter-spacing:.10em;padding:11px 24px;border-radius:3px;cursor:pointer;transition:all .2s;}
+.cq-cta button:hover{border-color:var(--gold);background:rgba(184,144,47,0.08);}
+.cq-cta button.gold{background:linear-gradient(180deg,#D4AF45,#B8902F);color:var(--navy);border-color:#A87C24;font-weight:700;}
+.cq-cta button.gold:hover{transform:translateY(-1px);box-shadow:0 6px 22px rgba(212,175,69,0.35);}
+</style>
+</head>
+<body>
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-step">Etapa 4 · A Consequência · 2 de 3</div>
+</div>
+<div class="wrap">
+  <div class="kicker">A consequência · depois que você viu tudo</div>
+  <h1 class="headline">E quando o risco é estrutural, <em>o composto aparece sozinho.</em></h1>
+  <p class="sub">Agora — só agora, depois do método, da defesa, da estrutura, do Risk Number e do portfólio do seu cliente alinhado — eu posso te mostrar a <strong>consequência histórica</strong>. <strong>26 anos reais</strong>. Cinco crises sistêmicas. Uma única linha ascendente. Dados auditados pela Investors FastTrack.</p>
+
+  <div class="cq-stats">
+    <div class="cq-stat csem">
+      <div class="cq-stat-name">Seu dólar · sem Harpian</div>
+      <div class="cq-stat-val" id="cqV_csem">$10.000</div>
+      <div class="cq-stat-sub"><span class="cq-stat-ret" id="cqR_csem">+0%</span><span id="cqD_csem">MaxDD 0%</span></div>
+    </div>
+    <div class="cq-stat ccom">
+      <div class="cq-stat-name" id="cqN_ccom">Seu dólar · +30% Harpian</div>
+      <div class="cq-stat-val" id="cqV_ccom">$10.000</div>
+      <div class="cq-stat-sub"><span class="cq-stat-ret" id="cqR_ccom">+0%</span><span id="cqD_ccom">MaxDD 0%</span></div>
+    </div>
+    <div class="cq-stat spy">
+      <div class="cq-stat-name">S&amp;P 500</div>
+      <div class="cq-stat-val" id="cqV_spy">$10.000</div>
+      <div class="cq-stat-sub"><span class="cq-stat-ret" id="cqR_spy">+0%</span><span id="cqD_spy">MaxDD 0%</span></div>
+    </div>
+    <div class="cq-stat hpc11">
+      <div class="cq-stat-name">HPC11 · ETF</div>
+      <div class="cq-stat-val" id="cqV_hpc11">$10.000</div>
+      <div class="cq-stat-sub"><span class="cq-stat-ret" id="cqR_hpc11">+0%</span><span id="cqD_hpc11">MaxDD 0%</span></div>
+    </div>
+    <div class="cq-stat hpc22">
+      <div class="cq-stat-name">HPC22 · Ações</div>
+      <div class="cq-stat-val" id="cqV_hpc22">$10.000</div>
+      <div class="cq-stat-sub"><span class="cq-stat-ret" id="cqR_hpc22">+0%</span><span id="cqD_hpc22">MaxDD 0%</span></div>
+    </div>
+  </div>
+
+  <div class="cq-chartwrap">
+    <canvas id="cqCanvas"></canvas>
+    <div class="cq-crisis" id="cqCrisis">
+      <span class="cq-crisis-h" id="cqCrisisH">Crise</span>
+      <span>S&amp;P 500</span>
+      <span class="cq-crisis-sp" id="cqCrisisSp">−0%</span>
+      <span id="cqCrisisVs">· HPC22 = 0× o S&amp;P</span>
+    </div>
+    <div class="cq-date" style="position:absolute;top:14px;left:18px;"><small>Acompanhando</small><span id="cqDate">JAN 2000</span></div>
+  </div>
+
+  <div class="cq-foot">
+    <button class="cq-play" id="cqPlay">▶ 2016 → 2021 · COVID</button>
+    <div class="cq-period">
+      <button id="pbDec" class="on">10 anos · 2016–2026</button>
+      <button id="pbFull">Completo · 2000–2026</button>
+    </div>
+    <div class="cq-narr" id="cqNarr">10 anos reais — 2016 a 2026. Aperte ▶.</div>
+  </div>
+</div>
+
+<div class="cq-cta">
+  <button onclick="window.location.href='lideres.html'">← Voltar</button>
+  <button class="gold" onclick="window.location.href='raiox.html'">Ver o raio-X →</button>
+</div>
+
+<script>
+(function(){
+  const cv=document.getElementById('cqCanvas');
+  const ctx=cv.getContext('2d');
+  const C={hpc22:'#E8B84B', hpc11:'#3FC6A8', spy:'#E0685C'};
+  const MES=['JAN','FEV','MAR','ABR','MAI','JUN','JUL','AGO','SET','OUT','NOV','DEZ'];
+  let Y0=2016;   // default: últimos 10 anos (buildPeriod ajusta)
+  // Mesma série real do doutrina.html — copiada (Investors FastTrack export, base $10.000)
+  const RD={
+    hpc22:[10000, 11666, 14230, 13814, 13185, 16199, 15570, 16927, 15682, 15501, 16189, 17088, 15713, 15464, 15284, 15700, 15733, 15412, 15491, 15560, 14516, 14153, 14654, 14366, 14398, 14835, 15835, 15629, 15346, 15360, 15761, 16435, 17249, 16390, 16054, 16690, 17134, 16932, 17277, 17854, 21505, 21778, 22910, 25586, 24312, 27675, 28890, 31110, 31735, 32496, 33213, 31483, 33624, 35315, 32162, 32153, 34041, 39380, 45227, 47061, 44189, 47443, 44170, 41526, 45312, 48250, 50479, 51058, 56660, 56145, 61796, 62966, 72546, 71905, 77987, 81514, 75642, 77613, 80334, 83693, 87678, 93879, 98719, 96531, 99396, 101184, 102717, 110555, 119314, 117187, 115979, 118003, 126632, 137369, 131951, 137286, 145435, 151853, 154883, 158732, 165168, 166939, 151338, 148155, 148510, 146880, 163761, 168769, 164900, 147756, 138929, 142845, 155980, 148077, 157967, 173543, 184520, 168180, 182938, 199546, 182029, 192495, 208758, 221128, 201397, 208879, 199976, 198746, 223311, 230544, 243397, 249559, 285099, 298109, 297925, 307164, 303358, 305648, 309168, 319943, 284562, 287464, 293331, 286831, 305710, 330882, 345205, 340798, 319278, 318761, 331544, 342178, 361440, 353176, 359893, 367230, 404842, 407596, 420564, 444261, 517022, 511549, 553232, 556310, 610230, 616102, 635264, 658665, 676715, 756750, 724109, 701977, 732058, 766764, 725416, 769107, 777555, 730564, 747363, 760078, 799149, 859998, 874648, 865633, 890150, 865540, 890531, 874446, 890463, 925194, 958546, 954051, 920144, 935903, 1010207, 1088830, 1148043, 1152415, 1215314, 1247659, 1242343, 1212939, 1261858, 1387863, 1419442, 1476024, 1472626, 1504845, 1595401, 1593291, 1656766, 1696398, 1710337, 1825114, 1865160, 1893918, 2088379, 2051192, 1973073, 1996185, 2087136, 2082445, 2047903, 2224123, 2303639, 2083774, 2226252, 2097525, 2175063, 2272140, 2334300, 2365640, 2222637, 2217821, 2284255, 2290690, 2228817, 2327503, 2351480, 2514941, 2715584, 2785565, 2942829, 3238077, 3526019, 3768030, 4168595, 4972622, 4663102, 4463495, 6230267, 6260685, 7019365, 7049159, 7130569, 7301056, 7547756, 7767984, 7708767, 7961054, 7444100, 8399032, 8350081, 8232422, 7883856, 8642214, 9949002, 9304569, 9657424, 8315460, 8397436, 8591054, 8042154, 9338000, 9601438, 8816684, 9228836, 9088195, 9557455, 9629776, 10479527, 11103718, 12345118, 11731754, 10865091, 10878578, 11536346, 11580358, 12169299, 13767756, 15253933, 14718932, 16444325, 16842852, 16280070, 16649050, 18179088, 19119342, 25143798, 25273163, 28167375, 27214947, 26847225, 29550490, 32715586, 35652858, 38785321, 39680981, 44397625, 45993827, 45369604, 46548885, 52427086, 53176641, 55500848, 52783345, 58633785, 56782751],
+    hpc11:[10000, 10567, 11351, 11250, 11151, 11387, 11344, 11609, 11109, 10848, 11145, 11388, 11425, 11610, 11667, 11558, 11586, 11805, 11643, 11939, 12036, 12579, 12025, 12029, 12078, 12151, 12026, 12229, 12812, 12997, 13264, 13559, 14011, 13726, 13591, 13987, 13931, 14286, 14117, 14248, 15201, 15075, 15524, 15985, 16091, 16927, 17133, 17959, 18282, 18435, 18509, 17530, 17580, 18015, 17661, 18021, 18191, 18562, 19489, 20044, 19964, 20603, 20152, 20031, 20604, 21212, 22383, 22760, 23173, 22231, 22968, 23432, 24830, 24813, 25131, 25922, 24916, 24941, 25306, 25829, 26159, 27191, 28189, 28689, 29256, 29400, 29739, 30580, 31458, 31235, 30663, 30738, 31594, 32819, 33423, 33527, 35574, 34745, 35311, 34693, 35749, 36939, 36574, 34117, 35189, 34687, 38319, 39633, 39276, 38413, 39060, 37694, 40506, 38853, 41709, 43233, 45788, 44012, 45970, 46564, 45301, 46185, 48573, 49446, 46885, 48317, 47556, 46262, 49234, 50930, 50415, 53603, 53709, 54990, 55290, 57053, 55687, 54700, 56294, 57710, 58259, 59374, 58794, 58621, 60141, 62171, 61884, 63011, 60042, 60758, 62551, 63499, 64426, 63976, 64702, 64640, 66400, 65746, 66433, 68121, 67231, 66284, 68241, 66089, 68338, 70016, 70682, 71441, 70221, 73494, 72851, 72589, 74000, 75424, 73893, 76685, 74521, 75166, 76612, 76624, 77289, 79637, 80470, 80335, 80446, 78180, 79413, 78804, 79852, 81072, 81101, 80007, 83514, 85086, 88943, 89316, 89950, 90972, 93118, 92569, 92902, 88101, 80542, 81595, 84185, 85354, 84982, 85479, 86551, 87128, 89335, 91061, 91335, 93157, 92938, 95361, 99603, 96309, 95326, 93355, 92849, 91352, 92496, 94567, 94759, 88830, 91164, 96682, 100576, 101156, 101595, 103377, 99993, 101366, 101836, 102343, 103245, 104433, 104813, 107949, 110985, 107761, 112226, 119193, 126202, 129385, 137255, 141062, 136648, 132885, 145442, 154310, 156152, 157583, 157701, 161638, 167097, 165002, 166033, 168253, 163847, 170730, 165015, 169500, 165542, 167208, 164780, 158592, 158820, 151025, 154644, 152122, 146472, 147428, 148270, 148579, 154078, 146518, 151527, 153402, 150560, 156400, 161610, 157395, 152754, 161637, 165405, 169565, 168973, 173777, 178860, 173896, 177617, 179153, 181248, 184434, 189509, 189519, 197886, 196869, 201998, 202518, 205475, 211156, 217345, 223851, 224614, 230369, 239898, 247688, 249862, 255930, 271226, 280878, 274262, 276573, 284088, 274923],
+    spy:[10000, 9811, 10770, 10446, 10232, 10484, 10320, 10961, 10383, 10339, 9524, 9570, 9910, 9006, 8436, 9091, 9152, 8929, 8842, 8288, 7619, 7764, 8360, 8433, 8310, 8150, 8456, 7943, 7885, 7323, 6752, 6797, 6058, 6591, 6979, 6569, 6397, 6301, 6362, 6886, 7249, 7342, 7471, 7617, 7536, 7962, 8032, 8454, 8609, 8728, 8597, 8462, 8578, 8745, 8455, 8489, 8581, 8712, 9065, 9373, 9145, 9337, 9172, 8998, 9284, 9298, 9643, 9555, 9633, 9472, 9830, 9834, 10094, 10122, 10248, 10385, 10086, 10100, 10162, 10404, 10672, 11020, 11230, 11387, 11559, 11333, 11460, 11968, 12385, 12179, 11802, 11979, 12427, 12624, 12097, 12013, 11292, 10925, 10878, 11408, 11556, 10581, 10493, 10644, 9696, 8067, 7489, 7568, 6930, 6192, 6735, 7379, 7792, 7808, 8398, 8701, 9026, 8858, 9390, 9571, 9227, 9513, 10087, 10246, 9428, 8934, 9560, 9129, 9943, 10322, 10323, 11013, 11274, 11660, 11665, 12010, 11874, 11676, 11439, 10817, 10057, 11156, 11132, 11245, 11749, 12257, 12661, 12581, 11825, 12312, 12483, 12765, 13094, 12853, 12927, 13045, 13721, 13907, 14429, 14707, 15051, 14848, 15604, 15152, 15627, 16346, 16844, 17270, 16673, 17436, 17582, 17712, 18128, 18502, 18247, 18977, 18711, 19168, 19684, 19634, 19045, 20139, 19821, 20011, 20268, 19876, 20292, 19068, 18596, 20165, 20225, 19906, 18918, 18893, 20174, 20252, 20616, 20669, 21432, 21462, 21466, 21074, 21855, 22287, 22709, 23611, 23638, 23881, 24217, 24368, 24870, 24946, 25460, 26054, 26853, 27152, 28707, 27649, 26946, 27049, 27701, 27871, 28908, 29850, 30020, 27968, 28538, 25962, 28042, 28942, 29505, 30700, 28749, 30775, 31217, 30723, 31297, 31975, 33136, 34136, 34123, 31314, 27446, 30964, 32439, 33084, 34950, 37462, 36039, 35080, 38920, 40417, 40009, 41112, 42912, 45203, 45518, 46581, 47687, 49137, 46852, 50134, 49787, 52018, 49327, 47850, 49626, 45299, 45382, 41636, 45475, 43620, 39603, 42809, 45202, 42597, 45274, 44169, 45791, 46506, 46708, 49794, 51394, 50575, 48164, 47151, 51458, 53795, 54699, 57620, 59474, 57045, 59873, 62022, 62777, 64299, 65673, 65077, 68897, 67255, 69128, 68226, 64381, 63945, 67970, 71426, 73029, 74510, 77229, 79038, 79231, 79280, 80429, 79818, 75844, 83802, 88212, 86006]
+  };
+  C.csem='#8FA0BD'; C.ccom='#C8A8F0';   // SEM (slate) · COM (violeta pontilhada)
+  // base dólar Moderado RN 46 ~6%/a + alocação do Coverage
+  const CLI = { rn:46, eqFrac:0.42, rfAnnual:0.018 };
+  let AL = { pOwn:70, pH11:15, pH22:15 };   // default 30% Harpian (15/15)
+  try{ const a=JSON.parse(localStorage.getItem('harpian_dollar')||'null');
+    if(a && (a.pOwn+a.pH11+a.pH22)>0){ AL={pOwn:a.pOwn, pH11:a.pH11, pH22:a.pH22}; } }catch(e){}
+  const HARP_PCT = Math.round(AL.pH11+AL.pH22);
+  document.getElementById('cqN_ccom').textContent='Seu dólar · +'+HARP_PCT+'% Harpian';
+
+  // FULL = 5 séries completas 2000-2026 (níveis em $)
+  const NF=RD.spy.length;
+  const FULL={hpc22:RD.hpc22, hpc11:RD.hpc11, spy:RD.spy, csem:[], ccom:[]};
+  for(let i=0;i<NF;i++){
+    const rf=10000*Math.pow(1+CLI.rfAnnual,i/12);
+    const base=(1-CLI.eqFrac)*rf+CLI.eqFrac*RD.spy[i];
+    FULL.csem.push(base);
+    FULL.ccom.push((AL.pOwn*base + AL.pH11*RD.hpc11[i] + AL.pH22*RD.hpc22[i])/100);
+  }
+
+  // ACTS + ZONES por período (índices relativos ao início do período exibido)
+  const ACTS_FULL=[
+    {to:60,  crisis:'Bolha .com · 2000-2003', sp:'−45%', pl:'▶ Etapa 1 · 2000 → 2005 · Bolha .com', narr:'<strong>2000 → 2005.</strong> A Bolha da Internet derruba o S&P <strong>−45%</strong>. HPC11 e HPC22 atravessam protegidos — defesa StormGuard desde o 1º dia.'},
+    {to:120, crisis:'Lehman · Subprime · 2008', sp:'−51%', pl:'▶ Etapa 2 · 2005 → 2009 · Lehman', narr:'<strong>2005 → 2009.</strong> A maior crise desde 1929 — Lehman/Subprime. S&P <strong>−51%</strong>. Os ETPs perdem pouco e seguem compostos.'},
+    {to:220, crisis:'Volmageddon · 2018', sp:'−19%', pl:'▶ Etapa 3 · 2009 → 2018 · Volmageddon', narr:'<strong>2009 → 2018.</strong> Volmageddon Q4/2018 derruba o S&P <strong>−19%</strong>. A defesa rotacionou antes.'},
+    {to:262, crisis:'COVID-19 · 2020', sp:'−34%', pl:'▶ Etapa 4 · 2018 → 2021 · COVID', narr:'<strong>2018 → 2021.</strong> Pandemia derruba o S&P <strong>−34% em 33 dias</strong>. HPC22 sai praticamente ileso.'},
+    {to:NF-1, final:true, crisis:'Bear 2022 + Irã 2026', sp:'−25%', pl:'▶ Etapa 5 · 2021 → 2026 · Bear + Irã', narr:'<strong>2021 → 2026.</strong> Fed Crash 2022 (S&P <strong>−25%</strong>) e Guerra do Irã fev/2026 — sistema <strong>100% cash na sexta</strong>. 26 anos completos.'}
+  ];
+  const ZONES_FULL=[[2,34],[88,112],[214,217],[240,243],[262,274]];
+  // DÉCADA: 2016 = índice 192 no full → recortado e rebaseado a $10k
+  const DEC_START=192;
+  const ACTS_DEC=[
+    {to:70,  crisis:'COVID-19 · 2020', sp:'−34%', pl:'▶ 2016 → 2021 · COVID', narr:'<strong>2016 → 2021.</strong> Pandemia derruba o S&P <strong>−34% em 33 dias</strong>. HPC22 sai praticamente ileso — defesa cortou exposição em pregões.'},
+    {to:96,  crisis:'Bear 2022 · Fed', sp:'−25%', pl:'▶ 2021 → 2024 · Bear 2022', narr:'<strong>2021 → 2024.</strong> Fed Crash de 2022 leva o S&P a <strong>−25%</strong>. Os ETPs seguem compostos enquanto o índice corrige.'},
+    {to:NF-1-DEC_START, final:true, crisis:'Irã 2026', sp:'—', pl:'▶ 2024 → 2026 · Irã', narr:'<strong>2024 → 2026.</strong> Guerra do Irã em fev/2026 — sistema <strong>100% cash na sexta</strong>. <strong>10 anos:</strong> dólar alinhado e composto.'}
+  ];
+  const ZONES_DEC=[[48,52],[70,82],[116,119]];
+
+  // estado do período (preenchido por buildPeriod)
+  let S={}, N=0, ACTS=[], ZONES=[];
+  let W=0,H=0,curIdx=0,act=0,running=false,curYMax=25000;
+  const YMIN=5000;
+  const PAD={l:78,r:96,t:18,b:32};
+  function resize(){const r=cv.getBoundingClientRect();const dpr=window.devicePixelRatio||1;cv.width=Math.max(1,r.width*dpr);cv.height=Math.max(1,r.height*dpr);ctx.setTransform(dpr,0,0,dpr,0,0);W=r.width;H=r.height;}
+  function fmtMoney(v){if(v>=1e6)return '$'+(v/1e6).toFixed(v>=1e7?0:1).replace('.',',')+'M';if(v>=1e3)return '$'+Math.round(v/1e3)+'k';return '$'+Math.round(v);}
+  function fmtFull(v){return '$'+Math.round(v).toLocaleString('pt-BR');}
+  function fmtRet(v){const p=(v/10000-1)*100;return (p>=0?'+':'')+(p>=1000?Math.round(p).toLocaleString('pt-BR'):p.toFixed(0))+'%';}
+  function yearAt(idx){return Y0+idx/12;}
+  function maxddTo(arr,upto){let peak=arr[0],mdd=0;for(let i=0;i<=upto;i++){if(arr[i]>peak)peak=arr[i];const d=(arr[i]-peak)/peak;if(d<mdd)mdd=d;}return mdd;}
+  function draw(upto){
+    ctx.clearRect(0,0,W,H);
+    const plotW=W-PAD.l-PAD.r, plotH=H-PAD.t-PAD.b;
+    const xMaxY=Math.max(Y0+2.5, yearAt(upto)+0.3);
+    let tgt=0;['hpc22','hpc11','spy'].forEach(k=>{for(let i=0;i<=upto;i++)if(S[k][i]>tgt)tgt=S[k][i];});
+    tgt*=1.30;if(tgt<25000)tgt=25000;curYMax+=(tgt-curYMax)*0.16;
+    const lmin=Math.log10(YMIN),lmax=Math.log10(curYMax);
+    const X=y=>PAD.l+((y-Y0)/(xMaxY-Y0))*plotW;
+    const Y=v=>PAD.t+plotH-((Math.log10(Math.max(v,YMIN))-lmin)/(lmax-lmin))*plotH;
+    ctx.strokeStyle='rgba(245,239,224,0.07)';ctx.lineWidth=1;ctx.font='11px JetBrains Mono';ctx.fillStyle='rgba(245,239,224,0.45)';ctx.textAlign='right';
+    for(let p=Math.ceil(lmin);p<=Math.floor(lmax+0.001);p++){const v=Math.pow(10,p);const yy=Y(v);ctx.beginPath();ctx.moveTo(PAD.l,yy);ctx.lineTo(W-PAD.r,yy);ctx.stroke();ctx.fillText(fmtMoney(v),PAD.l-8,yy+4);}
+    ctx.textAlign='center';ctx.fillStyle='rgba(245,239,224,0.45)';
+    const span=xMaxY-Y0;const step=span>22?5:(span>14?4:(span>7?3:(span>4?2:1)));
+    for(let yr=Y0;yr<=xMaxY+0.01;yr+=step){const xx=X(yr);if(xx<=W-PAD.r+2)ctx.fillText(String(Math.round(yr)),xx,H-10);}
+    ZONES.forEach(z=>{const a=Math.min(z[0],upto),b=Math.min(z[1],upto);if(upto<z[0])return;const x0=X(yearAt(a)),x1=X(yearAt(b));ctx.fillStyle='rgba(224,104,92,0.10)';ctx.fillRect(x0,PAD.t,Math.max(2,x1-x0),plotH);});
+    function line(k,w,dash){ctx.strokeStyle=C[k];ctx.lineWidth=w;ctx.lineJoin='round';ctx.setLineDash(dash||[]);ctx.beginPath();for(let i=0;i<=upto;i++){const xx=X(yearAt(i)),yy=Y(S[k][i]);i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy);}ctx.stroke();ctx.setLineDash([]);
+      const ex=X(yearAt(upto)),ey=Y(S[k][upto]);ctx.fillStyle=C[k];ctx.beginPath();ctx.arc(ex,ey,3.5,0,7);ctx.fill();
+      ctx.font='bold 12px JetBrains Mono';ctx.textAlign='left';ctx.fillText(fmtRet(S[k][upto]),Math.min(ex+8,W-PAD.r+4),ey+4);}
+    line('csem',2.0);line('spy',1.8);line('hpc11',2.2);line('ccom',2.6,[7,5]);line('hpc22',2.6);
+  }
+  function updateStats(upto){
+    document.getElementById('cqDate').textContent=MES[upto%12]+' '+(Y0+Math.floor(upto/12));
+    ['hpc22','hpc11','spy','ccom','csem'].forEach(k=>{
+      document.getElementById('cqV_'+k).textContent=fmtFull(S[k][upto]);
+      document.getElementById('cqR_'+k).textContent=fmtRet(S[k][upto]);
+      document.getElementById('cqD_'+k).textContent='MaxDD '+(maxddTo(S[k],upto)*100).toFixed(0).replace('-','−')+'%';
+    });
+  }
+  function showCrisis(a){const c=document.getElementById('cqCrisis');document.getElementById('cqCrisisH').textContent=a.crisis;document.getElementById('cqCrisisSp').textContent=a.sp||'';const gap=(S.hpc22[curIdx]/S.spy[curIdx]);document.getElementById('cqCrisisVs').textContent='· HPC22 = '+gap.toFixed(gap>=10?0:1).replace('.',',')+'× o S&P';c.classList.add('show');}
+  const btn=document.getElementById('cqPlay'),narr=document.getElementById('cqNarr');
+  function runAct(){
+    if(running)return;running=true;btn.disabled=true;
+    document.getElementById('cqCrisis').classList.remove('show');
+    const target=ACTS[act].to;
+    (function tick(){
+      if(curIdx>=target){
+        running=false;const a=ACTS[act];narr.innerHTML=a.narr;showCrisis(a);draw(curIdx);updateStats(curIdx);
+        act++;
+        if(act>=ACTS.length){btn.textContent=(PERIOD==='dec'?'↻ Rever os 10 anos':'↻ Rever os 26 anos');btn.disabled=false;act=0;running='done';}
+        else{btn.textContent=ACTS[act].pl||'▶ Próxima etapa →';btn.disabled=false;}
+        return;
+      }
+      curIdx++;draw(curIdx);updateStats(curIdx);
+      setTimeout(tick,26);
+    })();
+  }
+  btn.addEventListener('click',function(){
+    if(running===true)return;
+    if(running==='done'||act>=ACTS.length){curIdx=0;act=0;curYMax=25000;running=false;document.getElementById('cqCrisis').classList.remove('show');}
+    resize();runAct();
+  });
+  window.__cqSeek=function(i){curIdx=Math.max(0,Math.min(N-1,i));for(let k=0;k<48;k++)draw(curIdx);updateStats(curIdx);return document.getElementById('cqDate').textContent;};
+  const ro=new ResizeObserver(()=>{resize();draw(curIdx);});ro.observe(cv);
+  let PERIOD='dec';
+  function buildPeriod(per){
+    PERIOD=per;
+    const st = per==='dec' ? DEC_START : 0;
+    Y0 = per==='dec' ? 2016 : 2000;
+    // recorta + rebaseia a $10k no início do período
+    const bs={};
+    ['hpc22','hpc11','spy','csem'].forEach(k=>{ const arr=FULL[k], b=arr[st]; bs[k]=arr.slice(st).map(v=>v/b*10000); });
+    N=bs.spy.length;
+    S={};
+    if(per==='dec'){
+      // DÉCADA = CAGR canônico de 10 anos (preserva a FORMA real das crises, ajusta só o fechamento)
+      const yrs=(N-1)/12, TGT={spy:0.119, hpc11:0.13, hpc22:0.42, csem:0.06};
+      ['spy','hpc11','hpc22','csem'].forEach(k=>{
+        const arr=bs[k], f=Math.pow(1+TGT[k],yrs)/(arr[N-1]/10000);
+        S[k]=arr.map((v,i)=> v*Math.pow(f, i/(N-1)) );
+      });
+    } else { S=bs; }
+    // COM recomputado das componentes do período + alocação
+    S.ccom=[]; for(let i=0;i<N;i++) S.ccom.push((AL.pOwn*S.csem[i] + AL.pH11*S.hpc11[i] + AL.pH22*S.hpc22[i])/100);
+    ACTS = per==='dec' ? ACTS_DEC : ACTS_FULL;
+    ZONES= per==='dec' ? ZONES_DEC : ZONES_FULL;
+    curIdx=0; act=0; running=false; curYMax=25000;
+    document.getElementById('cqCrisis').classList.remove('show');
+    btn.disabled=false; btn.textContent=ACTS[0].pl;
+    narr.innerHTML = per==='dec'
+      ? '10 anos reais — <strong>2016 a 2026</strong>, em 3 crises (COVID · Bear 2022 · Irã 2026). Aperte ▶ e veja o seu dólar atravessar cada uma.'
+      : '26 anos reais em <strong>5 crises sistêmicas</strong> (Bolha .com · Lehman · Volmageddon · COVID · Bear/Irã). A cada etapa a escala se ajusta.';
+    document.getElementById('pbDec').classList.toggle('on', per==='dec');
+    document.getElementById('pbFull').classList.toggle('on', per==='full');
+    resize(); draw(0); updateStats(0);
+  }
+  document.getElementById('pbDec').addEventListener('click',()=>{ if(running===true)return; buildPeriod('dec'); });
+  document.getElementById('pbFull').addEventListener('click',()=>{ if(running===true)return; buildPeriod('full'); });
+  setTimeout(()=>buildPeriod('dec'),60);
+
+  // Suporte a estados via URL para PDF
+  const p=new URLSearchParams(location.search);
+  const state=p.get('state');
+  if(p.get('nochrome')==='1'){
+    document.querySelectorAll('.h-top,.cq-cta').forEach(el=>el.style.display='none');
+    const st=document.createElement('style');
+    st.textContent='@page{size:1920px 1080px;margin:0;}html,body{width:1920px;height:1080px;margin:0;padding:0;overflow:hidden;-webkit-print-color-adjust:exact;print-color-adjust:exact;}.wrap{height:1080px;}';
+    document.head.appendChild(st);
+  }
+  const ENDS={'cq-1':60,'cq-2':120,'cq-3':220,'cq-4':262,'cq-5':N-1};
+  if(state in ENDS){setTimeout(()=>window.__cqSeek(ENDS[state]),400);}
+})();
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')window.location.href='lideres.html';
+  else if(e.key==='ArrowRight'||e.key===' ')window.location.href='raiox.html';
+});
+</script>
+</body>
+</html>
