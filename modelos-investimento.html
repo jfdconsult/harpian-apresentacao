@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>HARPIAN — Dois caminhos pra investir</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --navy:#0B1626; --navy2:#162338; --cream:#F5EFE0;
+  --gold:#B8902F; --gold2:#D4AF45; --gold3:#F0D27A;
+  --green:#5BBD7A; --green3:#88D5A2; --blue:#7FB0E8; --blue2:#A9CBF2;
+  --serif:'Cormorant Garamond',serif; --sans:'Inter',sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);color:var(--cream);font-family:var(--sans);overflow:hidden;}
+body{display:flex;flex-direction:column;}
+.h-top{padding:15px 56px;display:flex;justify-content:space-between;align-items:center;flex-shrink:0;border-bottom:1px solid rgba(184,144,47,0.10);}
+.h-logo{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--cream);}
+.h-tag{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(245,239,224,0.55);}
+.h-step{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold2);}
+
+.wrap{flex:1;display:flex;flex-direction:column;padding:18px 56px;min-height:0;}
+.head{flex-shrink:0;text-align:center;margin-bottom:10px;}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:7px;}
+.kicker::before{content:'★ ';color:var(--gold);}
+.headline{font-family:var(--serif);font-size:40px;font-weight:600;color:var(--cream);line-height:1.02;letter-spacing:-0.015em;}
+.headline em{font-style:italic;color:var(--gold2);font-weight:500;}
+.sub{font-family:var(--sans);font-size:14.5px;line-height:1.5;color:rgba(245,239,224,0.72);max-width:880px;margin:8px auto 0;font-weight:300;}
+
+/* PERGUNTA / TOGGLE */
+.q{flex-shrink:0;text-align:center;margin:14px 0 6px;}
+.q-lbl{font-family:var(--serif);font-size:20px;font-style:italic;color:rgba(245,239,224,0.9);margin-bottom:12px;}
+.q-btns{display:inline-flex;gap:14px;}
+.q-btn{font-family:var(--mono);font-size:13px;font-weight:700;letter-spacing:.06em;padding:13px 26px;border-radius:6px;border:1.5px solid rgba(245,239,224,0.22);background:rgba(245,239,224,0.04);color:rgba(245,239,224,0.8);cursor:pointer;transition:all .25s;text-transform:uppercase;display:flex;flex-direction:column;align-items:center;gap:3px;line-height:1.2;}
+.q-btn small{font-family:var(--sans);font-size:10px;font-weight:400;text-transform:none;letter-spacing:0;color:rgba(245,239,224,0.5);}
+.q-btn:hover{border-color:var(--gold2);color:var(--cream);}
+.q-btn.on.etp{border-color:var(--blue);background:rgba(127,176,232,0.14);color:var(--blue2);box-shadow:0 0 0 3px rgba(127,176,232,0.12);}
+.q-btn.on.sma{border-color:var(--green3);background:rgba(91,189,122,0.14);color:var(--green3);box-shadow:0 0 0 3px rgba(91,189,122,0.12);}
+
+/* ORGANOGRAMA */
+.paths{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:30px;min-height:0;align-items:stretch;margin-top:8px;}
+.path{border:1px solid rgba(184,144,47,0.20);border-radius:12px;padding:18px 22px 14px;display:flex;flex-direction:column;background:rgba(245,239,224,0.03);transition:all .3s;position:relative;}
+.path-tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;text-align:center;padding:7px;border-radius:6px;font-weight:700;margin-bottom:6px;}
+.path.etp{border-color:rgba(127,176,232,0.35);}
+.path.etp .path-tag{background:rgba(127,176,232,0.12);color:var(--blue2);}
+.path.sma{border-color:rgba(91,189,122,0.35);}
+.path.sma .path-tag{background:rgba(91,189,122,0.12);color:var(--green3);}
+.path-h{font-family:var(--serif);font-size:23px;font-weight:600;color:var(--cream);text-align:center;line-height:1.05;margin-bottom:2px;}
+.path-sub{font-family:var(--mono);font-size:9.5px;letter-spacing:.10em;text-transform:uppercase;color:rgba(245,239,224,0.5);text-align:center;margin-bottom:12px;}
+
+.flow{display:flex;flex-direction:column;gap:0;flex:1;justify-content:center;}
+.node{border-radius:8px;padding:11px 16px;text-align:center;border:1px solid rgba(245,239,224,0.12);background:rgba(11,22,38,0.5);}
+.node-k{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:rgba(245,239,224,0.45);margin-bottom:2px;}
+.node-v{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--cream);line-height:1.1;}
+.node-d{font-family:var(--sans);font-size:11.5px;color:rgba(245,239,224,0.6);margin-top:2px;font-weight:300;}
+.arr{text-align:center;font-size:16px;color:rgba(245,239,224,0.3);line-height:1.4;padding:3px 0;}
+.path.etp .node.veh{border-color:var(--blue);background:rgba(127,176,232,0.10);}
+.path.etp .node.veh .node-v{color:var(--blue2);}
+.path.sma .node.veh{border-color:var(--green3);background:rgba(91,189,122,0.10);}
+.path.sma .node.veh .node-v{color:var(--green3);}
+.node.harp .node-v{color:var(--gold2);}
+.node.harp{border-color:rgba(184,144,47,0.4);background:rgba(184,144,47,0.07);}
+
+/* estado de seleção: escurece o não-escolhido */
+.paths.sel-etp .path.sma{opacity:0.28;filter:saturate(0.4);}
+.paths.sel-sma .path.etp{opacity:0.28;filter:saturate(0.4);}
+.paths.sel-etp .path.etp{box-shadow:0 0 0 2px rgba(127,176,232,0.4), 0 10px 30px rgba(127,176,232,0.12);}
+.paths.sel-sma .path.sma{box-shadow:0 0 0 2px rgba(91,189,122,0.4), 0 10px 30px rgba(91,189,122,0.12);}
+
+.converge{flex-shrink:0;text-align:center;font-family:var(--serif);font-size:17px;font-style:italic;color:rgba(245,239,224,0.82);margin-top:12px;}
+.converge b{color:var(--gold2);font-style:normal;font-weight:600;}
+
+.foot-row{flex-shrink:0;margin-top:12px;padding-top:12px;border-top:1px solid rgba(184,144,47,0.18);display:flex;justify-content:space-between;align-items:center;}
+.cta-back{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(245,239,224,0.6);text-decoration:none;padding:11px 22px;border:1px solid rgba(245,239,224,0.16);border-radius:3px;transition:all .2s;}
+.cta-back:hover{color:var(--cream);border-color:var(--gold2);}
+.cta-go{background:linear-gradient(180deg,#F0D27A,#D4AF45,#B8902F);color:var(--navy);border:none;padding:14px 30px;font-family:var(--mono);font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;border-radius:4px;display:inline-flex;align-items:center;gap:12px;text-decoration:none;box-shadow:0 8px 22px rgba(212,175,69,0.32);transition:all .25s;}
+.cta-go:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(212,175,69,0.5);}
+.cta-go .ar{font-family:var(--serif);font-size:18px;}
+</style>
+</head>
+<body>
+
+<div class="h-top">
+  <div class="h-logo">Harpian</div>
+  <div class="h-tag">AlphaDroid Engine</div>
+  <div class="h-step">Como você investe</div>
+</div>
+
+<div class="wrap">
+  <div class="head">
+    <div class="kicker">Antes de entrar · dois caminhos</div>
+    <h1 class="headline">A gestão é a mesma. <em>O veículo depende de você.</em></h1>
+    <p class="sub">Existem dois jeitos de investir com a Harpian — e o que define o seu é uma pergunta só.</p>
+  </div>
+
+  <div class="q">
+    <div class="q-lbl">Você tem endereço fiscal nos Estados Unidos?</div>
+    <div class="q-btns">
+      <button class="q-btn etp" id="btnEtp" onclick="sel('etp')">NÃO · não-residente <small>investidor fora dos EUA</small></button>
+      <button class="q-btn sma" id="btnSma" onclick="sel('sma')">SIM · US tax resident <small>endereço fiscal nos EUA</small></button>
+    </div>
+  </div>
+
+  <div class="paths" id="paths">
+
+    <!-- CAMINHO A · ETP (não-residente) -->
+    <div class="path etp">
+      <div class="path-tag">Não-residente fiscal nos EUA</div>
+      <div class="path-h">Via ETP</div>
+      <div class="path-sub">veículo regulado · white-label</div>
+      <div class="flow">
+        <div class="node"><div class="node-k">Você</div><div class="node-v">Investidor global</div><div class="node-d">fora dos EUA</div></div>
+        <div class="arr">↓</div>
+        <div class="node veh"><div class="node-k">Aporta no</div><div class="node-v">ETP Harpian</div><div class="node-d">veículo regulado · com a sua marca</div></div>
+        <div class="arr">↓</div>
+        <div class="node harp"><div class="node-k">Gestão</div><div class="node-v">Harpian · AlphaDroid</div><div class="node-d">11 estratégias · sistemática</div></div>
+        <div class="arr">↓</div>
+        <div class="node"><div class="node-k">Onde fica</div><div class="node-v">Custódia Tier 1</div><div class="node-d">instituição global de 1ª linha</div></div>
+      </div>
+    </div>
+
+    <!-- CAMINHO B · Conta administrada Plural (residente EUA) -->
+    <div class="path sma">
+      <div class="path-tag">Residente fiscal nos EUA · US tax residency</div>
+      <div class="path-h">Conta administrada</div>
+      <div class="path-sub">SMA · via Plural</div>
+      <div class="flow">
+        <div class="node"><div class="node-k">Você</div><div class="node-v">Residente fiscal nos EUA</div><div class="node-d">endereço fiscal americano</div></div>
+        <div class="arr">↓</div>
+        <div class="node veh"><div class="node-k">Abre</div><div class="node-v">Conta administrada · Plural</div><div class="node-d">em seu nome · você é o titular</div></div>
+        <div class="arr">↓</div>
+        <div class="node harp"><div class="node-k">Gestão</div><div class="node-v">Harpian · AlphaDroid</div><div class="node-d">a mesma estratégia</div></div>
+        <div class="arr">↓</div>
+        <div class="node"><div class="node-k">Onde fica</div><div class="node-v">Custódia Tier 1</div><div class="node-d">instituição global de 1ª linha</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="converge">Nos dois caminhos, quem faz a gestão é a <b>Harpian</b> e a custódia é <b>Tier 1</b>. Muda só o veículo.</div>
+
+  <div class="foot-row">
+    <a class="cta-back" href="infraestrutura.html">← Voltar</a>
+    <button class="cta-go" onclick="window.location.href='terminal-trojan.html'">Entrar no terminal <span class="ar">→</span></button>
+  </div>
+</div>
+
+<script>
+function sel(which){
+  document.getElementById('paths').className = 'paths sel-'+which;
+  document.getElementById('btnEtp').classList.toggle('on', which==='etp');
+  document.getElementById('btnSma').classList.toggle('on', which==='sma');
+}
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft') window.location.href='infraestrutura.html';
+  else if(e.key==='ArrowRight'||e.key===' ') window.location.href='terminal-trojan.html';
+});
+</script>
+</body>
+</html>
