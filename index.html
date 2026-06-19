@@ -1,87 +1,28 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8"><title>Harpian · AlphaDroid — Apresentação Institucional</title>
+<meta charset="UTF-8">
+<title>HARPIAN — Apresentação Institucional</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap">
+<!-- Abertura oficial = narrativa (manifesto). Redireciona direto. -->
+<meta http-equiv="refresh" content="0; url=narrativa.html">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&display=swap">
 <style>
-:root{--navy:#0B1626;--navy2:#162338;--cream:#F5EFE0;--cream2:#FBF7EA;--gold:#B8902F;--gold2:#D4AF45;--muted:rgba(245,239,224,0.55);--serif:'Cormorant Garamond',serif;--sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;}
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;background:radial-gradient(ellipse at top,#162338 0%,#0B1626 60%);color:var(--cream);font-family:var(--sans);overflow:hidden;}
-body{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:40px;}
-
-/* scan line dourada sutil */
-body::before{content:'';position:fixed;inset:0;background:linear-gradient(180deg,transparent,rgba(212,175,69,0.04),transparent);pointer-events:none;animation:scan 6s ease-in-out infinite;}
-@keyframes scan{0%,100%{opacity:0;transform:translateY(-30%);}50%{opacity:1;transform:translateY(30%);}}
-
-.cap-top{position:fixed;top:28px;left:40px;display:flex;align-items:baseline;gap:14px;}
-.cap-logo{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--cream);}
-.cap-tag{font-family:var(--mono);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:var(--gold2);}
-
-.cap-kicker{font-family:var(--mono);font-size:13px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold2);margin-bottom:18px;text-align:center;}
-.cap-kicker::before{content:'★ ';color:var(--gold);}
-.cap-h{font-family:var(--serif);font-size:74px;font-weight:600;line-height:1.0;text-align:center;letter-spacing:-0.02em;margin-bottom:14px;}
-.cap-h em{font-style:italic;color:var(--gold2);font-weight:500;}
-.cap-sub{font-family:var(--sans);font-size:17px;line-height:1.6;color:rgba(245,239,224,0.78);max-width:720px;text-align:center;margin-bottom:46px;}
-.cap-sub strong{color:var(--gold2);font-weight:600;}
-
-/* CTA principal */
-.cap-cta{background:linear-gradient(180deg,#D4AF45,#B8902F);color:var(--navy);border:none;padding:22px 56px;font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;border-radius:3px;display:inline-flex;align-items:center;gap:14px;box-shadow:0 6px 28px rgba(184,144,47,0.45);transition:all .25s;animation:pulse 2.6s ease-in-out infinite;text-decoration:none;}
-.cap-cta:hover{transform:translateY(-3px);box-shadow:0 10px 40px rgba(184,144,47,0.65);}
-.cap-cta .arrow{font-family:var(--serif);font-size:22px;}
-@keyframes pulse{0%,100%{box-shadow:0 6px 28px rgba(184,144,47,0.45);}50%{box-shadow:0 6px 40px rgba(184,144,47,0.80);}}
-
-/* 3 partes · acesso direto */
-.cap-parts{display:flex;gap:14px;margin-top:46px;}
-.cap-part{background:rgba(245,239,224,0.04);border:1px solid rgba(184,144,47,0.25);border-radius:4px;padding:18px 24px;text-decoration:none;color:var(--cream);transition:all .2s;min-width:230px;text-align:left;}
-.cap-part:hover{background:rgba(184,144,47,0.10);border-color:var(--gold);transform:translateY(-2px);}
-.cap-part-n{font-family:var(--serif);font-size:30px;font-weight:600;font-style:italic;color:var(--gold2);line-height:1;}
-.cap-part-h{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--cream);margin-top:6px;line-height:1.15;}
-.cap-part-d{font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted);margin-top:6px;line-height:1.5;text-transform:uppercase;}
-
-.cap-foot{position:fixed;bottom:28px;left:0;right:0;display:flex;justify-content:center;gap:24px;font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);}
-.cap-foot span::before{content:'';display:inline-block;width:6px;height:6px;background:#5BBD7A;border-radius:50%;margin-right:7px;vertical-align:middle;}
-
-@media (max-width:1100px){.cap-h{font-size:48px;}.cap-parts{flex-direction:column;}}
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{height:100%;}
+  body{display:flex;align-items:center;justify-content:center;
+    background:radial-gradient(ellipse at top,#0F1C2E 0%,#0A1422 60%);
+    color:#ECEEF1;font-family:'Manrope',system-ui,sans-serif;}
+  a{color:#CDAE6E;font-weight:600;text-decoration:none;letter-spacing:.01em;}
+  .w{text-align:center;opacity:.9;}
+  .w small{display:block;margin-top:10px;font-size:13px;color:#8A93A0;font-weight:300;letter-spacing:.06em;}
 </style>
+<script>window.location.replace('narrativa.html');</script>
 </head>
 <body>
-  <div class="cap-top">
-    <div class="cap-logo">Harpian</div>
-    <div class="cap-tag">AlphaDroid Engine · 11 Strategies</div>
-  </div>
-
-  <div class="cap-kicker">Apresentação Institucional · Family Offices</div>
-  <h1 class="cap-h">A engenharia que<br><em>protege e compõe.</em></h1>
-  <p class="cap-sub">Dois <strong>ETPs Tier 1</strong> listados na Bolsa de Viena, auditados pela Deloitte. Motor <strong>AlphaDroid</strong> com defesa automática <strong>StormGuard</strong>. Apresentação completa em 3 partes.</p>
-
-  <a class="cap-cta" href="doutrina.html">Iniciar Apresentação <span class="arrow">→</span></a>
-
-  <div class="cap-parts">
-    <a class="cap-part" href="doutrina.html">
-      <div class="cap-part-n">I</div>
-      <div class="cap-part-h">Doutrina &amp; Arquitetura</div>
-      <div class="cap-part-d">11 slides · filosofia · 2 ETPs · defesa · prova · matriz · Tier 1</div>
-    </a>
-    <a class="cap-part" href="como-avaliamos-risco.html">
-      <div class="cap-part-n">II</div>
-      <div class="cap-part-h">Jornada Diagnóstica</div>
-      <div class="cap-part-d">telemetria · 3 lentes · mandato · perfil · ambição · diagnóstico · espelho</div>
-    </a>
-    <a class="cap-part" href="tour-v2.html">
-      <div class="cap-part-n">III</div>
-      <div class="cap-part-h">Intelligence Terminal</div>
-      <div class="cap-part-d">tour guiado · ativação · acesso ao terminal real</div>
-    </a>
-  </div>
-
-  <div class="cap-foot">
-    <span>Bolsa de Viena</span>
-    <span>Deloitte</span>
-    <span>BNY Mellon</span>
-    <span>Interactive Brokers</span>
-    <span>Bloomberg</span>
+  <div class="w">
+    <a href="narrativa.html">HARPIAN — abrir apresentação &rarr;</a>
+    <small>Carregando a abertura…</small>
   </div>
 </body>
 </html>
