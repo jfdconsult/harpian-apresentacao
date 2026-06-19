@@ -771,6 +771,125 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
 .kbd kbd{display:inline-block;padding:1px 6px;border:1px solid currentColor;border-radius:3px;margin:0 3px;}
 </style>
 <link rel="stylesheet" href="harpian-ds.css">
+<style id="op-redesign">
+/* ===== ORGANOGRAMA INSTITUCIONAL — versao CLARA + PLAY (2026-06-19) ===== */
+.s7op{background:#F6F7F9 !important;}
+.s7op .headline{color:var(--ink) !important;}
+.s7op .op-sub{color:var(--ink2) !important;}
+.s7op .op-sub strong{color:var(--gold) !important;}
+.s7op .op-sub strong[style*="9AC4ED"]{color:#2F5C86 !important;}
+
+/* Toggles + PLAY claros */
+.s7op .op-toggle{background:#fff;border:1px solid var(--line2);color:var(--ink2);}
+.s7op .op-toggle:hover{background:#FAF6EC;border-color:var(--gold);}
+.s7op .op-toggle.active{background:var(--gold);color:#fff;border-color:var(--gold);}
+.s7op .op-tog-reset{background:transparent;color:var(--muted);border-color:var(--line2);}
+.s7op .op-tog-reset:hover{color:var(--ink);border-color:var(--gold);}
+.op-play-btn{background:var(--gold);color:#fff;border:none;padding:8px 18px;border-radius:4px;font-family:var(--mono);font-size:11.5px;letter-spacing:.10em;text-transform:uppercase;cursor:pointer;font-weight:700;display:inline-flex;align-items:center;gap:8px;transition:all .2s;}
+.op-play-btn:hover{filter:brightness(1.06);transform:translateY(-1px);box-shadow:0 6px 16px rgba(184,149,84,.30);}
+.op-play-btn:disabled{opacity:.6;cursor:default;transform:none;box-shadow:none;}
+.op-caption{min-height:22px;margin:6px 0 2px;font-family:var(--sans);font-size:15px;font-weight:600;color:var(--ink);letter-spacing:.01em;transition:opacity .3s;}
+.op-caption:empty{opacity:0;}
+
+/* Moldura do diagrama clara */
+.s7op .op-diagram-wrap{background:#fff;border:1px solid var(--line);box-shadow:0 8px 30px rgba(14,23,38,.06);border-radius:6px;}
+
+/* ---- NOS: cards brancos, texto escuro, Manrope ---- */
+.s7op .op-node rect{fill:#FFFFFF;transition:filter .25s ease;}
+.s7op .op-node text{font-family:var(--sans);}
+.s7op .op-node text[fill="#FBF7EA"],.s7op .op-node-qia text{font-family:var(--display);}
+.s7op .op-node text[fill="#FBF7EA"]{fill:var(--ink);font-weight:600;}
+.s7op .op-node text[fill="#88B58E"]{fill:#4F7A5C;}
+.s7op .op-node text[fill="#9AC4ED"]{fill:#3E6E9E;}
+.s7op .op-node text[fill="#E8965B"]{fill:#B07A38;}
+.s7op .op-node text[fill="#C0C8D2"]{fill:#6B7682;}
+.s7op .op-node text[fill="#D4AF45"]{fill:var(--gold);}
+.s7op .op-node text[fill="rgba(245,239,224,0.75)"],.s7op .op-node text[fill="rgba(245,239,224,0.65)"]{fill:var(--muted);}
+/* hub dourado: anel mais suave */
+.s7op .op-node-qia circle[stroke="#FBF7EA"]{stroke:#FFFFFF;stroke-width:4;}
+/* hover suave (substitui brilho duro) */
+.s7op .op-node:hover rect{filter:drop-shadow(0 5px 14px rgba(14,23,38,.16));}
+.s7op .op-node:hover circle{filter:drop-shadow(0 6px 18px rgba(184,149,84,.40));}
+.s7op .op-node-active rect{filter:drop-shadow(0 4px 14px rgba(184,149,84,.55));stroke-width:2.5 !important;}
+
+/* linhas-base sutis */
+.s7op .op-conn-base line{stroke:rgba(14,23,38,.09) !important;}
+
+/* ---- CONEXOES controladas individualmente (PLAY/toggle) ---- */
+.s7op .op-conn{opacity:1 !important;}
+.s7op .op-conn path{opacity:0;}
+.s7op .op-conn text{opacity:0;}
+/* setas mais escuras p/ contraste no branco */
+.s7op .op-conn[data-flow="capital"] path{stroke:#3E6E9E !important;}
+.s7op .op-conn[data-flow="dados"] path{stroke:#4F7A5C !important;}
+.s7op .op-conn[data-flow="decisao"] path{stroke:#B07A38 !important;}
+#arrCap path{fill:#3E6E9E !important;}
+#arrDat path{fill:#4F7A5C !important;}
+#arrDec path{fill:#B07A38 !important;}
+
+/* destaque progressivo durante o PLAY */
+.s7op .op-svg.op-playing .op-node{opacity:.42;transition:opacity .4s ease;}
+.s7op .op-svg.op-playing .op-node.op-node-lit{opacity:1;}
+.s7op .op-node.op-node-lit rect{filter:drop-shadow(0 5px 16px rgba(184,149,84,.45));}
+
+/* pulso do hub mais sutil/natural */
+.s7op .op-qia-pulse{animation:opPulseSoft 4.5s ease-in-out infinite;}
+@keyframes opPulseSoft{0%,100%{r:114;opacity:.20;}50%{r:130;opacity:.05;}}
+
+/* banner redundancia claro */
+.s7op .op-redund{background:linear-gradient(90deg,rgba(184,149,84,.10),rgba(184,149,84,.03));border:1px dashed rgba(184,149,84,.40);}
+.s7op .op-redund-tag{color:var(--gold);}
+.s7op .op-redund-body{color:var(--ink2);}
+
+/* painel de detalhe claro */
+.s7op .op-detail{background:#fff;border:1px solid var(--line2);box-shadow:0 12px 34px rgba(14,23,38,.12);}
+.s7op .op-detail-head{border-bottom-color:rgba(184,149,84,.25);}
+.s7op .op-detail-tag{color:var(--gold);}
+.s7op .op-detail-close{color:var(--ink2);border-color:var(--line2);}
+.s7op .op-detail-close:hover{background:#FAF6EC;border-color:var(--gold);}
+.s7op .op-detail-name{color:var(--ink);font-family:var(--display);}
+.s7op .op-detail-lbl{color:var(--gold);border-bottom-color:rgba(184,149,84,.20);}
+.s7op .op-detail-val{color:var(--ink2);}
+.s7op .op-detail-val strong{color:var(--gold);}
+
+/* ===== LAYOUT FIX: titulo compacto + diagrama grande e legivel ===== */
+.s7op{padding:24px 40px 18px !important;}
+.s7op .kicker{margin-bottom:7px !important;}
+.s7op .headline,.s7op .headline.sm{font-size:30px !important;line-height:1.12 !important;letter-spacing:-0.02em !important;margin:0 0 6px !important;max-width:none !important;}
+.s7op .op-sub{font-size:12.5px !important;line-height:1.45 !important;margin-bottom:8px !important;max-width:1180px;}
+.s7op .op-tax{font-size:12px !important;line-height:1.4 !important;padding:8px 14px !important;margin:6px 0 4px !important;}
+.s7op .op-toggles{margin-bottom:6px !important;}
+.s7op .op-caption{font-size:13.5px;margin:2px 0 6px;}
+/* diagrama ocupa toda a altura restante; moldura abraca o diagrama (sem vazio lateral) */
+.s7op .op-lab{max-height:none !important;flex:1;min-height:0;}
+.s7op .op-diagram-wrap{padding:12px 24px !important;align-items:center;justify-content:center;}
+.s7op .op-svg{width:100%;height:100%;}
+.s7op .op-redund{margin-top:8px !important;padding:9px 16px !important;}
+
+/* ===== 2 VISTAS: tabs MACRO/MICRO + fluxo do dinheiro ===== */
+.op-viewtabs{display:inline-flex;background:transparent;border:none;padding:0;margin:0 0 14px;gap:12px;}
+.op-vtab{background:#fff;border:1px solid var(--line2);box-shadow:0 2px 8px rgba(14,23,38,.10);padding:11px 22px;border-radius:8px;font-family:var(--mono);font-size:11.5px;letter-spacing:.10em;text-transform:uppercase;color:var(--ink2);cursor:pointer;font-weight:700;transition:all .2s;display:inline-flex;align-items:center;gap:9px;}
+.op-vtab:hover{color:var(--ink);border-color:var(--gold);box-shadow:0 5px 14px rgba(14,23,38,.16);transform:translateY(-1px);}
+.op-vtab.active{background:var(--gold);color:#fff;border-color:var(--gold);box-shadow:0 5px 16px rgba(184,149,84,.38);}
+.op-vtab .vdot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.65;}
+.s7op .op-macro{flex:1;min-height:0;display:flex;flex-direction:column;}
+
+/* MICRO — fluxo horizontal do dinheiro */
+.op-micro{flex:1;min-height:0;display:flex;flex-direction:column;}
+.mic-stage{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 30px rgba(14,23,38,.06);padding:34px 30px;}
+.mic-flow{display:flex;align-items:stretch;justify-content:center;gap:0;}
+.mic-step{flex:1 1 0;max-width:255px;background:#fff;border:1px solid var(--line2);border-top:3px solid var(--accent,var(--gold));border-radius:6px;padding:20px 16px 16px;display:flex;flex-direction:column;gap:8px;position:relative;opacity:.16;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease,box-shadow .25s ease;}
+.mic-step.on{opacity:1;transform:none;box-shadow:0 8px 22px rgba(14,23,38,.09);}
+.mic-num{position:absolute;top:-16px;left:18px;width:32px;height:32px;border-radius:50%;background:var(--accent,var(--gold));color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 9px rgba(14,23,38,.20);}
+.mic-tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent,var(--gold));font-weight:700;margin-top:8px;}
+.mic-name{font-family:var(--display);font-size:19px;font-weight:700;color:var(--ink);line-height:1.12;}
+.mic-name .flag{font-size:17px;margin-right:5px;}
+.mic-desc{font-family:var(--sans);font-size:12.5px;line-height:1.45;color:var(--ink2);}
+.mic-arrow{flex:0 0 40px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:24px;font-weight:300;opacity:.18;transition:opacity .5s ease;}
+.mic-arrow.on{opacity:1;}
+.mic-foot{margin-top:20px;padding:13px 18px;background:linear-gradient(90deg,rgba(184,149,84,.10),rgba(184,149,84,.03));border-left:3px solid var(--gold);border-radius:4px;font-family:var(--sans);font-size:12.5px;line-height:1.5;color:var(--ink2);}
+.mic-foot strong{color:var(--gold);font-weight:700;}
+</style>
 </head>
 <body>
 
@@ -2818,191 +2937,92 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
        SLIDE 7 — OPERAÇÃO INSTITUCIONAL TIER 1 (INTERATIVO · McKinsey)
        Hub-and-spoke com QIA/ARP no centro. 11 nós clicáveis. 3 fluxos.
        ════════════════════════════════════════════════════════════ -->
-  <section class="slide navy s7op" data-bg="navy">
+  <section class="slide s7op" data-bg="cream">
     <div class="kicker">Estrutura institucional + vantagem tributária</div>
     <h1 class="headline sm">Cinco instituições. <em>Nenhuma subordinada à outra.</em></h1>
-    <p class="op-sub">Operação institucional <strong>Tier 1, sem improviso</strong>. <strong style="color:#9AC4ED">O dinheiro nunca passa pela Harpian</strong> — flui direto de <strong>BNY Mellon</strong> (custódia) para <strong>Interactive Brokers</strong> (execução). Contabilização por <strong>LYNK</strong>, auditoria <strong>Deloitte</strong>. A Harpian envia <em>decisões</em> — não toca no capital. <strong>Clique em cada peça</strong> e use os toggles de fluxo.</p>
-    <div style="margin:10px 0 4px;background:linear-gradient(90deg,rgba(212,175,69,0.16),rgba(212,175,69,0.04));border-left:3px solid var(--gold2);border-radius:3px;padding:11px 18px;font-family:var(--sans);font-size:14px;line-height:1.5;color:rgba(245,239,224,0.92);"><strong style="color:var(--gold2);">Vantagem tributária:</strong> os ETPs seguem o regime fiscal de ações no exterior — o investidor brasileiro <strong>só paga imposto na venda</strong>. Diferimento total, sem come-cotas, sem antecipação. Uma das últimas estruturas com esse benefício após a nova regulamentação dos fundos offshore.</div>
+    <p class="op-sub">Operação institucional <strong>Tier 1, sem improviso</strong>. <strong style="color:#2F5C86">O dinheiro nunca passa pela Harpian</strong> — flui direto de <strong>BNY Mellon</strong> (custódia) para <strong>Interactive Brokers</strong> (execução). Contabilização por <strong>LYNK</strong>, auditoria <strong>Deloitte</strong>. A Harpian envia <em>decisões</em> — não toca no capital. <strong>Clique em cada peça</strong> e use os toggles de fluxo.</p>
+    <div class="op-tax" style="margin:10px 0 4px;background:linear-gradient(90deg,rgba(184,149,84,0.12),rgba(184,149,84,0.03));border-left:3px solid var(--gold);border-radius:3px;padding:11px 18px;font-family:var(--sans);font-size:14px;line-height:1.5;color:var(--ink2);"><strong style="color:var(--gold);">Vantagem tributária:</strong> os ETPs seguem o regime fiscal de ações no exterior — o investidor brasileiro <strong>só paga imposto na venda</strong>. Diferimento total, sem come-cotas, sem antecipação. Uma das últimas estruturas com esse benefício após a nova regulamentação dos fundos offshore.</div>
 
-    <!-- Toggles de fluxo -->
-    <div class="op-toggles">
-      <span class="op-toggles-lbl">Mostre o caminho:</span>
-      <button class="op-toggle op-tog-capital" data-flow="capital" onclick="opFlow('capital')">
-        <span class="op-tog-dot"></span>Capital
-      </button>
-      <button class="op-toggle op-tog-dados" data-flow="dados" onclick="opFlow('dados')">
-        <span class="op-tog-dot"></span>Dados
-      </button>
-      <button class="op-toggle op-tog-decisao" data-flow="decisao" onclick="opFlow('decisao')">
-        <span class="op-tog-dot"></span>Decisão
-      </button>
-      <button class="op-toggle op-tog-reset" onclick="opFlow(null)">Reset</button>
+    <!-- ABAS: 2 vistas da mesma tela -->
+    <div class="op-viewtabs">
+      <button class="op-vtab active" data-view="macro" onclick="opView('macro')"><span class="vdot"></span>Os agentes · arquitetura</button>
+      <button class="op-vtab" data-view="micro" onclick="opView('micro')"><span class="vdot"></span>O fluxo do dinheiro</button>
     </div>
+
+    <!-- ╔═══ VISTA MACRO — os agentes ═══╗ -->
+    <div class="op-macro">
+    <div class="op-caption" id="opCaption" style="opacity:.85;font-weight:500;color:var(--ink2);">Clique em cada agente para ver o que faz e por que esse parceiro.</div>
 
     <!-- LAB: diagrama (esq) + painel de detalhe (dir, oculto até click) -->
     <div class="op-lab">
       <div class="op-diagram-wrap">
         <svg viewBox="0 0 1100 600" preserveAspectRatio="xMidYMid meet" class="op-svg">
           <defs>
-            <!-- gradiente do QIA -->
             <radialGradient id="qiaGrad" cx="50%" cy="50%" r="60%">
               <stop offset="0%" stop-color="#F0CE5C"/>
               <stop offset="50%" stop-color="#B8902F"/>
               <stop offset="100%" stop-color="#6D5418"/>
             </radialGradient>
-            <!-- markers de seta por fluxo -->
-            <marker id="arrCap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#7AB3E8"/>
-            </marker>
-            <marker id="arrDat" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#557D5C"/>
-            </marker>
-            <marker id="arrDec" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="#C97830"/>
-            </marker>
-            <marker id="arrDef" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="rgba(184,144,47,0.5)"/>
-            </marker>
           </defs>
-
-          <!-- ─── CONNECTORS (linhas tracejadas — visíveis quando flow ativo) ─── -->
-          <g class="op-conn" data-flow="dados">
-            <!-- Fast Track/Bloomberg/Reuters/IBKR → Harpian (todas as setas chegam no centro) -->
-            <path d="M 240 130 Q 380 220 490 280" stroke="#557D5C" stroke-width="2.2" fill="none" stroke-dasharray="5,4" marker-end="url(#arrDat)"/>
-            <path d="M 550 130 L 550 212" stroke="#557D5C" stroke-width="2.2" fill="none" stroke-dasharray="5,4" marker-end="url(#arrDat)"/>
-            <path d="M 860 130 Q 720 220 610 280" stroke="#557D5C" stroke-width="2.2" fill="none" stroke-dasharray="5,4" marker-end="url(#arrDat)"/>
-            <!-- IBKR também envia dados (fills, slippage, latência) de volta para Harpian -->
-            <path d="M 815 390 Q 720 350 638 310" stroke="#557D5C" stroke-width="2.2" fill="none" stroke-dasharray="5,4" marker-end="url(#arrDat)"/>
-            <text x="725" y="345" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="600" letter-spacing="0.12em" fill="#88B58E">FILLS · SLIPPAGE</text>
-          </g>
-          <g class="op-conn" data-flow="capital">
-            <!-- Cliente → BNY Custódia (vertical esquerda) -->
-            <path d="M 175 290 L 175 360" stroke="#7AB3E8" stroke-width="2.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrCap)"/>
-            <!-- ★ FLUXO DIRETO BNY Custódia ⟶ IBKR · NÃO PASSA PELA HARPIAN ★ -->
-            <path d="M 295 420 Q 550 460 805 420" stroke="#7AB3E8" stroke-width="3.5" fill="none" stroke-dasharray="8,5" marker-end="url(#arrCap)"/>
-            <!-- Rótulo destacando que o dinheiro contorna a Harpian -->
-            <text x="550" y="455" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" font-weight="700" letter-spacing="0.16em" fill="#9AC4ED" text-transform="uppercase">DINHEIRO · DIRETO · NÃO PASSA PELA HARPIAN</text>
-            <!-- IBKR ⟶ BNY Conciliação (volta) -->
-            <path d="M 925 470 Q 700 580 340 540" stroke="#7AB3E8" stroke-width="2.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrCap)"/>
-            <!-- BNY Custódia ⟶ BNY Conciliação (vertical esquerda) -->
-            <path d="M 175 470 L 220 510" stroke="#7AB3E8" stroke-width="2.5" fill="none" stroke-dasharray="6,4" marker-end="url(#arrCap)"/>
-          </g>
-          <g class="op-conn" data-flow="decisao">
-            <!-- 2 setas pontilhadas chegando em IBKR -->
-            <!-- (1) Harpian → IBKR (sugestão direta) -->
-            <path d="M 632 320 Q 740 350 803 400" stroke="#C97830" stroke-width="2.8" fill="none" stroke-dasharray="6,4" marker-end="url(#arrDec)"/>
-            <text x="715" y="338" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" letter-spacing="0.12em" fill="#E8965B">SUGESTÃO HARPIAN</text>
-            <!-- (2) Comitê Humano → IBKR (ordem autorizada) -->
-            <path d="M 605 500 Q 715 470 803 445" stroke="#C97830" stroke-width="3" fill="none" stroke-dasharray="6,4" marker-end="url(#arrDec)"/>
-            <text x="710" y="463" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="700" letter-spacing="0.12em" fill="#E8965B">ORDEM AUTORIZADA</text>
-            <!-- Conexão Harpian → Comitê (vertical, contexto: sugestão passa pelo comitê) -->
-            <path d="M 550 388 L 485 466" stroke="#C97830" stroke-width="2" fill="none" stroke-dasharray="4,4" opacity="0.65" marker-end="url(#arrDec)"/>
-          </g>
-          <!-- Conexões neutras sempre visíveis (sutis) -->
+          <!-- conexoes conceituais (radiais, sutis) -->
           <g class="op-conn-base">
-            <line x1="240" y1="110" x2="510" y2="270" stroke="rgba(184,144,47,0.18)" stroke-width="1.2"/>
-            <line x1="550" y1="100" x2="550" y2="240" stroke="rgba(184,144,47,0.18)" stroke-width="1.2"/>
-            <line x1="860" y1="110" x2="590" y2="270" stroke="rgba(184,144,47,0.18)" stroke-width="1.2"/>
-            <line x1="260" y1="400" x2="480" y2="320" stroke="rgba(184,144,47,0.18)" stroke-width="1.2"/>
-            <line x1="620" y1="320" x2="850" y2="400" stroke="rgba(184,144,47,0.18)" stroke-width="1.2"/>
-            <line x1="550" y1="365" x2="550" y2="470" stroke="rgba(184,144,47,0.18)" stroke-width="1.2"/>
-            <line x1="175" y1="290" x2="175" y2="360" stroke="rgba(184,144,47,0.18)" stroke-width="1.2"/>
-            <line x1="925" y1="290" x2="925" y2="360" stroke="rgba(184,144,47,0.18)" stroke-width="1.2"/>
+            <line x1="310" y1="101" x2="478" y2="250"/>
+            <line x1="310" y1="300" x2="458" y2="300"/>
+            <line x1="310" y1="477" x2="478" y2="350"/>
+            <line x1="790" y1="101" x2="622" y2="250"/>
+            <line x1="790" y1="300" x2="642" y2="300"/>
+            <line x1="790" y1="477" x2="622" y2="350"/>
           </g>
-
-          <!-- ═══ NÓS (caixas clicáveis) ═══ -->
-
-          <!-- TOPO — DADOS (3 caixas verde-oliva) -->
-          <g class="op-node op-node-dat" data-node="factset" onclick="opSelect('factset')">
-            <rect x="110" y="50" width="240" height="80" rx="4" fill="rgba(85,125,92,0.18)" stroke="#557D5C" stroke-width="1.5"/>
-            <text x="230" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.18em" fill="#88B58E">DADOS · CORPORATE</text>
-            <text x="230" y="104" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" font-weight="600" fill="#FBF7EA">Fast Track</text>
-          </g>
+          <!-- ESQUERDA -->
           <g class="op-node op-node-dat" data-node="bloomberg" onclick="opSelect('bloomberg')">
-            <rect x="430" y="50" width="240" height="80" rx="4" fill="rgba(85,125,92,0.18)" stroke="#557D5C" stroke-width="1.5"/>
-            <text x="550" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.18em" fill="#88B58E">DADOS · MARKET</text>
-            <text x="550" y="104" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" font-weight="600" fill="#FBF7EA">Bloomberg</text>
-          </g>
-          <g class="op-node op-node-dat" data-node="reuters" onclick="opSelect('reuters')">
-            <rect x="750" y="50" width="240" height="80" rx="4" fill="rgba(85,125,92,0.18)" stroke="#557D5C" stroke-width="1.5"/>
-            <text x="870" y="78" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.18em" fill="#88B58E">DADOS · NEWS/MACRO</text>
-            <text x="870" y="104" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" font-weight="600" fill="#FBF7EA">Reuters</text>
-          </g>
-
-          <!-- ESQUERDA — CAPITAL (azul) -->
-          <g class="op-node op-node-cap" data-node="cliente" onclick="opSelect('cliente')">
-            <rect x="55" y="220" width="240" height="80" rx="4" fill="rgba(122,179,232,0.16)" stroke="#7AB3E8" stroke-width="1.5"/>
-            <text x="175" y="248" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.18em" fill="#9AC4ED">CAPITAL · ENTRADA</text>
-            <text x="175" y="274" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="20" font-weight="600" fill="#FBF7EA">Cliente deposita</text>
+            <rect x="60" y="55" width="250" height="92" rx="5" stroke="#557D5C" stroke-width="1.5"/>
+            <text x="185" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.16em" fill="#88B58E">INFORMACAO &#183; MERCADO</text>
+            <text x="185" y="114" text-anchor="middle" font-size="22" font-weight="700" fill="#FBF7EA">Dados de Mercado</text>
+            <text x="185" y="134" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="rgba(245,239,224,0.75)">Bloomberg &#183; Reuters &#183; Fast Track</text>
           </g>
           <g class="op-node op-node-cap" data-node="bnycustodia" onclick="opSelect('bnycustodia')">
-            <rect x="55" y="370" width="240" height="100" rx="4" fill="rgba(122,179,232,0.18)" stroke="#7AB3E8" stroke-width="2"/>
-            <text x="175" y="398" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.18em" fill="#9AC4ED">CUSTÓDIA · TIER 1</text>
-            <text x="175" y="425" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" font-weight="700" fill="#FBF7EA">BNY Mellon</text>
-            <text x="175" y="448" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="rgba(245,239,224,0.75)">Custódia segregada NY</text>
+            <rect x="60" y="254" width="250" height="92" rx="5" stroke="#7AB3E8" stroke-width="1.5"/>
+            <text x="185" y="287" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.16em" fill="#9AC4ED">CUSTODIA &#183; TIER 1</text>
+            <text x="185" y="313" text-anchor="middle" font-size="22" font-weight="700" fill="#FBF7EA">BNY Mellon</text>
+            <text x="185" y="333" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="rgba(245,239,224,0.75)">Onde o dinheiro fica &#183; Nova Iorque</text>
           </g>
-
-          <!-- DIREITA — EXECUÇÃO (laranja) -->
-          <g class="op-node op-node-exe" data-node="ibkr" onclick="opSelect('ibkr')">
-            <rect x="805" y="370" width="240" height="100" rx="4" fill="rgba(201,120,48,0.18)" stroke="#C97830" stroke-width="2"/>
-            <text x="925" y="398" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.18em" fill="#E8965B">EXECUÇÃO · TIER 1</text>
-            <text x="925" y="425" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" font-weight="700" fill="#FBF7EA">Interactive Brokers</text>
-            <text x="925" y="448" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="rgba(245,239,224,0.75)">Execução algorítmica</text>
+          <g class="op-node op-node-cal" data-node="lynk" onclick="opSelect('lynk')">
+            <rect x="60" y="431" width="250" height="92" rx="5" stroke="#B8902F" stroke-width="1.5"/>
+            <text x="185" y="464" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.16em" fill="#D4AF45">PLATAFORMA &#183; NAV</text>
+            <text x="185" y="490" text-anchor="middle" font-size="22" font-weight="700" fill="#FBF7EA">LYNK</text>
+            <text x="185" y="510" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="rgba(245,239,224,0.75)">Ordens, conciliacao e NAV oficial</text>
           </g>
-          <g class="op-node op-node-exe" data-node="etps" onclick="opSelect('etps')">
-            <rect x="805" y="220" width="240" height="80" rx="4" fill="rgba(201,120,48,0.14)" stroke="#C97830" stroke-width="1.5"/>
-            <text x="925" y="248" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.18em" fill="#E8965B">INSTRUMENTOS</text>
-            <text x="925" y="274" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="22" font-weight="600" fill="#FBF7EA">Ações e ETFs</text>
-          </g>
-
-          <!-- CENTRO — HARPIAN (HUB DOURADO) -->
-          <g class="op-node op-node-qia" data-node="qia" onclick="opSelect('qia')">
-            <!-- pulso (anel externo) -->
-            <circle cx="550" cy="300" r="105" fill="none" stroke="#B8902F" stroke-width="1.5" opacity="0.4" class="op-qia-pulse"/>
-            <circle cx="550" cy="300" r="88" fill="url(#qiaGrad)" stroke="#FBF7EA" stroke-width="3"/>
-            <text x="550" y="285" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.22em" font-weight="700" fill="#0B1626">★ ORQUESTRADOR ★</text>
-            <text x="550" y="318" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="36" font-weight="700" fill="#0B1626">HARPIAN</text>
-            <text x="550" y="342" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="0.14em" fill="#3A2A08">4 MOTORES · CRS · D/S/M/Q</text>
-          </g>
-
-          <!-- BOTTOM ROW — 5 caixas: LYNK · BNY Concil · Comitê · Ritmos · Deloitte -->
-          <g class="op-node op-node-gov" data-node="lynk" onclick="opSelect('lynk')">
-            <rect x="55" y="470" width="125" height="80" rx="4" fill="rgba(150,170,200,0.10)" stroke="#A4B0B8" stroke-width="1.5"/>
-            <text x="117" y="498" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="0.14em" fill="#C0C8D2">CONTABILIDADE</text>
-            <text x="117" y="520" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="17" font-weight="700" fill="#FBF7EA">LYNK</text>
-            <text x="117" y="538" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="rgba(245,239,224,0.65)">NAV oficial T+1</text>
-          </g>
-          <g class="op-node op-node-cap" data-node="bnyconcili" onclick="opSelect('bnyconcili')">
-            <rect x="205" y="470" width="135" height="80" rx="4" fill="rgba(122,179,232,0.12)" stroke="#7AB3E8" stroke-width="1.5"/>
-            <text x="272" y="498" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="0.14em" fill="#9AC4ED">CONCILIAÇÃO</text>
-            <text x="272" y="520" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="15" font-weight="600" fill="#FBF7EA">BNY Mellon</text>
-            <text x="272" y="538" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="rgba(245,239,224,0.65)">Match T+0</text>
-          </g>
+          <!-- DIREITA -->
           <g class="op-node op-node-dec" data-node="comite" onclick="opSelect('comite')">
-            <rect x="365" y="470" width="240" height="80" rx="4" fill="rgba(201,120,48,0.20)" stroke="#C97830" stroke-width="2"/>
-            <text x="485" y="498" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.18em" fill="#E8965B">GOVERNANÇA · HUMAN-IN-LOOP</text>
-            <text x="485" y="524" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="20" font-weight="700" fill="#FBF7EA">Comitê Humano</text>
+            <rect x="790" y="55" width="250" height="92" rx="5" stroke="#C97830" stroke-width="1.5"/>
+            <text x="915" y="88" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.16em" fill="#E8965B">GOVERNANCA &#183; HUMANA</text>
+            <text x="915" y="114" text-anchor="middle" font-size="22" font-weight="700" fill="#FBF7EA">Equipe &amp; Comite</text>
+            <text x="915" y="134" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="rgba(245,239,224,0.75)">Decisao final supervisionada</text>
           </g>
-          <g class="op-node op-node-cal" data-node="ritmos" onclick="opSelect('ritmos')">
-            <rect x="630" y="470" width="135" height="80" rx="4" fill="rgba(184,144,47,0.14)" stroke="#B8902F" stroke-width="1.5"/>
-            <text x="697" y="498" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="0.14em" fill="#D4AF45">RITMOS</text>
-            <text x="697" y="520" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="15" font-weight="600" fill="#FBF7EA">D · S · M · Q</text>
-            <text x="697" y="538" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="rgba(245,239,224,0.65)">Calibração</text>
+          <g class="op-node op-node-exe" data-node="ibkr" onclick="opSelect('ibkr')">
+            <rect x="790" y="254" width="250" height="92" rx="5" stroke="#C97830" stroke-width="1.5"/>
+            <text x="915" y="287" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.16em" fill="#E8965B">EXECUCAO &#183; TIER 1</text>
+            <text x="915" y="313" text-anchor="middle" font-size="22" font-weight="700" fill="#FBF7EA">Interactive Brokers</text>
+            <text x="915" y="333" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="rgba(245,239,224,0.75)">Onde operamos &#183; Wall Street</text>
           </g>
           <g class="op-node op-node-gov" data-node="deloitte" onclick="opSelect('deloitte')">
-            <rect x="790" y="470" width="125" height="80" rx="4" fill="rgba(150,170,200,0.10)" stroke="#A4B0B8" stroke-width="1.5"/>
-            <text x="852" y="498" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="0.14em" fill="#C0C8D2">AUDITORIA · BIG FOUR</text>
-            <text x="852" y="520" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="17" font-weight="700" fill="#FBF7EA">Deloitte</text>
-            <text x="852" y="538" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" fill="rgba(245,239,224,0.65)">Auditor independente</text>
+            <rect x="790" y="431" width="250" height="92" rx="5" stroke="#A4B0B8" stroke-width="1.5"/>
+            <text x="915" y="464" text-anchor="middle" font-family="Inter,sans-serif" font-size="11" letter-spacing="0.16em" fill="#C0C8D2">AUDITORIA &#183; BIG FOUR</text>
+            <text x="915" y="490" text-anchor="middle" font-size="22" font-weight="700" fill="#FBF7EA">Deloitte</text>
+            <text x="915" y="510" text-anchor="middle" font-family="Inter,sans-serif" font-size="12" fill="rgba(245,239,224,0.75)">Verificacao independente</text>
+          </g>
+          <!-- HUB -->
+          <g class="op-node op-node-qia" data-node="qia" onclick="opSelect('qia')">
+            <circle cx="550" cy="300" r="128" fill="none" stroke="#B8902F" stroke-width="1.5" opacity="0.4" class="op-qia-pulse"/>
+            <circle cx="550" cy="300" r="106" fill="url(#qiaGrad)" stroke="#FBF7EA" stroke-width="3"/>
+            <text x="550" y="284" text-anchor="middle" font-family="Inter,sans-serif" font-size="10.5" letter-spacing="0.20em" font-weight="700" fill="#0B1626">SISTEMA PROPRIETARIO</text>
+            <text x="550" y="322" text-anchor="middle" font-size="40" font-weight="700" fill="#0B1626">HARPIAN</text>
+            <text x="550" y="340" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" letter-spacing="0.10em" fill="#3A2A08">Orquestrador &#183; 4 motores</text>
           </g>
         </svg>
 
         <!-- Banner inferior REDUNDÂNCIA -->
-        <div class="op-redund" onclick="opSelect('redundancia')">
-          <span class="op-redund-tag">REDUNDÂNCIA · CAMADA BASE</span>
-          <span class="op-redund-body">Cloud failover · Backup ledger · Dual-data · Sign-off duplo · RPO 0 · RTO &lt; 1h</span>
         </div>
-      </div>
 
       <!-- PAINEL DE DETALHE (oculto até click) -->
       <aside class="op-detail" id="opDetail">
@@ -3029,6 +3049,63 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
         </div>
       </aside>
     </div>
+    </div><!-- ╚═══ /VISTA MACRO ═══╝ -->
+
+    <!-- ╔═══ VISTA MICRO — o fluxo do dinheiro ═══╗ -->
+    <div class="op-micro" style="display:none;">
+      <div class="op-toggles">
+        <button class="op-play-btn" id="opMicroPlayBtn" onclick="opMicroPlay()">▶ Seguir o dinheiro</button>
+        <span class="op-toggles-lbl" style="margin-left:6px;">o caminho do capital, da ordem à posição</span>
+      </div>
+      <div class="op-caption" id="opMicroCaption"></div>
+      <div class="mic-stage">
+        <div class="mic-flow">
+          <div class="mic-step" style="--accent:#3E6E9E;">
+            <div class="mic-num">1</div>
+            <div class="mic-tag">LynkPort &#183; NAV</div>
+            <div class="mic-name">Subscri&ccedil;&atilde;o</div>
+            <div class="mic-desc">O cliente define o aporte (m&iacute;n. <strong>US$ 50 mil</strong>). A LYNK calcula o <strong>NAV di&aacute;rio</strong> do ETP e indica o valor aproximado.</div>
+          </div>
+          <div class="mic-arrow">&#8594;</div>
+          <div class="mic-step" style="--accent:#5B6B7E;">
+            <div class="mic-num">2</div>
+            <div class="mic-tag">Instru&ccedil;&otilde;es &#183; PDF</div>
+            <div class="mic-name">Ordem</div>
+            <div class="mic-desc">Gera-se o <strong>PDF com as instru&ccedil;&otilde;es banc&aacute;rias</strong>, entregue ao cliente ou ao advisor (Ita&uacute;, BTG&hellip;) &rarr; mesa de opera&ccedil;&otilde;es.</div>
+          </div>
+          <div class="mic-arrow">&#8594;</div>
+          <div class="mic-step" style="--accent:#5B6B7E;">
+            <div class="mic-num">3</div>
+            <div class="mic-tag">Liquida&ccedil;&atilde;o &#183; Euroclear</div>
+            <div class="mic-name">DvP</div>
+            <div class="mic-desc">A mesa entra a <strong>compra</strong>; a LYNK, a <strong>venda da nota</strong>. Casam no Euroclear e liquidam por <em>Delivery vs Payment</em>.</div>
+          </div>
+          <div class="mic-arrow">&#8594;</div>
+          <div class="mic-step" style="--accent:#3E6E9E;">
+            <div class="mic-num">4</div>
+            <div class="mic-tag">Entrega &#183; Cust&oacute;dia</div>
+            <div class="mic-name"><span class="flag">&#127482;&#127480;</span>BNY Mellon</div>
+            <div class="mic-desc">A <strong>nota (ETP)</strong> vai ao custodian do cliente; o <strong>capital</strong> segue para a conta de execu&ccedil;&atilde;o.</div>
+          </div>
+          <div class="mic-arrow">&#8594;</div>
+          <div class="mic-step" style="--accent:#B07A38;">
+            <div class="mic-num">5</div>
+            <div class="mic-tag">Gest&atilde;o &#183; Wall Street</div>
+            <div class="mic-name">Interactive Brokers</div>
+            <div class="mic-desc">A Harpian opera <strong>a&ccedil;&otilde;es e ETFs</strong> com a estrat&eacute;gia &mdash; o cliente <strong>n&atilde;o</strong> det&eacute;m as a&ccedil;&otilde;es.</div>
+          </div>
+          <div class="mic-arrow">&#8594;</div>
+          <div class="mic-step" style="--accent:#B89554;">
+            <div class="mic-num">6</div>
+            <div class="mic-tag">Posi&ccedil;&atilde;o &#183; di&aacute;ria</div>
+            <div class="mic-name">ETP</div>
+            <div class="mic-desc">O cliente det&eacute;m <strong>ETPs</strong>. NAV apurado diariamente e cotado na <strong>Bloomberg</strong> &mdash; acompanha todo dia.</div>
+          </div>
+        </div>
+        <div class="mic-foot"><strong>LYNK Markets &mdash; coordenadora e administradora das emiss&otilde;es</strong> (programa at&eacute; US$ 518M). <strong>Resgate:</strong> o cliente entra a venda, a LYNK entra a compra, liquida no Euroclear; o NAV &eacute; apurado no fechamento e o cliente recebe em at&eacute; <strong>T+2</strong>.</div>
+      </div>
+    </div>
+    <!-- ╚═══ /VISTA MICRO ═══╝ -->
   </section>
 
   <script>
@@ -3161,12 +3238,146 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
     document.getElementById('opDetailSla').innerHTML = d.sla;
   }
 
+  /* ===== Helpers de revelacao (PLAY + toggles) ===== */
+  function _opQ(sel){ return Array.from(document.querySelectorAll('.s7op '+sel)); }
+  function _opAllPaths(){ return _opQ('.op-conn path'); }
+  function _opAllLabels(){ return _opQ('.op-conn text'); }
+  function _opHide(el){ if(!el)return; el.style.transition='none'; el.style.opacity='0'; }
+  function _opDrawPath(p){
+    if(!p)return; var L;
+    try{ L=p.getTotalLength(); }catch(e){ L=500; }
+    p.style.transition='none'; p.style.strokeDasharray=L; p.style.strokeDashoffset=L; p.style.opacity='1';
+    p.getBoundingClientRect();
+    p.style.transition='stroke-dashoffset .85s ease, opacity .25s ease';
+    p.style.strokeDashoffset='0';
+  }
+  function _opShowLabel(t){ if(!t)return; t.style.transition='opacity .45s ease'; t.style.opacity='1'; }
+  function _opLit(keys){ (keys||[]).forEach(function(k){ var el=document.querySelector('.op-node[data-node="'+k+'"]'); if(el) el.classList.add('op-node-lit'); }); }
+
+  var _opTimers = [];
+  function _opClearTimers(){ _opTimers.forEach(clearTimeout); _opTimers = []; }
+
+  function opResetDiagram(){
+    _opClearTimers();
+    _opFlow = null;
+    var svg = document.querySelector('.s7op .op-svg'); if(svg) svg.classList.remove('op-playing');
+    _opAllPaths().forEach(_opHide);
+    _opAllLabels().forEach(_opHide);
+    document.querySelectorAll('.op-node').forEach(function(n){ n.classList.remove('op-node-lit'); });
+    document.querySelectorAll('.op-toggle').forEach(function(b){ b.classList.remove('active'); });
+    var cap = document.getElementById('opCaption'); if(cap) cap.textContent = '';
+    var btn = document.getElementById('opPlayBtn'); if(btn){ btn.disabled=false; btn.textContent='▶ Ver o fluxo'; }
+  }
+
   function opFlow(flowKey){
+    _opClearTimers();
     _opFlow = (_opFlow === flowKey) ? null : flowKey;
-    document.querySelectorAll('.op-toggle').forEach(b => b.classList.toggle('active', b.dataset.flow === _opFlow));
-    document.querySelectorAll('.op-conn').forEach(g => {
-      g.classList.toggle('op-conn-active', g.dataset.flow === _opFlow);
+    var svg = document.querySelector('.s7op .op-svg'); if(svg) svg.classList.remove('op-playing');
+    document.querySelectorAll('.op-node').forEach(function(n){ n.classList.remove('op-node-lit'); });
+    document.querySelectorAll('.op-toggle').forEach(function(b){ b.classList.toggle('active', b.dataset.flow === _opFlow); });
+    _opAllPaths().forEach(_opHide);
+    _opAllLabels().forEach(_opHide);
+    var cap = document.getElementById('opCaption'); if(cap) cap.textContent = '';
+    if(!_opFlow) return;
+    _opQ('.op-conn[data-flow="'+_opFlow+'"] path').forEach(_opDrawPath);
+    _opQ('.op-conn[data-flow="'+_opFlow+'"] text').forEach(_opShowLabel);
+  }
+
+  /* ===== PLAY: revela as setas na ordem do fluxo real ===== */
+  function opPlay(){
+    opResetDiagram();
+    var svg = document.querySelector('.s7op .op-svg'); if(svg) svg.classList.add('op-playing');
+    var DAT  = _opQ('.op-conn[data-flow="dados"] path'),   DATt = _opQ('.op-conn[data-flow="dados"] text');
+    var CAP  = _opQ('.op-conn[data-flow="capital"] path'), CAPt = _opQ('.op-conn[data-flow="capital"] text');
+    var DEC  = _opQ('.op-conn[data-flow="decisao"] path'), DECt = _opQ('.op-conn[data-flow="decisao"] text');
+    var steps = [
+      {cap:'1 · Os dados chegam em tempo real ao orquestrador',                          paths:[DAT[0],DAT[1],DAT[2]], labels:[],          nodes:['factset','bloomberg','reuters','qia']},
+      {cap:'2 · O cliente deposita — custódia segregada na BNY Mellon',                  paths:[CAP[0]],               labels:[],          nodes:['cliente','bnycustodia']},
+      {cap:'3 · A Harpian analisa e envia uma sugestão — que passa pelo Comitê',         paths:[DEC[2],DEC[0]],        labels:[DECt[0]],   nodes:['qia','comite']},
+      {cap:'4 · O Comitê Humano autoriza a ordem',                                       paths:[DEC[1]],               labels:[DECt[1]],   nodes:['comite','ibkr']},
+      {cap:'5 · O dinheiro vai direto: BNY Mellon → Interactive Brokers (nunca pela Harpian)', paths:[CAP[1]],         labels:[CAPt[0]],   nodes:['bnycustodia','ibkr']},
+      {cap:'6 · A execução retorna fills, slippage e dados ao orquestrador',             paths:[DAT[3]],               labels:[DATt[0]],   nodes:['ibkr','qia']},
+      {cap:'7 · Conciliação, NAV oficial e auditoria independente',                      paths:[CAP[2],CAP[3]],        labels:[],          nodes:['bnyconcili','lynk','deloitte','ibkr']}
+    ];
+    var btn = document.getElementById('opPlayBtn'); if(btn){ btn.disabled=true; btn.textContent='Reproduzindo…'; }
+    var t = 350;
+    steps.forEach(function(s){
+      _opTimers.push(setTimeout(function(){
+        var cap = document.getElementById('opCaption'); if(cap) cap.textContent = s.cap;
+        s.paths.forEach(_opDrawPath);
+        s.labels.forEach(_opShowLabel);
+        _opLit(s.nodes);
+      }, t));
+      t += 1550;
     });
+    _opTimers.push(setTimeout(function(){
+      if(svg) svg.classList.remove('op-playing');
+      var cap = document.getElementById('opCaption'); if(cap) cap.textContent = 'Fluxo completo · clique em cada peça para ver os detalhes';
+      if(btn){ btn.disabled=false; btn.textContent='↻ Repetir o fluxo'; }
+    }, t + 400));
+  }
+
+  /* ===== 2 VISTAS: alternar MACRO / MICRO ===== */
+  var _macroHL = null, _macroSub = null;
+  function opView(v){
+    var macro = document.querySelector('.s7op .op-macro');
+    var micro = document.querySelector('.s7op .op-micro');
+    var hl = document.querySelector('.s7op .headline');
+    var sub = document.querySelector('.s7op .op-sub');
+    if(_macroHL === null && hl){ _macroHL = hl.innerHTML; }
+    if(_macroSub === null && sub){ _macroSub = sub.innerHTML; }
+    document.querySelectorAll('.op-vtab').forEach(function(b){ b.classList.toggle('active', b.dataset.view === v); });
+    if(v === 'micro'){
+      if(macro) macro.style.display = 'none';
+      if(micro) micro.style.display = 'flex';
+      if(hl) hl.innerHTML = 'O caminho do <em>seu dinheiro</em>.';
+      if(sub) sub.innerHTML = 'Da ordem à posição: o capital flui por instituições Tier 1 reguladas — e <strong>nunca passa pela Harpian</strong>. Clique em <strong>▶ Seguir o dinheiro</strong>.';
+      opResetDiagram();
+      opMicroReset();
+    } else {
+      if(micro) micro.style.display = 'none';
+      if(macro) macro.style.display = 'flex';
+      if(hl && _macroHL !== null) hl.innerHTML = _macroHL;
+      if(sub && _macroSub !== null) sub.innerHTML = _macroSub;
+      opMicroReset();
+    }
+  }
+
+  /* ===== MICRO: seguir o dinheiro, passo a passo ===== */
+  var _micTimers = [];
+  function opMicroReset(){
+    _micTimers.forEach(clearTimeout); _micTimers = [];
+    document.querySelectorAll('.op-micro .mic-step').forEach(function(s){ s.classList.remove('on'); });
+    document.querySelectorAll('.op-micro .mic-arrow').forEach(function(a){ a.classList.remove('on'); });
+    var cap = document.getElementById('opMicroCaption'); if(cap) cap.textContent = '';
+    var btn = document.getElementById('opMicroPlayBtn'); if(btn){ btn.disabled = false; btn.textContent = '▶ Seguir o dinheiro'; }
+  }
+  function opMicroPlay(){
+    opMicroReset();
+    var steps  = Array.from(document.querySelectorAll('.op-micro .mic-step'));
+    var arrows = Array.from(document.querySelectorAll('.op-micro .mic-arrow'));
+    var caps = [
+      '1 · Subscrição no LynkPort — aporte mínimo de US$ 50 mil',
+      '2 · Instruções bancárias geradas em PDF (cliente / advisor)',
+      '3 · Compra e venda da nota se casam no Euroclear — DvP',
+      '4 · A nota (ETP) vai à custódia; o capital, à execução',
+      '5 · A Harpian opera ações e ETFs em Wall Street (IBKR)',
+      '6 · O cliente detém ETPs — NAV diário cotado na Bloomberg'
+    ];
+    var btn = document.getElementById('opMicroPlayBtn'); if(btn){ btn.disabled = true; btn.textContent = 'Reproduzindo…'; }
+    var t = 300;
+    steps.forEach(function(st, i){
+      _micTimers.push(setTimeout(function(){
+        if(i > 0 && arrows[i-1]) arrows[i-1].classList.add('on');
+        st.classList.add('on');
+        var cap = document.getElementById('opMicroCaption'); if(cap) cap.textContent = caps[i] || '';
+      }, t));
+      t += 1450;
+    });
+    _micTimers.push(setTimeout(function(){
+      var cap = document.getElementById('opMicroCaption'); if(cap) cap.textContent = 'Fluxo completo · o cliente detém o ETP; a Harpian opera os ativos';
+      if(btn){ btn.disabled = false; btn.textContent = '↻ Repetir o fluxo'; }
+    }, t + 300));
   }
 
   document.addEventListener('DOMContentLoaded', ()=>{
@@ -3175,6 +3386,7 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
     const f = qs.get('opFlow');
     if(n && OP_NODES[n]) opSelect(n);
     if(f === 'capital' || f === 'dados' || f === 'decisao') opFlow(f);
+    if(qs.get('opView') === 'micro') opView('micro');
   });
   </script>
 

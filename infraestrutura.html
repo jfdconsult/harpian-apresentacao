@@ -5,11 +5,16 @@
 <title>HARPIAN — Cinco instituições · Tier 1</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{height:100%;width:100%;overflow:hidden;background:#0B1626;}
+html,body{height:100%;width:100%;overflow:hidden;background:#F6F7F9;}
 iframe{position:absolute;inset:0;width:100%;height:100%;border:none;}
 </style>
 </head>
 <body>
-<iframe src="doutrina.html?focus=s7op&back=consequencia.html&next=terminal-trojan.html" allowfullscreen></iframe>
+<iframe id="infraFrame" allowfullscreen></iframe>
+<script>
+  // cache-busting: sempre carrega a versão mais recente do diagrama
+  document.getElementById('infraFrame').src =
+    'doutrina.html?focus=s7op&back=consequencia.html&next=terminal-trojan.html&v=' + Date.now();
+</script>
 </body>
 </html>
