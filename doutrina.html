@@ -878,14 +878,14 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
 .op-micro{flex:1;min-height:0;display:flex;flex-direction:column;}
 .mic-stage{flex:1;min-height:0;display:flex;flex-direction:column;justify-content:center;background:#fff;border:1px solid var(--line);border-radius:6px;box-shadow:0 8px 30px rgba(14,23,38,.06);padding:34px 30px;}
 .mic-flow{display:flex;align-items:stretch;justify-content:center;gap:0;}
-.mic-step{flex:1 1 0;max-width:255px;background:#fff;border:1px solid var(--line2);border-top:3px solid var(--accent,var(--gold));border-radius:6px;padding:20px 16px 16px;display:flex;flex-direction:column;gap:8px;position:relative;opacity:.16;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease,box-shadow .25s ease;}
+.mic-step{flex:1 1 0;max-width:230px;background:#fff;border:1px solid var(--line2);border-top:3px solid var(--accent,var(--gold));border-radius:6px;padding:20px 16px 16px;display:flex;flex-direction:column;gap:8px;position:relative;opacity:.16;transform:translateY(10px);transition:opacity .55s ease,transform .55s ease,box-shadow .25s ease;}
 .mic-step.on{opacity:1;transform:none;box-shadow:0 8px 22px rgba(14,23,38,.09);}
 .mic-num{position:absolute;top:-16px;left:18px;width:32px;height:32px;border-radius:50%;background:var(--accent,var(--gold));color:#fff;font-family:var(--mono);font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 9px rgba(14,23,38,.20);}
 .mic-tag{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent,var(--gold));font-weight:700;margin-top:8px;}
-.mic-name{font-family:var(--display);font-size:19px;font-weight:700;color:var(--ink);line-height:1.12;}
+.mic-name{font-family:var(--display);font-size:17px;font-weight:700;color:var(--ink);line-height:1.12;}
 .mic-name .flag{font-size:17px;margin-right:5px;}
-.mic-desc{font-family:var(--sans);font-size:12.5px;line-height:1.45;color:var(--ink2);}
-.mic-arrow{flex:0 0 40px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:24px;font-weight:300;opacity:.18;transition:opacity .5s ease;}
+.mic-desc{font-family:var(--sans);font-size:11.5px;line-height:1.4;color:var(--ink2);}
+.mic-arrow{flex:0 0 28px;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:24px;font-weight:300;opacity:.18;transition:opacity .5s ease;}
 .mic-arrow.on{opacity:1;}
 .mic-foot{margin-top:20px;padding:13px 18px;background:linear-gradient(90deg,rgba(184,149,84,.10),rgba(184,149,84,.03));border-left:3px solid var(--gold);border-radius:4px;font-family:var(--sans);font-size:12.5px;line-height:1.5;color:var(--ink2);}
 .mic-foot strong{color:var(--gold);font-weight:700;}
@@ -3064,42 +3064,49 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
             <div class="mic-num">1</div>
             <div class="mic-tag">LynkPort &#183; NAV</div>
             <div class="mic-name">Subscri&ccedil;&atilde;o</div>
-            <div class="mic-desc">O cliente define o aporte (m&iacute;n. <strong>US$ 50 mil</strong>). A LYNK calcula o <strong>NAV di&aacute;rio</strong> do ETP e indica o valor aproximado.</div>
+            <div class="mic-desc">O cliente define o aporte (m&iacute;n. <strong>US$ 50 mil</strong>). A LYNK calcula o <strong>NAV di&aacute;rio</strong> do ETP.</div>
           </div>
           <div class="mic-arrow">&#8594;</div>
           <div class="mic-step" style="--accent:#5B6B7E;">
             <div class="mic-num">2</div>
             <div class="mic-tag">Instru&ccedil;&otilde;es &#183; PDF</div>
             <div class="mic-name">Ordem</div>
-            <div class="mic-desc">Gera-se o <strong>PDF com as instru&ccedil;&otilde;es banc&aacute;rias</strong>, entregue ao cliente ou ao advisor (Ita&uacute;, BTG&hellip;) &rarr; mesa de opera&ccedil;&otilde;es.</div>
+            <div class="mic-desc"><strong>PDF de instru&ccedil;&otilde;es banc&aacute;rias</strong> &rarr; cliente / advisor &rarr; mesa de opera&ccedil;&otilde;es.</div>
           </div>
           <div class="mic-arrow">&#8594;</div>
           <div class="mic-step" style="--accent:#5B6B7E;">
             <div class="mic-num">3</div>
             <div class="mic-tag">Liquida&ccedil;&atilde;o &#183; Euroclear</div>
             <div class="mic-name">DvP</div>
-            <div class="mic-desc">A mesa entra a <strong>compra</strong>; a LYNK, a <strong>venda da nota</strong>. Casam no Euroclear e liquidam por <em>Delivery vs Payment</em>.</div>
+            <div class="mic-desc">A mesa entra a <strong>compra</strong>; a LYNK, a <strong>venda da nota</strong>. Casam no Euroclear (<em>Delivery vs Payment</em>).</div>
+          </div>
+          <div class="mic-arrow">&#8594;</div>
+          <div class="mic-step" style="--accent:#5B6B7E;">
+            <div class="mic-num">4</div>
+            <div class="mic-tag">Roteamento &#183; caixa</div>
+            <div class="mic-name"><span class="flag">&#127468;&#127463;</span>Londres</div>
+            <div class="mic-desc">O capital &eacute; enviado <strong>primeiro a Londres</strong>, via banco correspondente.</div>
           </div>
           <div class="mic-arrow">&#8594;</div>
           <div class="mic-step" style="--accent:#3E6E9E;">
-            <div class="mic-num">4</div>
-            <div class="mic-tag">Entrega &#183; Cust&oacute;dia</div>
+            <div class="mic-num">5</div>
+            <div class="mic-tag">Cust&oacute;dia &#183; Tier 1</div>
             <div class="mic-name"><span class="flag">&#127482;&#127480;</span>BNY Mellon</div>
-            <div class="mic-desc">A <strong>nota (ETP)</strong> vai ao custodian do cliente; o <strong>capital</strong> segue para a conta de execu&ccedil;&atilde;o.</div>
+            <div class="mic-desc">De Londres &agrave; <strong>cust&oacute;dia segregada</strong> em NY. A <strong>nota (ETP)</strong> fica no custodian do cliente.</div>
           </div>
           <div class="mic-arrow">&#8594;</div>
           <div class="mic-step" style="--accent:#B07A38;">
-            <div class="mic-num">5</div>
+            <div class="mic-num">6</div>
             <div class="mic-tag">Gest&atilde;o &#183; Wall Street</div>
             <div class="mic-name">Interactive Brokers</div>
             <div class="mic-desc">A Harpian opera <strong>a&ccedil;&otilde;es e ETFs</strong> com a estrat&eacute;gia &mdash; o cliente <strong>n&atilde;o</strong> det&eacute;m as a&ccedil;&otilde;es.</div>
           </div>
           <div class="mic-arrow">&#8594;</div>
           <div class="mic-step" style="--accent:#B89554;">
-            <div class="mic-num">6</div>
+            <div class="mic-num">7</div>
             <div class="mic-tag">Posi&ccedil;&atilde;o &#183; di&aacute;ria</div>
             <div class="mic-name">ETP</div>
-            <div class="mic-desc">O cliente det&eacute;m <strong>ETPs</strong>. NAV apurado diariamente e cotado na <strong>Bloomberg</strong> &mdash; acompanha todo dia.</div>
+            <div class="mic-desc">O cliente det&eacute;m <strong>ETPs</strong>. NAV apurado diariamente e cotado na <strong>Bloomberg</strong>.</div>
           </div>
         </div>
         <div class="mic-foot"><strong>LYNK Markets &mdash; coordenadora e administradora das emiss&otilde;es</strong> (programa at&eacute; US$ 518M). <strong>Resgate:</strong> o cliente entra a venda, a LYNK entra a compra, liquida no Euroclear; o NAV &eacute; apurado no fechamento e o cliente recebe em at&eacute; <strong>T+2</strong>.</div>
@@ -3360,9 +3367,10 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
       '1 · Subscrição no LynkPort — aporte mínimo de US$ 50 mil',
       '2 · Instruções bancárias geradas em PDF (cliente / advisor)',
       '3 · Compra e venda da nota se casam no Euroclear — DvP',
-      '4 · A nota (ETP) vai à custódia; o capital, à execução',
-      '5 · A Harpian opera ações e ETFs em Wall Street (IBKR)',
-      '6 · O cliente detém ETPs — NAV diário cotado na Bloomberg'
+      '4 · O capital é roteado primeiro a Londres (banco correspondente)',
+      '5 · De Londres à custódia BNY Mellon, em Nova Iorque',
+      '6 · A Harpian opera ações e ETFs em Wall Street (IBKR)',
+      '7 · O cliente detém ETPs — NAV diário cotado na Bloomberg'
     ];
     var btn = document.getElementById('opMicroPlayBtn'); if(btn){ btn.disabled = true; btn.textContent = 'Reproduzindo…'; }
     var t = 300;
