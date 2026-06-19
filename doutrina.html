@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>HARPIAN — Doutrina</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 :root{
@@ -388,7 +388,7 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 /* SVG engine + defend states */
 .engine-body{transition:all .8s cubic-bezier(.4,0,.2,1);}
 .engine-glow{transition:opacity .8s ease;}
-.engine-label{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;}
+.engine-label{font-family:var(--display);font-size:18px;font-weight:600;}
 .engine-sub{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;}
 .defend-shield{transition:all .8s cubic-bezier(.4,0,.2,1);}
 .defend-glow{transition:opacity 1.2s ease;}
@@ -458,7 +458,7 @@ html,body{height:100%;background:var(--cream);color:var(--ink);font-family:var(-
 /* Pilares (HPC22) + Esteiras (HPC11) — overlays nos motores */
 .pillar-cell{transition:all .8s cubic-bezier(.4,0,.2,1);}
 .pillar-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.10em;text-transform:uppercase;font-weight:600;}
-.pillar-weight{font-family:'Cormorant Garamond',serif;font-size:11px;font-weight:600;}
+.pillar-weight{font-family:var(--display);font-size:11px;font-weight:600;}
 .esteira-ring{transition:all .8s cubic-bezier(.4,0,.2,1);transform-origin:center;transform-box:fill-box;}
 .esteira-label{font-family:'JetBrains Mono',monospace;font-size:8px;letter-spacing:.06em;text-transform:uppercase;}
 
@@ -770,6 +770,7 @@ body.bg-navy .nav-btn{color:rgba(245,239,224,.7);border-color:rgba(245,239,224,.
 body.bg-navy .kbd{color:rgba(245,239,224,.35);}
 .kbd kbd{display:inline-block;padding:1px 6px;border:1px solid currentColor;border-radius:3px;margin:0 3px;}
 </style>
+<link rel="stylesheet" href="harpian-ds.css">
 </head>
 <body>
 

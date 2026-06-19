@@ -1,0 +1,36 @@
+/* ============================================================
+   HARPIAN — INSTITUTIONAL DESIGN SYSTEM  v1  (2026-06-19)
+   Padrão visual de nível BlackRock / Citadel / Vanguard.
+   Carregado APÓS o <style> inline de cada página → sobrescreve
+   os tokens e propaga a identidade única para toda a apresentação.
+   Para reverter: remova o <link href="harpian-ds.css"> das páginas.
+   Fontes (Manrope/Inter/JetBrains) são carregadas via <link> no <head>
+   de cada página — não via @import (render-blocking).
+   ============================================================ */
+
+/* ---- TOKENS INSTITUCIONAIS (frio, sóbrio, ouro contido) ---- */
+:root{
+  --navy:#0A1422;  --navy2:#0F1C2E; --navy3:#14233A;
+  --cream:#ECEEF1; --cream2:#F6F7F9;
+  --gold:#B89554;  --gold2:#CDAE6E; --gold3:#E0CB9A;
+  --ink:#0E1726;   --ink2:#46505F;  --muted:#8A93A0;
+  --line:#E3E6EA;  --line2:#D3D8DE;
+  --green:#4FA56E; --green2:#3C8758;
+  --red:#C24A40;   --red2:#9E372E;  --amber:#D69A4A;
+  --serif:'Manrope',sans-serif;     /* remap: títulos agora em sans display */
+  --display:'Manrope',sans-serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+
+/* ---- TÍTULOS: sans display, tracking apertado, sem itálico serifado ---- */
+.headline{font-family:var(--display);letter-spacing:-0.025em;}
+/* Manrope não tem itálico real — neutraliza itálicos sintéticos herdados da serifa */
+.headline em,.manif-l em,.qs-panel-h em,.pil-panel-h em,.fid-txt em,
+.qs-foot,.mer-foot,.pil-mantra,.zo-foot-l,.gauge-sub,.gap-v,
+.sub em,.lead em{font-style:normal;}
+.headline em,.manif-l em,.qs-panel-h em,.pil-panel-h em{font-weight:600;}
+
+/* ---- KICKER / eyebrow: estrela trocada por fio fino discreto ---- */
+.kicker::before{content:'';display:inline-block;width:26px;height:1px;
+  background:var(--gold);opacity:.7;vertical-align:middle;margin-right:12px;}
