@@ -138,8 +138,8 @@ body{display:flex;flex-direction:column;}
 </div>
 
 <div class="cq-cta">
-  <button onclick="window.location.href='lideres.html'">← Voltar</button>
-  <button class="gold" onclick="window.location.href='raiox.html'">Ver o raio-X →</button>
+  <button onclick="window.location.href='doutrina.html?slide=5'">← Voltar</button>
+  <button class="gold" onclick="window.location.href='doutrina.html?part=2'">Próximo →</button>
 </div>
 
 <script>
@@ -305,8 +305,8 @@ body{display:flex;flex-direction:column;}
   if(state in ENDS){setTimeout(()=>window.__cqSeek(ENDS[state]),400);}
 })();
 document.addEventListener('keydown',function(e){
-  if(e.key==='ArrowLeft')window.location.href='lideres.html';
-  else if(e.key==='ArrowRight'||e.key===' ')window.location.href='raiox.html';
+  if(e.key==='ArrowLeft')window.location.href='doutrina.html?slide=5';
+  else if(e.key==='ArrowRight'||e.key===' ')window.location.href='doutrina.html?part=2';
 });
 </script>
 </body>

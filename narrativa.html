@@ -331,6 +331,17 @@ body.bg-navy .nav-btn{border-color:rgba(245,239,224,0.25);color:var(--cream);}
 body.bg-navy .kbd-hint{color:rgba(245,239,224,0.4);}
 </style>
 <link rel="stylesheet" href="harpian-ds.css">
+<style id="qs-5layers">
+/* Slide "Quem somos" consolidado · 5 camadas — sobe o título e acomoda no espaço */
+.s-qs{padding-top:62px !important;}
+.s-qs .qs-stage{margin-top:24px !important;gap:46px !important;align-items:stretch !important;}
+.s-qs .qs-orbs{gap:10px !important;justify-content:center;}
+.s-qs .qs-orb{padding:13px 22px !important;}
+.s-qs .qs-orb-n{width:42px !important;height:42px !important;font-size:15px !important;}
+.s-qs .qs-orb-t{font-size:22px !important;}
+.s-qs .qs-panel{min-height:0 !important;justify-content:center;}
+.qs-orbs-head{font-family:var(--mono);font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;color:var(--gold);margin-bottom:2px;}
+</style>
 </head>
 <body>
 
@@ -354,9 +365,9 @@ body.bg-navy .kbd-hint{color:rgba(245,239,224,0.4);}
 <!-- SLIDE · WHITE-LABEL (abertura · o modelo pra você) -->
 <section class="slide s-wl navy" data-bg="navy">
   <div class="head-wrap">
-    <div class="kicker">O modelo · white-label</div>
+    <div class="kicker">O modelo · sob a sua marca</div>
     <h1 class="headline">A marca é sua. <em>O motor é nosso.</em></h1>
-    <p class="sub">Seu cliente vê o <strong>seu escritório</strong>. Por trás, roda o AlphaDroid — gestão sistemática, ETP e custódia Tier 1. Você entrega engenharia institucional <strong>sob a sua marca</strong>, sem montar nada disso.</p>
+    <p class="sub">Seu cliente vê o <strong>seu escritório</strong> e a sua marca. A Harpian entrega a engenharia por trás — gestão sistemática, ETPs e custódia Tier 1 — <strong>pronta, operada e auditada</strong>. Você oferece padrão institucional <em>sob o seu nome</em>, desde o primeiro dia.</p>
   </div>
 
   <div style="display:flex;flex-direction:column;gap:14px;max-width:1140px;margin:14px auto 0;width:100%;">
@@ -366,7 +377,7 @@ body.bg-navy .kbd-hint{color:rgba(245,239,224,0.4);}
     </div>
     <div style="text-align:center;font-family:var(--mono);font-size:12px;color:rgba(245,239,224,0.45);letter-spacing:.10em;">▼ por trás, invisível pro cliente ▼</div>
     <div style="border:1px solid rgba(245,239,224,0.14);border-radius:12px;background:rgba(11,22,38,0.55);padding:18px 24px;">
-      <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;color:rgba(245,239,224,0.5);margin-bottom:14px;text-align:center;">O motor Harpian — você não monta, não opera, não aparece</div>
+      <div style="font-family:var(--mono);font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;color:rgba(245,239,224,0.5);margin-bottom:14px;text-align:center;">O motor Harpian — construído, operado e auditado por nós</div>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;">
         <div style="background:rgba(245,239,224,0.04);border:1px solid rgba(184,144,47,0.22);border-radius:8px;padding:14px 12px;text-align:center;"><div style="font-family:var(--serif);font-size:18px;font-weight:700;color:var(--gold2);">AlphaDroid</div><div style="font-family:var(--sans);font-size:12px;color:rgba(245,239,224,0.6);margin-top:4px;">gestão sistemática · 11 estratégias</div></div>
         <div style="background:rgba(245,239,224,0.04);border:1px solid rgba(184,144,47,0.22);border-radius:8px;padding:14px 12px;text-align:center;"><div style="font-family:var(--serif);font-size:18px;font-weight:700;color:var(--gold2);">ETP white-label</div><div style="font-family:var(--sans);font-size:12px;color:rgba(245,239,224,0.6);margin-top:4px;">veículo com a sua marca</div></div>
@@ -381,29 +392,38 @@ body.bg-navy .kbd-hint{color:rgba(245,239,224,0.4);}
 <!-- SLIDE 2 — QUEM SOMOS -->
 <section class="slide s-qs" data-bg="cream">
   <div class="head-wrap">
-    <div class="kicker">Quem somos · em uma frase</div>
-    <h1 class="headline">Não somos uma gestora de produtos.<br><em>Somos engenheiros de portfólio adaptativo.</em></h1>
-    <p class="sub">Adaptamos a exposição do portfólio a <strong>três dimensões em movimento</strong> — para que o resultado, no longo prazo, seja <em>consequência da engenharia</em>, não promessa de marketing. Clique em cada dimensão.</p>
+    <div class="kicker">Quem somos · como operamos</div>
+    <h1 class="headline">Somos engenheiros de portfólio adaptativo.<br><em>Protegemos primeiro — o retorno é consequência.</em></h1>
+    <p class="sub">Uma engenharia, <strong>cinco camadas</strong> — do gestor que servimos ao retorno que entregamos. Clique em cada camada.</p>
   </div>
   <div class="qs-stage">
     <div class="qs-orbs">
-      <div class="qs-orb on" onclick="qsPick(this,'mercado')">
-        <div class="qs-orb-n">I</div>
-        <div><div class="qs-orb-t">Mercado</div><div class="qs-orb-s">O que ele entrega · não o que prevemos</div></div>
+      <div class="qs-orbs-head">As 5 camadas · clique</div>
+      <div class="qs-orb on" onclick="qsPick(this,'gestor')">
+        <div class="qs-orb-n">1</div>
+        <div><div class="qs-orb-t">Gestor</div><div class="qs-orb-s">Sob a sua marca · ou não</div></div>
+      </div>
+      <div class="qs-orb" onclick="qsPick(this,'mercado')">
+        <div class="qs-orb-n">2</div>
+        <div><div class="qs-orb-t">Mercado</div><div class="qs-orb-s">Interpretado em tempo real</div></div>
       </div>
       <div class="qs-orb" onclick="qsPick(this,'regime')">
-        <div class="qs-orb-n">II</div>
-        <div><div class="qs-orb-t">Regime</div><div class="qs-orb-s">Bull · Bear · Transição</div></div>
+        <div class="qs-orb-n">3</div>
+        <div><div class="qs-orb-t">Regime</div><div class="qs-orb-s">Bull · Bear · Defesa</div></div>
       </div>
       <div class="qs-orb" onclick="qsPick(this,'risco')">
-        <div class="qs-orb-n">III</div>
-        <div><div class="qs-orb-t">Risco</div><div class="qs-orb-s">Calibrado ao limite do cliente</div></div>
+        <div class="qs-orb-n">4</div>
+        <div><div class="qs-orb-t">Risco</div><div class="qs-orb-s">Calibrado ao mandato</div></div>
+      </div>
+      <div class="qs-orb" onclick="qsPick(this,'retorno')">
+        <div class="qs-orb-n">5</div>
+        <div><div class="qs-orb-t">Retorno</div><div class="qs-orb-s">Consequência, não promessa</div></div>
       </div>
     </div>
     <div class="qs-panel">
-      <div class="qs-panel-k" id="qsK">Dimensão I · Mercado</div>
-      <div class="qs-panel-h" id="qsH">Não acreditamos em previsões.<br><em>Interpretamos o mercado.</em></div>
-      <div class="qs-panel-d" id="qsD">Lemos em tempo real <strong>milhares de sinais</strong>, separamos o que é ruído, temos uma <strong>sólida estrutura</strong> e ajustamos a alocação ao estado real do mercado — todos os dias, sem exceção. A leitura é sistemática; a decisão é automatizada; o resultado é auditável.</div>
+      <div class="qs-panel-k" id="qsK">Camada 1 · Gestor</div>
+      <div class="qs-panel-h" id="qsH">O foco é o gestor.<br><em>A gestão é nossa.</em></div>
+      <div class="qs-panel-d" id="qsD">Atendemos <strong>gestores, family offices e advisors</strong>. A engenharia roda por trás — e você pode oferecê-la <strong>sob a sua marca</strong>, ou não. O cliente é seu; a infraestrutura é nossa.</div>
       <div class="qs-foot">Risco você mensura · Capital você preserva · Retorno é estrutural.</div>
     </div>
   </div>
@@ -742,13 +762,15 @@ body.bg-navy .kbd-hint{color:rgba(245,239,224,0.4);}
 
 <script>
 // ============== NAVEGAÇÃO ==============
-// Abertura = benefícios/modelo primeiro: manifesto → white-label → fidelização → zero-overhead → quem somos → mercado → dor → pilares
+// Arco: manifesto → mercado (flip cards) → dor (3 faltas) → quem somos (5 camadas)
+// → consequência → doutrina (11 estratégias, 4 crises, cofre, quebra-cabeça) → terminal
+// Cortados desta página: s-pil, s-wl, s-fid (movido p/ doutrina), s-zo (movido p/ doutrina).
 (function(){
-  const ORDER=['.s-manif','.s-wl','.s-fid','.s-zo','.s-qs','.s-mer','.s-dor','.s-pil'];
+  const ORDER=['.s-manif','.s-mer','.s-dor','.s-qs'];
   const anchor=document.querySelector('.slide'); const parent=anchor.parentNode; let prev=null;
   ORDER.forEach(sel=>{const el=document.querySelector(sel); if(!el)return; if(prev){prev.after(el);}else{parent.insertBefore(el,anchor);} prev=el;});
 })();
-const slides=[...document.querySelectorAll('.slide')];
+const slides=[...document.querySelectorAll('.slide')].filter(s=>!s.classList.contains('s-wl') && !s.classList.contains('s-pil') && !s.classList.contains('s-fid') && !s.classList.contains('s-zo'));
 let i=0;
 const _qs=new URLSearchParams(location.search);
 const _ns=parseInt(_qs.get('slide'));
@@ -778,9 +800,11 @@ setTimeout(fadeHint,9000);
 
 // ============== SLIDE 2 — Quem Somos ==============
 const QS={
-  mercado:{k:'Dimensão I · Mercado', h:'Não acreditamos em previsões.<br><em>Interpretamos o mercado.</em>', d:'Lemos em tempo real <strong>milhares de sinais</strong>, separamos o que é ruído, temos uma <strong>sólida estrutura</strong> e ajustamos a alocação ao estado real do mercado — todos os dias, sem exceção. A leitura é sistemática; a decisão é automatizada; o resultado é auditável.'},
-  regime:{k:'Dimensão II · Regime', h:'Classificamos o estado: <em>bull, bear ou transição.</em>', d:'A decisão é <strong>binária</strong>, sem zona cinza. Em Bull, o motor ataca os 11 setores selecionando os líderes. Em Bear, ele recolhe e a defesa StormGuard-Armor migra o capital para instrumentos de proteção. <strong>O modelo decide. O comitê audita.</strong>'},
-  risco:{k:'Dimensão III · Risco', h:'Calibramos a exposição <em>ao perfil do cliente.</em>', d:'Não existe "risco moderado, médio, equilibrado". <strong>Não existe subjetividade para nós.</strong><br>Cada cliente, cada gestor tem o risco calibrado ao seu <strong>mandato, perfil e ambição</strong>. O motor é o mesmo. <strong>O portfólio é exclusivo.</strong><br>Sem estratégia oculta, sem calibração diferenciada sob a mesa.'}
+  gestor:{k:'Camada 1 · Gestor', h:'O foco é o gestor.<br><em>A gestão é nossa.</em>', d:'Atendemos <strong>gestores, family offices e advisors</strong>. A engenharia roda por trás — e você pode oferecê-la <strong>sob a sua marca</strong>, ou não. O cliente é seu; a infraestrutura é nossa.'},
+  mercado:{k:'Camada 2 · Mercado', h:'Interpretamos o mercado<br><em>— em tempo real, todos os dias.</em>', d:'Lemos <strong>milhares de sinais</strong>, separamos o ruído com uma <strong>estrutura sólida</strong> e ajustamos a alocação ao estado real do mercado — sistematicamente, sem exceção. A decisão é automatizada; o <strong>resultado é auditável</strong>.'},
+  regime:{k:'Camada 3 · Regime', h:'Lemos o regime —<br><em>e protegemos antes da queda.</em>', d:'Quando o sistema detecta <strong>risco iminente de correção forte</strong> ou início de <strong>bear market</strong>, direcionamos o capital para o <strong>portfólio de defesa</strong>. Preservação de capital é prioridade — a exposição retorna quando o regime confirma. <strong>O modelo decide; o comitê audita.</strong>'},
+  risco:{k:'Camada 4 · Risco', h:'Calibramos a exposição <em>ao mandato de cada cliente.</em>', d:'Risco, para nós, é <strong>número — não rótulo</strong>. Cada cliente tem a exposição calibrada ao seu <strong>mandato, perfil e ambição</strong>: o motor é o mesmo, mas o <strong>portfólio é exclusivo</strong>.'},
+  retorno:{k:'Camada 5 · Retorno', h:'O retorno é <em>consequência da engenharia.</em>', d:'Não prometemos retorno — construímos as condições para ele. <strong>Método, defesa e disciplina primeiro</strong>; o resultado vem por estrutura, ao longo do tempo. Risco você mensura · Capital você preserva · Retorno é estrutural.'}
 };
 function qsPick(el,k){
   const d=QS[k];if(!d)return;

@@ -4966,6 +4966,175 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
     .spz-cta-btn .ar{font-family:var(--serif);font-size:21px;}
     @keyframes spzPulse{0%,100%{box-shadow:0 6px 28px rgba(184,144,47,0.42);}50%{box-shadow:0 6px 40px rgba(184,144,47,0.74);}}
   </style>
+  <!-- ===== SLIDE COFRE / CHAVES (movido de narrativa) ===== -->
+  <style id="cofre-css">
+  .s-fid{padding-top:100px;justify-content:flex-start;}
+  .s-fid .head-wrap{text-align:center;max-width:1700px;margin:0 auto;}
+  .s-fid h1{font-size:54px;text-align:center;margin:0 auto;}
+  .s-fid .sub{margin:12px auto 0;text-align:center;}
+  .fid-stage{display:grid;grid-template-columns:0.78fr 1.32fr;gap:28px;margin-top:24px;flex:1;align-items:start;max-width:1820px;margin-left:auto;margin-right:auto;width:100%;}
+  .vault-wrap{display:flex;flex-direction:column;align-items:center;gap:14px;position:relative;}
+  .vault{position:relative;width:480px;height:420px;}
+  .vault-box{position:absolute;inset:30px 50px 30px 50px;background:linear-gradient(135deg,#1A2640 0%,#0B1626 100%);border:5px solid var(--gold);border-radius:10px;box-shadow:0 30px 60px rgba(0,0,0,0.5), inset 0 0 40px rgba(212,175,69,0.10);overflow:hidden;}
+  .vault-door{position:absolute;inset:0;background:linear-gradient(135deg,#1A2640 0%,#0B1626 70%,#162338 100%);border-right:3px solid rgba(184,144,47,0.5);display:flex;align-items:center;justify-content:center;transition:transform 1.4s cubic-bezier(.5,0,.5,1);transform-origin:left center;z-index:3;}
+  .vault-door::before{content:'';position:absolute;inset:14px;border:1px solid rgba(184,144,47,0.4);border-radius:6px;}
+  .vault-dial{width:120px;height:120px;border-radius:50%;background:radial-gradient(circle,#D4AF45 0%,#A87C24 70%,#7A5A1A 100%);border:6px solid #16323a;box-shadow:0 0 20px rgba(212,175,69,0.4), inset 0 0 14px rgba(0,0,0,0.5);position:relative;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;color:#16323a;font-weight:700;letter-spacing:.18em;}
+  .vault-dial::before{content:'';position:absolute;width:8px;height:48px;background:#16323a;top:8px;left:50%;transform:translateX(-50%);border-radius:4px;}
+  .vault-keyholes{position:absolute;inset:0;pointer-events:none;}
+  .vault-kh{position:absolute;width:34px;height:34px;border-radius:50%;background:radial-gradient(circle,#000 30%,#0B1626 100%);border:2px solid rgba(184,144,47,0.6);box-shadow:0 0 0 4px #1A2640;display:flex;align-items:center;justify-content:center;color:rgba(212,175,69,0.5);font-family:var(--mono);font-size:11px;font-weight:700;}
+  .vault-kh::after{content:'';position:absolute;bottom:-7px;width:12px;height:5px;background:rgba(184,144,47,0.4);}
+  .vault-kh.tl{top:88px;left:115px;}
+  .vault-kh.tr{top:88px;right:115px;}
+  .vault-kh.bl{bottom:88px;left:115px;}
+  .vault-kh.br{bottom:88px;right:115px;}
+  .vault-kh.filled{background:radial-gradient(circle,#F0D27A 30%,#B8902F 100%);border-color:var(--gold3);box-shadow:0 0 0 4px #1A2640, 0 0 18px rgba(240,210,122,0.6);color:#16323a;}
+  .vault-inner{position:absolute;inset:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;opacity:0;transition:opacity .6s ease .8s;z-index:1;}
+  .vault-inner-k{font-family:var(--mono);font-size:11px;letter-spacing:.30em;text-transform:uppercase;color:var(--gold2);margin-bottom:6px;}
+  .vault-inner-h{font-family:var(--serif);font-size:54px;font-weight:700;color:var(--gold3);font-style:italic;line-height:1;letter-spacing:.02em;background:linear-gradient(180deg,#F0D27A,#D4AF45 60%,#B8902F);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+  .vault-inner-d{font-family:var(--sans);font-size:13px;color:rgba(245,239,224,0.75);margin-top:10px;max-width:280px;line-height:1.4;}
+  .vault.open .vault-door{transform:perspective(900px) rotateY(-105deg);box-shadow:0 0 50px rgba(212,175,69,0.5);}
+  .vault.open .vault-inner{opacity:1;}
+  .keys-rail{display:flex;gap:18px;justify-content:center;align-items:center;margin-top:8px;}
+  .key{cursor:pointer;transition:all .3s;display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .key:hover{transform:translateY(-4px);}
+  .key.used{opacity:.35;cursor:default;pointer-events:none;}
+  .key.used:hover{transform:none;}
+  .key svg{width:62px;height:36px;filter:drop-shadow(0 4px 10px rgba(184,144,47,0.4));}
+  .key-lbl{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;}
+  .key.used .key-lbl{color:rgba(245,239,224,0.4);}
+  .vault-hint{font-family:var(--mono);font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:rgba(245,239,224,0.55);margin-top:4px;}
+  .vault-reset{background:none;border:1px solid rgba(184,144,47,0.45);color:var(--gold2);font-family:var(--mono);font-size:10.5px;letter-spacing:.14em;padding:7px 16px;border-radius:3px;cursor:pointer;text-transform:uppercase;margin-top:6px;}
+  .vault-reset:hover{background:rgba(184,144,47,0.10);}
+  .fid-arg{display:flex;flex-direction:column;gap:18px;}
+  .fid-step{display:flex;gap:18px;align-items:flex-start;padding:14px 18px;border-radius:5px;background:rgba(245,239,224,0.025);border-left:3px solid rgba(245,239,224,0.12);opacity:.45;transition:all .5s ease;}
+  .fid-step.on{background:linear-gradient(90deg,rgba(184,144,47,0.18),rgba(184,144,47,0.04));border-left-color:var(--gold2);opacity:1;}
+  .fid-num{font-family:var(--mono);font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.08em;border:2px solid rgba(184,144,47,0.5);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:rgba(184,144,47,0.06);transition:all .4s;}
+  .fid-step.on .fid-num{background:linear-gradient(180deg,#D4AF45,#B8902F);color:#0B1626;border-color:#A87C24;box-shadow:0 0 14px rgba(212,175,69,0.5);}
+  .fid-txt{flex:1;font-family:var(--sans);font-size:17px;line-height:1.50;font-weight:400;color:rgba(245,239,224,0.85);letter-spacing:-0.005em;}
+  .fid-step.on .fid-txt{color:var(--cream);}
+  .fid-txt strong{color:var(--gold2);font-weight:600;}
+  .fid-txt em{font-style:italic;color:var(--gold2);font-weight:500;}
+  .fid-tag{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--gold2);margin-bottom:7px;letter-spacing:.18em;}
+  .fid-step .fid-tag{opacity:.75;}
+  .fid-step.on .fid-tag{color:var(--gold3);opacity:1;}
+  </style>
+  <section class="slide navy s-fid" data-bg="navy">
+    <div class="head-wrap">
+      <div class="kicker">Vantagem competitiva sustentável</div>
+      <h1 class="headline sm">Switching cost incorporado à <em>arquitetura.</em> Não ao relacionamento.</h1>
+      <p class="sub" style="color:rgba(245,239,224,0.82);max-width:1200px;">O advisor brasileiro compete num mercado onde o produto é <strong>commodity de prateleira</strong> e o relacionamento é o único vínculo.<br>A engenharia Harpian instala a <strong>primeira fonte estrutural de vantagem competitiva</strong> que você pode operar — incorporada ao veículo, não dependente da química. <strong>Clique nas 4 chaves abaixo</strong> e veja o cofre se abrir.</p>
+    </div>
+    <div class="fid-stage">
+      <div class="vault-wrap">
+        <div class="vault" id="vault">
+          <div class="vault-box">
+            <div class="vault-inner">
+              <div class="vault-inner-k">★ vantagem competitiva durável · Buffett</div>
+              <div class="vault-inner-h">MOAT</div>
+              <div class="vault-inner-d">O fosso institucional — <strong style="color:var(--gold2)">incorporado à arquitetura</strong>, não defendido pelo relacionamento.</div>
+            </div>
+            <div class="vault-door">
+              <div class="vault-dial">HPC</div>
+              <div class="vault-keyholes">
+                <div class="vault-kh tl" id="kh-1">1</div>
+                <div class="vault-kh tr" id="kh-2">2</div>
+                <div class="vault-kh bl" id="kh-3">3</div>
+                <div class="vault-kh br" id="kh-4">4</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="keys-rail">
+          <div class="key" id="key-1" onclick="vaultUseKey(1)">
+            <svg viewBox="0 0 62 36" xmlns="http://www.w3.org/2000/svg">
+              <defs><linearGradient id="kg1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F0D27A"/><stop offset="1" stop-color="#A87C24"/></linearGradient></defs>
+              <circle cx="12" cy="18" r="9" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1.5"/>
+              <circle cx="12" cy="18" r="3.5" fill="#0B1626"/>
+              <rect x="20" y="15" width="36" height="6" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1"/>
+              <rect x="46" y="21" width="4" height="6" fill="url(#kg1)"/>
+              <rect x="52" y="21" width="4" height="6" fill="url(#kg1)"/>
+            </svg>
+            <div class="key-lbl">Chave I</div>
+          </div>
+          <div class="key" id="key-2" onclick="vaultUseKey(2)">
+            <svg viewBox="0 0 62 36" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="18" r="9" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1.5"/>
+              <circle cx="12" cy="18" r="3.5" fill="#0B1626"/>
+              <rect x="20" y="15" width="36" height="6" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1"/>
+              <rect x="46" y="21" width="4" height="6" fill="url(#kg1)"/>
+              <rect x="52" y="21" width="4" height="6" fill="url(#kg1)"/>
+            </svg>
+            <div class="key-lbl">Chave II</div>
+          </div>
+          <div class="key" id="key-3" onclick="vaultUseKey(3)">
+            <svg viewBox="0 0 62 36" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="18" r="9" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1.5"/>
+              <circle cx="12" cy="18" r="3.5" fill="#0B1626"/>
+              <rect x="20" y="15" width="36" height="6" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1"/>
+              <rect x="46" y="21" width="4" height="6" fill="url(#kg1)"/>
+              <rect x="52" y="21" width="4" height="6" fill="url(#kg1)"/>
+            </svg>
+            <div class="key-lbl">Chave III</div>
+          </div>
+          <div class="key" id="key-4" onclick="vaultUseKey(4)">
+            <svg viewBox="0 0 62 36" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="12" cy="18" r="9" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1.5"/>
+              <circle cx="12" cy="18" r="3.5" fill="#0B1626"/>
+              <rect x="20" y="15" width="36" height="6" fill="url(#kg1)" stroke="#7A5A1A" stroke-width="1"/>
+              <rect x="46" y="21" width="4" height="6" fill="url(#kg1)"/>
+              <rect x="52" y="21" width="4" height="6" fill="url(#kg1)"/>
+            </svg>
+            <div class="key-lbl">Chave IV</div>
+          </div>
+        </div>
+        <div class="vault-hint" id="vaultHint">▸ Clique em cada chave · destranque uma barreira por vez</div>
+        <button class="vault-reset" onclick="vaultReset()">↻ Reiniciar</button>
+      </div>
+      <div class="fid-arg">
+        <div class="fid-step" id="fid-step-1">
+          <div class="fid-num">1</div>
+          <div class="fid-txt"><span class="fid-tag">Captive distribution</span>O cliente acessa o produto <strong>exclusivamente</strong> pelo canal que carrega a sua marca. A intermediação deixa de ser negociável — <em>passa a ser arquitetural.</em></div>
+        </div>
+        <div class="fid-step" id="fid-step-2">
+          <div class="fid-num">2</div>
+          <div class="fid-txt"><span class="fid-tag">Asset specificity</span>O movimento de saída exige <strong>passar pelo emissor</strong>. O atrito não é coerção — é <em>design de mandato</em>. Padrão observável em qualquer veículo segregado institucional.</div>
+        </div>
+        <div class="fid-step" id="fid-step-3">
+          <div class="fid-num">3</div>
+          <div class="fid-txt"><span class="fid-tag">Performance-as-moat</span>A saída tem <strong>custo de oportunidade explícito</strong>: o cliente abre mão de um histórico auditado de 26 anos. <em>Switching cost mensurado em retorno foregone.</em></div>
+        </div>
+        <div class="fid-step" id="fid-step-4">
+          <div class="fid-num">4</div>
+          <div class="fid-txt"><span class="fid-tag">Defensible position</span>O moat não está na relação — está no produto. <strong>Para o concorrente capturar o cliente, precisa replicar a arquitetura.</strong> <em>Replicar a arquitetura significa reconstruir a Harpian.</em></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+  var vaultUsed=new Set();
+  function vaultUseKey(n){
+    if(vaultUsed.has(n))return;
+    vaultUsed.add(n);
+    document.getElementById('key-'+n).classList.add('used');
+    document.getElementById('kh-'+n).classList.add('filled');
+    document.getElementById('fid-step-'+n).classList.add('on');
+    var hint=document.getElementById('vaultHint');
+    var left=4-vaultUsed.size;
+    if(left>0) hint.textContent='▸ Falta '+left+' chave'+(left>1?'s':'')+' para abrir o cofre';
+    else { hint.textContent='✓ Cofre destrancado · barreira de saída instalada'; document.getElementById('vault').classList.add('open'); }
+  }
+  function vaultReset(){
+    vaultUsed.clear();
+    document.getElementById('vault').classList.remove('open');
+    for(var i=1;i<=4;i++){
+      document.getElementById('key-'+i).classList.remove('used');
+      document.getElementById('kh-'+i).classList.remove('filled');
+      document.getElementById('fid-step-'+i).classList.remove('on');
+    }
+    document.getElementById('vaultHint').textContent='▸ Clique em cada chave · destranque uma barreira por vez';
+  }
+  </script>
+
   <section class="slide navy spz" data-bg="navy">
     <div class="spz-kicker"><span class="dot"></span>A proposta central</div>
     <h1 class="spz-head">Tudo isso pode ter <span class="imp">o seu nome</span>.</h1>
@@ -5012,7 +5181,7 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
     </div>
 
     <div class="spz-cta">
-      <button class="spz-cta-btn" onclick="window.location.href='como-avaliamos-risco.html'">Iniciar o Alinhamento <span class="ar">→</span></button>
+      <button class="spz-cta-btn" onclick="window.location.href='terminal-trojan.html'">Ativar o Terminal <span class="ar">→</span></button>
     </div>
   </section>
   <script>
@@ -5108,7 +5277,7 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
       s4.style.display='none';
     }
   })();
-  const ORDER=['.slide.s4c','.slide.s5','.slide.s6mot','.slide.sdef','.slide.rnum','.slide.spz'];
+  const ORDER=['.slide.s4c','.slide.s5','.slide.s6mot','.slide.sdef','.slide.s-fid','.slide.rnum','.slide.spz'];
   const parent=document.querySelector('.slide').parentNode;
   const anchor=document.querySelector('.slide'); // primeiro slide como âncora de posição
   let prevEl=null;
@@ -5119,10 +5288,10 @@ body.bg-navy .kbd{color:rgba(245,239,224,.35);}
     prevEl=el;
   });
 })();
-const slides=[...document.querySelectorAll('.slide')].filter(s=>getComputedStyle(s).display!=='none');
+const _allVisible=[...document.querySelectorAll('.slide')].filter(s=>getComputedStyle(s).display!=='none');
 
 /* ====== DRILL-DOWN · CAMADA TÉCNICA (botão ⊕ Detalhes / tecla D / ESC volta) ====== */
-const TECHMAP={ 's5':'.slide.s3', 's6mot':'.slide.s6arc', 'rc':'.slide.s10mx' }; // slide principal → camada técnica
+const TECHMAP={ 's5':'.slide.s3', 's6mot':'.slide.s6arc', 'rc':'.slide.s10mx' };
 let techOpen=null;
 function techKeyFor(idx){
   const s=slides[idx]; if(!s) return null;
@@ -5170,23 +5339,31 @@ document.addEventListener('keydown',e=>{
   x.onclick=closeTech;
   document.body.appendChild(x);
 })();
-let i=0;
-// suporte a ?slide=N para abrir direto em um slide
+// Fluxo em 2 partes: parte 1 (motor+crises+rnum+cofre) → calibração, parte 2 (quebra-cabeça) → terminal
 const _qs=new URLSearchParams(location.search);
+const _part=parseInt(_qs.get('part'))||1;
+const part1Count=6; // s4c, s5, s6mot, sdef, rnum, s-fid(cofre)
+// hide non-active part slides
+_allVisible.forEach((s,idx)=>{
+  if(_part===2&&idx<part1Count) s.style.display='none';
+  if(_part===1&&idx>=part1Count) s.style.display='none';
+});
+const slides=(_part===2)?_allVisible.slice(part1Count):_allVisible.slice(0,part1Count);
+let i=0;
 const _ns=parseInt(_qs.get('slide'));
 if(!isNaN(_ns)&&_ns>=1&&_ns<=slides.length){i=_ns-1;}
+const _exitLabel=(_part===2)?'Ativar o Terminal →':'Calcular o Seu →';
+const _exitHref=(_part===2)?'terminal-trojan.html':'como-avaliamos-risco.html';
 function render(){
   slides.forEach((s,k)=>s.classList.toggle('active',k===i));
   document.getElementById('cur').textContent=String(i+1).padStart(2,'0');
   document.getElementById('total').textContent=String(slides.length).padStart(2,'0');
   document.getElementById('prev').disabled=(i===0);
-  document.getElementById('next').textContent=(i===slides.length-1)?'Iniciar o Alinhamento →':'Próximo →';
+  document.getElementById('next').textContent=(i===slides.length-1)?_exitLabel:'Próximo →';
   const prog=document.getElementById('progress');
   prog.innerHTML=slides.map((_,k)=>`<div class="pd ${k<i?'done':k===i?'active':''}" onclick="goto(${k})" title="Slide ${k+1}"></div>`).join('');
-  // adapta cores da nav/kbd ao fundo do slide ativo
   const bg=slides[i].dataset.bg||'cream';
   document.body.classList.toggle('bg-navy',bg==='navy');
-  // botão de drill-down técnico só aparece nos slides com camada técnica
   closeTech();
   const tb=document.querySelector('.tech-btn');
   if(tb) tb.classList.toggle('show', !!techKeyFor(i));
@@ -5200,9 +5377,13 @@ function fadeHint(){
 function next(){
   fadeHint();
   if(i<slides.length-1){i++;render();}
-  else { /* último → Etapa 2 · Alinhamento */ window.location.href='como-avaliamos-risco.html'; }
+  else { window.location.href=_exitHref; }
 }
-function prev(){ fadeHint(); if(i>0){i--;render();} }
+function prev(){
+  fadeHint();
+  if(i>0){i--;render();}
+  else if(_part===2){window.location.href='consequencia.html';}
+}
 document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight'||e.key===' ') next();
   else if(e.key==='ArrowLeft') prev();
