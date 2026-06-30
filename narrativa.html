@@ -161,6 +161,15 @@ body.bg-navy .nav-btn{border-color:rgba(245,239,224,0.25);color:var(--cream);}
 .s-dor.active .dor-foot{animation:dorIn .8s ease 1.2s both;}
 
 /* =========================================================
+   SLIDE 4B — COMO PENSAMOS · ANDRE JAKURSKI
+   ========================================================= */
+.s-jak{padding-top:88px;background:var(--cream);align-items:center;text-align:center;}
+.s-jak .head-wrap{width:100%;max-width:1280px;margin:0 auto 28px;}
+.s-jak h1{font-size:58px;line-height:1.08;}
+.jak-video-wrap{width:min(1180px,82vw);margin:0 auto;border:1px solid var(--line);border-radius:10px;background:linear-gradient(180deg,#FBF7EA,#F5EFE0);box-shadow:0 24px 60px rgba(11,22,38,0.14);padding:16px;}
+.jak-video{display:block;width:100%;max-height:62vh;border-radius:6px;background:#0B1626;object-fit:contain;}
+
+/* =========================================================
    SLIDE 5 — COMO RESOLVEMOS · 5 PILARES
    ========================================================= */
 .s-pil{padding-top:120px;}
@@ -595,7 +604,18 @@ body.bg-navy .kbd-hint{color:rgba(245,239,224,0.4);}
       <div class="dor-d">Nada prende o cliente. Se ele decidir trocar amanhã, leva o patrimônio inteiro e a receita junto.</div>
     </div>
   </div>
-  <div class="dor-foot" onclick="go(4)">Agora deixa eu te mostrar <em>como a Harpian resolve cada uma delas →</em></div>
+  <div class="dor-foot" onclick="go(3)">Agora deixa eu te mostrar <em>como a Harpian resolve cada uma delas →</em></div>
+</section>
+
+<!-- SLIDE 4B — COMO PENSAMOS · ANDRE JAKURSKI -->
+<section class="slide s-jak" data-bg="cream">
+  <div class="head-wrap">
+    <div class="kicker">Como pensamos</div>
+    <h1 class="headline">Como pensamos, <em>por Andre Jakurski.</em></h1>
+  </div>
+  <div class="jak-video-wrap">
+    <video class="jak-video" src="assets/andre-jakurski.mp4" controls playsinline preload="metadata"></video>
+  </div>
 </section>
 
 <!-- SLIDE 5 — COMO RESOLVEMOS · 5 PILARES -->
@@ -826,7 +846,7 @@ body.bg-navy .kbd-hint{color:rgba(245,239,224,0.4);}
 // → consequência → doutrina (11 estratégias, 4 crises, cofre, quebra-cabeça) → terminal
 // Cortados desta página: s-pil, s-wl, s-fid (movido p/ doutrina), s-zo (movido p/ doutrina).
 (function(){
-  const ORDER=['.s-manif','.s-mer','.s-dor','.s-qs'];
+  const ORDER=['.s-manif','.s-mer','.s-dor','.s-jak','.s-qs'];
   const anchor=document.querySelector('.slide'); const parent=anchor.parentNode; let prev=null;
   ORDER.forEach(sel=>{const el=document.querySelector(sel); if(!el)return; if(prev){prev.after(el);}else{parent.insertBefore(el,anchor);} prev=el;});
 })();
