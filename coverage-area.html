@@ -119,7 +119,7 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;bac
 <div class="wrap">
   <div class="head">
     <div class="kicker">Olhando só o que está em dólar</div>
-    <h1 class="headline">No seu dólar, você corre risco <span class="hl-num" id="hRN">46</span> — e tira só <span class="hl-num" id="hRet">6%</span>.</h1>
+    <h1 class="headline">No seu dólar, você corre risco <span class="hl-num" id="hRN">46</span> — e tira só <span class="hl-num" id="hRet">6%</span><span id="hRetNow" style="display:none;color:var(--green3);font-weight:700;"> · agora você está ganhando <span id="hRetNew">—</span></span>.</h1>
     <p class="sub">Isolamos <strong>só a parte dolarizada</strong> do seu portfólio — o real não entra aqui (renda fixa brasileira já faz 15%). Você diversificou, tomou risco… e rende metade do S&amp;P 500. A pergunta é uma só: <strong>esse dólar está eficiente?</strong></p>
   </div>
 
@@ -265,9 +265,13 @@ function render(){
   document.getElementById('rnTo').textContent=rnR;
   document.getElementById('scaleDot').style.left=(rnR/RN_MAX*100)+'%';
   document.getElementById('hRN').textContent=rnR;
-  document.getElementById('hRet').textContent=retInt(retCombo);
+  document.getElementById('hRet').textContent=retInt(CLI.ret);
+  document.getElementById('hRetNow').style.display = (pH11+pH22)>0 ? 'inline' : 'none';
+  document.getElementById('hRetNew').textContent=retInt(retCombo);
   document.getElementById('nRet_h11').textContent = pH11>0 ? retDec(H11.ret) : '● ● ●';
   document.getElementById('nRet_h22').textContent = pH22>0 ? retDec(H22.ret) : '● ● ●';
+  document.getElementById('nRet_h11').style.color = pH11>0 ? 'var(--green3)' : 'var(--gold2)';
+  document.getElementById('nRet_h22').style.color = pH22>0 ? 'var(--green3)' : 'var(--gold2)';
 
   const harp = Math.round(pH11+pH22);
   const dec=document.getElementById('decisionTxt');
