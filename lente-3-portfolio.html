@@ -89,31 +89,31 @@
     <div>
       <div class="models-h">USE UM MODELO DE REFERÊNCIA</div>
       <div class="models">
-        <div class="m" onclick="pickModel('yale_endowment','Endowment estilo Yale',55,12,0.32)">
+        <div class="m" onclick="pickModel('yale_endowment','Endowment estilo Yale',55,12,0.32,0.075)">
           <div class="m-tag">Conservative · US</div>
           <div class="m-name">Endowment estilo Yale</div>
           <div class="m-mix"><span class="a" style="flex:.3"></span><span class="b" style="flex:.3"></span><span class="c" style="flex:.4"></span></div>
           <div class="m-desc">Endowment institucional · diversificação ampla · foco em preservação multigeracional</div>
         </div>
-        <div class="m" onclick="pickModel('fo_br','Family Office BR padrão',45,10,0.28)">
+        <div class="m" onclick="pickModel('fo_br','Family Office BR padrão',45,10,0.28,0.060)">
           <div class="m-tag">Conservative · BR</div>
           <div class="m-name">Family Office BR padrão</div>
           <div class="m-mix"><span class="a" style="flex:.2"></span><span class="b" style="flex:.5"></span><span class="c" style="flex:.3"></span></div>
           <div class="m-desc">Renda fixa BR predominante · multimercado · pequena alocação em equities</div>
         </div>
-        <div class="m" onclick="pickModel('60_40','60/40 clássico',50,8,0.30)">
+        <div class="m" onclick="pickModel('60_40','60/40 clássico',50,8,0.30,0.080)">
           <div class="m-tag">Moderate</div>
           <div class="m-name">60/40 clássico</div>
           <div class="m-mix"><span class="a" style="flex:.6"></span><span class="b" style="flex:.3"></span><span class="c" style="flex:.1"></span></div>
           <div class="m-desc">60% equity · 40% renda fixa · benchmark global tradicional</div>
         </div>
-        <div class="m" onclick="pickModel('all_weather','All Weather (Bridgewater)',48,15,0.22)">
+        <div class="m" onclick="pickModel('all_weather','All Weather (Bridgewater)',48,15,0.22,0.070)">
           <div class="m-tag">Balanced</div>
           <div class="m-name">All Weather (Bridgewater)</div>
           <div class="m-mix"><span class="a" style="flex:.3"></span><span class="b" style="flex:.55"></span><span class="c" style="flex:.15"></span></div>
           <div class="m-desc">Risk parity · equilíbrio entre cenários inflacionários e deflacionários</div>
         </div>
-        <div class="m" onclick="pickModel('aggressive_tech','Equity-Heavy Growth',88,14,0.58)" style="grid-column:1/-1;">
+        <div class="m" onclick="pickModel('aggressive_tech','Equity-Heavy Growth',88,14,0.58,0.120)" style="grid-column:1/-1;">
           <div class="m-tag">Aggressive · Tech</div>
           <div class="m-name">Equity-Heavy Growth</div>
           <div class="m-mix"><span class="a" style="flex:.85"></span><span class="b" style="flex:.10"></span><span class="c" style="flex:.05"></span></div>
@@ -125,13 +125,13 @@
   <script>
     // ─── HARPIAN SESSION ──────────────────────────────────────────
     const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}},merge(s,p){const d=this.get();d[s]={...(d[s]||{}),...p};localStorage.setItem(this.KEY,JSON.stringify(d));return d;}};
-    function pickModel(id,label,rn,positions,conc){
-      HS.merge('portfolio',{source:'model',model_id:id,model_label:label,positions:positions,aum_brl:32500000,current_risk_number:rn,concentration_top5:conc,current_cagr_estimated:0.09});
+    function pickModel(id,label,rn,positions,conc,cagr){
+      HS.merge('portfolio',{source:'model',model_id:id,model_label:label,positions:positions,aum_brl:32500000,current_risk_number:rn,dollar_risk_number:rn,concentration_top5:conc,current_cagr_estimated:cagr,dollar_return_estimated:cagr});
       window.location.href='alinhamento-risco.html';
     }
     function pickUpload(){
       // mock: usa Vera Hollanda
-      HS.merge('portfolio',{source:'uploaded',model_id:null,model_label:'Portfólio Vera Hollanda (upload)',positions:14,aum_brl:32500000,current_risk_number:78,concentration_top5:0.45,current_cagr_estimated:0.09});
+      HS.merge('portfolio',{source:'uploaded',model_id:null,model_label:'Portfólio Vera Hollanda (upload)',positions:14,aum_brl:32500000,current_risk_number:78,dollar_risk_number:78,concentration_top5:0.45,current_cagr_estimated:0.09,dollar_return_estimated:0.09});
       window.location.href='alinhamento-risco.html';
     }
   </script>

@@ -161,6 +161,27 @@ const MAP_M = {
   q6: [10,20,30,100]
 };
 const MKEY = {q1:'objective',q2:'horizon',q3:'max_dd',q4:'liquidity',q5:'currency',q6:'concentration'};
+const clampRN = n => Math.max(1, Math.min(99, Math.round(n)));
+const MANDATE_RISK_POINTS = {
+  q1: [30, 52, 72, 38],      // objetivo: preservação, crescimento, maximização, renda
+  q2: [65, 58, 48, 35],      // horizonte: multigeracional → curto
+  q3: [25, 42, 58, 74],      // drawdown aceito
+  q4: [30, 40, 55, 68],      // liquidez exigida
+  q5: [52, 48, 50, 51],      // moeda é atributo, peso baixo/neutro
+  q6: [35, 48, 60, 78]       // concentração máxima
+};
+const MANDATE_WEIGHTS = {q1:.25,q2:.15,q3:.30,q4:.15,q5:.00,q6:.15};
+function calcMandateRiskFromIndexes(idxMap){
+  let total=0, weight=0;
+  Object.keys(MANDATE_WEIGHTS).forEach(q=>{
+    const idx=idxMap[q];
+    const w=MANDATE_WEIGHTS[q];
+    if(idx===undefined || idx<0 || !w) return;
+    total += MANDATE_RISK_POINTS[q][idx] * w;
+    weight += w;
+  });
+  return weight ? clampRN(total/weight) : null;
+}
 
 // Hidratação ao carregar (se voltar pra essa tela)
 window.addEventListener('DOMContentLoaded',()=>{
@@ -179,7 +200,16 @@ window.addEventListener('DOMContentLoaded',()=>{
 
 function updateCount(){
   const c=new Set();
-  document.querySelectorAll('input[type="radio"]:checked').forEach(x=>c.add(x.name));
+  const idxMap={};
+  document.querySelectorAll('input[type="radio"]:checked').forEach(x=>{
+    c.add(x.name);
+    const group = document.querySelectorAll(`input[name="${x.name}"]`);
+    idxMap[x.name]=Array.from(group).indexOf(x);
+  });
+  if(c.size===6){
+    const rn=calcMandateRiskFromIndexes(idxMap);
+    if(rn!==null) HS.merge('mandate',{risk_number:rn,calibrated_score:rn});
+  }
   document.querySelector('.foot-status').innerHTML=`<strong>${c.size} de 6</strong> respondidas`;
 }
 

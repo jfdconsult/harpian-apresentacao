@@ -156,11 +156,23 @@ body{display:flex;flex-direction:column;}
     spy:[10000, 9811, 10770, 10446, 10232, 10484, 10320, 10961, 10383, 10339, 9524, 9570, 9910, 9006, 8436, 9091, 9152, 8929, 8842, 8288, 7619, 7764, 8360, 8433, 8310, 8150, 8456, 7943, 7885, 7323, 6752, 6797, 6058, 6591, 6979, 6569, 6397, 6301, 6362, 6886, 7249, 7342, 7471, 7617, 7536, 7962, 8032, 8454, 8609, 8728, 8597, 8462, 8578, 8745, 8455, 8489, 8581, 8712, 9065, 9373, 9145, 9337, 9172, 8998, 9284, 9298, 9643, 9555, 9633, 9472, 9830, 9834, 10094, 10122, 10248, 10385, 10086, 10100, 10162, 10404, 10672, 11020, 11230, 11387, 11559, 11333, 11460, 11968, 12385, 12179, 11802, 11979, 12427, 12624, 12097, 12013, 11292, 10925, 10878, 11408, 11556, 10581, 10493, 10644, 9696, 8067, 7489, 7568, 6930, 6192, 6735, 7379, 7792, 7808, 8398, 8701, 9026, 8858, 9390, 9571, 9227, 9513, 10087, 10246, 9428, 8934, 9560, 9129, 9943, 10322, 10323, 11013, 11274, 11660, 11665, 12010, 11874, 11676, 11439, 10817, 10057, 11156, 11132, 11245, 11749, 12257, 12661, 12581, 11825, 12312, 12483, 12765, 13094, 12853, 12927, 13045, 13721, 13907, 14429, 14707, 15051, 14848, 15604, 15152, 15627, 16346, 16844, 17270, 16673, 17436, 17582, 17712, 18128, 18502, 18247, 18977, 18711, 19168, 19684, 19634, 19045, 20139, 19821, 20011, 20268, 19876, 20292, 19068, 18596, 20165, 20225, 19906, 18918, 18893, 20174, 20252, 20616, 20669, 21432, 21462, 21466, 21074, 21855, 22287, 22709, 23611, 23638, 23881, 24217, 24368, 24870, 24946, 25460, 26054, 26853, 27152, 28707, 27649, 26946, 27049, 27701, 27871, 28908, 29850, 30020, 27968, 28538, 25962, 28042, 28942, 29505, 30700, 28749, 30775, 31217, 30723, 31297, 31975, 33136, 34136, 34123, 31314, 27446, 30964, 32439, 33084, 34950, 37462, 36039, 35080, 38920, 40417, 40009, 41112, 42912, 45203, 45518, 46581, 47687, 49137, 46852, 50134, 49787, 52018, 49327, 47850, 49626, 45299, 45382, 41636, 45475, 43620, 39603, 42809, 45202, 42597, 45274, 44169, 45791, 46506, 46708, 49794, 51394, 50575, 48164, 47151, 51458, 53795, 54699, 57620, 59474, 57045, 59873, 62022, 62777, 64299, 65673, 65077, 68897, 67255, 69128, 68226, 64381, 63945, 67970, 71426, 73029, 74510, 77229, 79038, 79231, 79280, 80429, 79818, 75844, 83802, 88212, 86006]
   };
   C.csem='#8FA0BD'; C.ccom='#C8A8F0';   // SEM (slate) · COM (violeta pontilhada)
-  // base dólar Moderado RN 46 ~6%/a + alocação do Coverage
-  const CLI = { rn:46, eqFrac:0.42, rfAnnual:0.018 };
-  let AL = { pOwn:70, pH11:15, pH22:15 };   // default 30% Harpian (15/15)
-  try{ const a=JSON.parse(localStorage.getItem('harpian_dollar')||'null');
-    if(a && (a.pOwn+a.pH11+a.pH22)>0){ AL={pOwn:a.pOwn, pH11:a.pH11, pH22:a.pH22}; } }catch(e){}
+  // base dólar + alocação vindas do fluxo Coverage; fallback só para demo direta
+  const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}}};
+  const _session=HS.get();
+  const _portfolio=_session.portfolio||{};
+  let _dollar=null;
+  try{ _dollar=JSON.parse(localStorage.getItem('harpian_dollar')||'null'); }catch(e){}
+  const _coverage=_session.coverage||{};
+  const _retBefore=Number(_coverage.cliRet || _dollar?.cliRet || _portfolio.dollar_return_estimated || _portfolio.current_cagr_estimated || 0.060);
+  const _rnBefore=Math.max(1,Math.min(99,Math.round(_coverage.rnBefore || _dollar?.rnBefore || _portfolio.dollar_risk_number || _portfolio.current_risk_number || 46)));
+  const _rfAnnual=0.018;
+  const _eqFrac=Math.max(0,Math.min(1,(_retBefore-_rfAnnual)/(0.119-_rfAnnual)));
+  const CLI = { rn:_rnBefore, eqFrac:_eqFrac, rfAnnual:_rfAnnual };
+  let AL = { pOwn:100, pH11:0, pH22:0 };   // sem escolha explícita: 100% sem Harpian
+  const _alSource = (_coverage.pOwn!==undefined ? _coverage : _dollar);
+  if(_alSource && Number(_alSource.pOwn)+Number(_alSource.pH11)+Number(_alSource.pH22)>0){
+    AL={pOwn:Number(_alSource.pOwn), pH11:Number(_alSource.pH11), pH22:Number(_alSource.pH22)};
+  }
   const HARP_PCT = Math.round(AL.pH11+AL.pH22);
   document.getElementById('cqN_ccom').textContent='Seu dólar · +'+HARP_PCT+'% Harpian';
 

@@ -206,7 +206,13 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;bac
 
 <script>
 /* ===== números canônicos (escala S&P = 71) ===== */
-const CLI = { rn:46, ret:0.060 };
+const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}},merge(s,p){const d=this.get();d[s]={...(d[s]||{}),...p};localStorage.setItem(this.KEY,JSON.stringify(d));return d;}};
+const _session=HS.get();
+const _portfolio=_session.portfolio||{};
+const CLI = {
+  rn: Math.max(1, Math.min(99, Math.round(_portfolio.dollar_risk_number || _portfolio.current_risk_number || _session.risk_numbers?.portfolio || 46))),
+  ret: Number(_portfolio.dollar_return_estimated || _portfolio.current_cagr_estimated || 0.060)
+};
 const SP  = { rn:71, ret:0.119 };
 const H11 = { rn:34 };
 const H22 = { rn:38 };
@@ -270,7 +276,11 @@ function render(){
   }
 
   // persiste p/ a Consequência (gráfico de 5 linhas)
-  try{ localStorage.setItem('harpian_dollar', JSON.stringify({pOwn,pH11,pH22,rnCombo:rnR,cliRet:CLI.ret,ts:Date.now()})); }catch(e){}
+  try{
+    const payload={pOwn,pH11,pH22,rnBefore:CLI.rn,rnAfter:rnR,rnCombo:rnR,cliRet:CLI.ret,h11RN:H11.rn,h22RN:H22.rn,ts:Date.now()};
+    localStorage.setItem('harpian_dollar', JSON.stringify(payload));
+    HS.merge('coverage',payload);
+  }catch(e){}
 }
 
 sldH11.addEventListener('input',function(e){ pH11=parseInt(e.target.value,10); if(pH11+pH22>100)pH22=100-pH11; render(); });

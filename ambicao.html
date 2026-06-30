@@ -137,10 +137,10 @@
 const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}},merge(s,p){const d=this.get();d[s]={...(d[s]||{}),...p};localStorage.setItem(this.KEY,JSON.stringify(d));return d;},clear(){localStorage.removeItem(this.KEY);}};
 
 const MAP_AMB = {
-  125: {cagr:0.046,category:'preservation',label:'Preservação'},
-  160: {cagr:0.099,category:'balance',label:'Equilíbrio'},
-  200: {cagr:0.149,category:'growth',label:'Crescimento'},
-  250: {cagr:0.201,category:'maximization',label:'Maximização'}
+  125: {cagr:0.046,category:'preservation',label:'Preservação',risk_number:30},
+  160: {cagr:0.099,category:'balance',label:'Equilíbrio',risk_number:50},
+  200: {cagr:0.149,category:'growth',label:'Crescimento',risk_number:70},
+  250: {cagr:0.201,category:'maximization',label:'Maximização',risk_number:85}
 };
 
 window.addEventListener('DOMContentLoaded',()=>{
@@ -169,7 +169,9 @@ document.querySelectorAll('.t-card').forEach(card=>{
       horizon_years: 5,
       required_cagr: cfg.cagr,
       category: cfg.category,
-      category_label: cfg.label
+      category_label: cfg.label,
+      risk_number: cfg.risk_number,
+      calibrated_score: cfg.risk_number
     });
     document.querySelector('.foot-status').innerHTML=`Alvo selecionado · <strong>$${v}k em 5 anos</strong>`;
   });

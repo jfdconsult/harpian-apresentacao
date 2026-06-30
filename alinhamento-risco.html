@@ -251,8 +251,66 @@ body{display:flex;flex-direction:column;}
  * Em produção viriam do localStorage (preenchido pelas lentes).
  * Margem de erro: ±3 pontos · qualquer 2 valores dentro desta janela contam como mesma zona.
  */
-const NUMS = { mandato: 55, tolerancia: 38, ambicao: 70, portfolio: 43 };
+const DEFAULT_NUMS = { mandato: 55, tolerancia: 38, ambicao: 70, portfolio: 43 };
 const TOLERANCE = 3;
+const HS={KEY:'harpian_session_v1',get(){try{return JSON.parse(localStorage.getItem(this.KEY))||{}}catch(e){return{}}},merge(s,p){const d=this.get();d[s]={...(d[s]||{}),...p};localStorage.setItem(this.KEY,JSON.stringify(d));return d;}};
+const clampRN = n => Math.max(1, Math.min(99, Math.round(Number(n)||0)));
+const MANDATE_RISK_POINTS = {
+  objective:{preservation:30,income:38,balance_growth:52,max_return:72},
+  horizon:{short:35,medium:48,generational:58,multigenerational:65},
+  max_dd:{'-5':25,'-10':42,'-15':58,'-20':74},
+  liquidity:{intraday:30,'T+1':40,monthly:55,lockup:68},
+  concentration:{'10':35,'20':48,'30':60,'100':78}
+};
+const MANDATE_WEIGHTS = {objective:.25,horizon:.15,max_dd:.30,liquidity:.15,concentration:.15};
+const BEHAVIOR_RISK_POINTS = {
+  crisis_response:{sell_all:20,reduce:35,hold_disciplined:55,buy_more:72},
+  fomo_response:{follow:68,slight:58,maintain_plan:52,reduce:42},
+  noise_response:{agree:38,cautious:48,ask_more_data:45,preset_rule:58},
+  gradual_dd_response:{month_2:30,month_4:42,month_6:55,never:68},
+  shiny_object_response:{fast:70,small_experiment:55,observe:42,ignore:35},
+  contradictory_signals:{technical:48,fundamental:52,paralyze:32,preset_rule:58}
+};
+const BEHAVIOR_WEIGHTS = {crisis_response:.30,fomo_response:.15,noise_response:.075,gradual_dd_response:.25,shiny_object_response:.15,contradictory_signals:.075};
+function weightedRN(source, tables, weights){
+  let total=0, weight=0;
+  Object.keys(weights).forEach(k=>{
+    const table=tables[k];
+    const raw=source && source[k];
+    const val = table && table[String(raw)];
+    if(val===undefined) return;
+    total += val * weights[k];
+    weight += weights[k];
+  });
+  return weight ? clampRN(total/weight) : null;
+}
+function ambitionRN(a){
+  if(!a) return null;
+  if(a.risk_number) return clampRN(a.risk_number);
+  const byTarget={125000:30,160000:50,200000:70,250000:85};
+  if(byTarget[a.target_value_usd]) return byTarget[a.target_value_usd];
+  if(a.required_cagr){
+    const rn=30+((Number(a.required_cagr)-0.046)/(0.201-0.046))*55;
+    return Math.max(30,Math.min(85,Math.round(rn)));
+  }
+  return null;
+}
+function getRiskNumbers(){
+  const s=HS.get();
+  const mandateRN = s.mandate?.risk_number || weightedRN(s.mandate,MANDATE_RISK_POINTS,MANDATE_WEIGHTS);
+  const behaviorRN = s.behavior?.risk_number || s.behavior?.calibrated_score || weightedRN(s.behavior,BEHAVIOR_RISK_POINTS,BEHAVIOR_WEIGHTS);
+  const ambitionRisk = ambitionRN(s.ambition);
+  const portfolioRN = s.portfolio?.current_risk_number || s.portfolio?.dollar_risk_number;
+  const nums={
+    mandato: mandateRN || DEFAULT_NUMS.mandato,
+    tolerancia: behaviorRN || DEFAULT_NUMS.tolerancia,
+    ambicao: ambitionRisk || DEFAULT_NUMS.ambicao,
+    portfolio: portfolioRN || DEFAULT_NUMS.portfolio
+  };
+  HS.merge('risk_numbers',nums);
+  return nums;
+}
+const NUMS = getRiskNumbers();
 const LABELS = {
   mandato:    { nome: 'Mandato',    em: 'patrimônio' },
   tolerancia: { nome: 'Tolerância', em: 'aguenta' },

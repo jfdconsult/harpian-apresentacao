@@ -173,6 +173,27 @@ const MAP_B = {
   c6: ['technical','fundamental','paralyze','preset_rule']
 };
 const BKEY = {c1:'crisis_response',c2:'fomo_response',c3:'noise_response',c4:'gradual_dd_response',c5:'shiny_object_response',c6:'contradictory_signals'};
+const clampRN = n => Math.max(1, Math.min(99, Math.round(n)));
+const BEHAVIOR_RISK_POINTS = {
+  c1: [20,35,55,72],   // crise: vende tudo → compra mais
+  c2: [68,58,52,42],   // euforia: FOMO aumenta risco comportamental; reduzir protege
+  c3: [38,48,45,58],   // ruído: regra preestabelecida é mais disciplinada
+  c4: [30,42,55,68],   // drawdown gradual: demora maior = tolerância maior
+  c5: [70,55,42,35],   // shiny object: impulsividade aumenta risco
+  c6: [48,52,32,58]    // paralisia reduz tolerância; regra aumenta disciplina
+};
+const BEHAVIOR_WEIGHTS = {c1:.30,c2:.15,c3:.075,c4:.25,c5:.15,c6:.075};
+function calcBehaviorRiskFromIndexes(idxMap){
+  let total=0, weight=0;
+  Object.keys(BEHAVIOR_WEIGHTS).forEach(c=>{
+    const idx=idxMap[c];
+    const w=BEHAVIOR_WEIGHTS[c];
+    if(idx===undefined || idx<0) return;
+    total += BEHAVIOR_RISK_POINTS[c][idx] * w;
+    weight += w;
+  });
+  return weight ? clampRN(total/weight) : null;
+}
 
 window.addEventListener('DOMContentLoaded',()=>{
   const b = HS.get().behavior || {};
@@ -191,17 +212,15 @@ window.addEventListener('DOMContentLoaded',()=>{
 function updateScore(){
   const checked = document.querySelectorAll('input[type="radio"]:checked');
   const groups = new Set();
-  let sumIdx = 0;
+  const idxMap = {};
   checked.forEach(r=>{
     const g = document.querySelectorAll(`input[name="${r.name}"]`);
-    sumIdx += Array.from(g).indexOf(r);
+    idxMap[r.name] = Array.from(g).indexOf(r);
     groups.add(r.name);
   });
-  // calibrated_score: range 30-66 baseado em avg idx (0-3)
   if(groups.size === 6){
-    const avgIdx = sumIdx / 6;
-    const score = Math.round(30 + avgIdx * 12);
-    HS.merge('behavior',{calibrated_score:score});
+    const score = calcBehaviorRiskFromIndexes(idxMap);
+    if(score!==null) HS.merge('behavior',{risk_number:score,calibrated_score:score});
   }
   document.querySelector('.foot-status').innerHTML=`<strong>${groups.size} de 6</strong> cenários respondidos`;
 }
