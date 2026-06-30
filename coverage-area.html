@@ -146,13 +146,13 @@ input[type=range]::-moz-range-thumb{width:24px;height:24px;border-radius:50%;bac
       <div class="mx-row ours">
         <div class="mx-name ours">HPC11 · ETF<span>gestão sistemática</span></div>
         <div class="mx-cell"><div class="mx-bar"><i id="bRN_h11"></i></div><div class="mx-num" id="nRN_h11" style="color:var(--green3)">34</div></div>
-        <div class="mx-cell"><div class="mx-hidden">● ● ●</div></div>
+        <div class="mx-cell"><div class="mx-hidden" id="nRet_h11">● ● ●</div></div>
       </div>
 
       <div class="mx-row ours">
         <div class="mx-name ours">HPC22 · Ações<span>1º ETP Harpian</span></div>
         <div class="mx-cell"><div class="mx-bar"><i id="bRN_h22"></i></div><div class="mx-num" id="nRN_h22" style="color:var(--green3)">38</div></div>
-        <div class="mx-cell"><div class="mx-hidden">● ● ●</div></div>
+        <div class="mx-cell"><div class="mx-hidden" id="nRet_h22">● ● ●</div></div>
       </div>
 
       <div class="mx-insight">HPC11 e HPC22 têm o <b>menor risco da tabela</b> — menos que o seu dólar e bem menos que o índice. E o retorno? <em>Você vê no gráfico.</em></div>
@@ -214,8 +214,8 @@ const CLI = {
   ret: Number(_portfolio.dollar_return_estimated || _portfolio.current_cagr_estimated || 0.060)
 };
 const SP  = { rn:71, ret:0.119 };
-const H11 = { rn:34 };
-const H22 = { rn:38 };
+const H11 = { rn:34, ret:0.130 };
+const H22 = { rn:38, ret:0.420 };
 const RN_MAX = 99, RET_MAX = 0.135;
 
 let pH11=0, pH22=0;   // % do dólar em cada produto (o resto fica no dólar atual do cliente)
@@ -261,23 +261,28 @@ function render(){
   // Risk Number combinado do universo dólar
   const rnCombo = (pOwn*CLI.rn + pH11*H11.rn + pH22*H22.rn)/100;
   const rnR = Math.round(rnCombo);
+  const retCombo = (pOwn*CLI.ret + pH11*H11.ret + pH22*H22.ret)/100;
   document.getElementById('rnTo').textContent=rnR;
   document.getElementById('scaleDot').style.left=(rnR/RN_MAX*100)+'%';
+  document.getElementById('hRN').textContent=rnR;
+  document.getElementById('hRet').textContent=retInt(retCombo);
+  document.getElementById('nRet_h11').textContent = pH11>0 ? retDec(H11.ret) : '● ● ●';
+  document.getElementById('nRet_h22').textContent = pH22>0 ? retDec(H22.ret) : '● ● ●';
 
   const harp = Math.round(pH11+pH22);
   const dec=document.getElementById('decisionTxt');
   const seal=document.getElementById('alSeal');
   if(harp===0){
-    dec.innerHTML=`Você fica com <strong>100% do seu dólar no braço</strong> — risco ${CLI.rn}, retorno ${retInt(CLI.ret)}. <em>Aloque conosco</em> e veja o risco do seu dólar descer, mantendo a mesma exposição.`;
-    seal.innerHTML=`Mexa os sliders. Mesma exposição em dólar — só <b>risco menor</b>. O retorno fica por último.`;
+    dec.innerHTML=`Você fica com <strong>100% do seu dólar no braço</strong> — risco ${CLI.rn}, retorno ${retInt(CLI.ret)}. <em>Aloque conosco</em> e veja o risco do seu dólar descer e o retorno anual aparecer.`;
+    seal.innerHTML=`Mexa os sliders. Mesma exposição em dólar — <b>risco menor</b> e retorno anual aparecendo conforme a alocação.`;
   } else {
-    dec.innerHTML=`Com <strong>${harp}% do seu dólar conosco</strong>, o Risk Number caiu de ${CLI.rn} para <strong>${rnR}</strong> — <em>mesma exposição em dólar, risco menor</em>. E o retorno dessa troca? É o que você vê agora no gráfico.`;
-    seal.innerHTML=`Risco <b>${rnR}</b> — abaixo do seu dólar e do índice. Mantivemos seu dólar; só trocamos gestão no braço por gestão sistemática.`;
+    dec.innerHTML=`Com <strong>${harp}% do seu dólar conosco</strong>, o Risk Number caiu de ${CLI.rn} para <strong>${rnR}</strong> e o retorno anual estimado foi para <strong>${retDec(retCombo)}</strong> — <em>mesma exposição em dólar, risco menor</em>. A página seguinte mostra o resultado composto.`;
+    seal.innerHTML=`Risco <b>${rnR}</b> e retorno anual <b>${retDec(retCombo)}</b>. Mantivemos seu dólar; só trocamos gestão no braço por gestão sistemática.`;
   }
 
   // persiste p/ a Consequência (gráfico de 5 linhas)
   try{
-    const payload={pOwn,pH11,pH22,rnBefore:CLI.rn,rnAfter:rnR,rnCombo:rnR,cliRet:CLI.ret,h11RN:H11.rn,h22RN:H22.rn,ts:Date.now()};
+    const payload={pOwn,pH11,pH22,rnBefore:CLI.rn,rnAfter:rnR,rnCombo:rnR,cliRet:CLI.ret,retAfter:retCombo,h11RN:H11.rn,h22RN:H22.rn,h11Ret:H11.ret,h22Ret:H22.ret,ts:Date.now()};
     localStorage.setItem('harpian_dollar', JSON.stringify(payload));
     HS.merge('coverage',payload);
   }catch(e){}
