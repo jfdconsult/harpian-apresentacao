@@ -287,11 +287,11 @@ function weightedRN(source, tables, weights){
 function ambitionRN(a){
   if(!a) return null;
   if(a.risk_number) return clampRN(a.risk_number);
-  const byTarget={125000:30,160000:50,200000:70,250000:85};
+  const byTarget={125000:32,160000:65,200000:88,250000:99};
   if(byTarget[a.target_value_usd]) return byTarget[a.target_value_usd];
   if(a.required_cagr){
-    const rn=30+((Number(a.required_cagr)-0.046)/(0.201-0.046))*55;
-    return Math.max(30,Math.min(85,Math.round(rn)));
+    const rn=32+((Number(a.required_cagr)-0.046)/(0.201-0.046))*67;
+    return Math.max(32,Math.min(99,Math.round(rn)));
   }
   return null;
 }
