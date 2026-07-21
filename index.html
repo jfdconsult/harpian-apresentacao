@@ -2,27 +2,150 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>HARPIAN — Apresentação Institucional</title>
+<title>HARPIAN — Acesso à Apresentação</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<!-- Abertura oficial = narrativa (manifesto). Redireciona direto. -->
-<meta http-equiv="refresh" content="0; url=narrativa.html">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&display=swap">
+<!-- Visitante que já preencheu não vê o portão de novo. -->
+<script>if(localStorage.getItem('harpian_lead_ok')){location.replace('narrativa.html');}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap">
 <style>
+  :root{
+    --navy:#0A1422; --navy2:#0F1C2E; --cream:#ECEEF1;
+    --gold:#B89554; --gold2:#CDAE6E; --gold3:#E0CB9A;
+    --muted:#8A93A0; --line:rgba(205,174,110,0.22);
+    --red:#C24A40;
+  }
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{height:100%;}
-  body{display:flex;align-items:center;justify-content:center;
-    background:radial-gradient(ellipse at top,#0F1C2E 0%,#0A1422 60%);
-    color:#ECEEF1;font-family:'Manrope',system-ui,sans-serif;}
-  a{color:#CDAE6E;font-weight:600;text-decoration:none;letter-spacing:.01em;}
-  .w{text-align:center;opacity:.9;}
-  .w small{display:block;margin-top:10px;font-size:13px;color:#8A93A0;font-weight:300;letter-spacing:.06em;}
+  body{
+    min-height:100%;display:flex;align-items:center;justify-content:center;padding:24px;
+    background:radial-gradient(ellipse at top,#162338 0%,#0B1626 62%);
+    color:var(--cream);font-family:'Manrope',system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+  }
+  .card{
+    width:100%;max-width:440px;
+    background:linear-gradient(180deg,rgba(20,35,58,0.66),rgba(11,22,38,0.66));
+    border:1px solid var(--line);border-radius:16px;
+    padding:40px 36px 34px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.45);
+    backdrop-filter:blur(4px);
+  }
+  .brand{font-size:24px;font-weight:700;letter-spacing:.04em;color:var(--cream);}
+  .brand b{color:var(--gold2);font-weight:700;}
+  .kicker{
+    font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.30em;
+    text-transform:uppercase;color:var(--gold);margin-top:14px;
+  }
+  .lead{font-size:15px;line-height:1.5;color:rgba(236,238,241,0.72);margin-top:14px;font-weight:300;}
+  form{margin-top:26px;display:flex;flex-direction:column;gap:14px;}
+  .field label{
+    display:block;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:var(--muted);margin-bottom:7px;
+  }
+  .field input{
+    width:100%;padding:12px 14px;font-size:15px;font-family:'Manrope',sans-serif;color:var(--cream);
+    background:rgba(255,255,255,0.04);border:1px solid rgba(205,174,110,0.20);border-radius:9px;
+    transition:border-color .15s,background .15s;
+  }
+  .field input::placeholder{color:rgba(138,147,160,0.7);}
+  .field input:focus{outline:none;border-color:var(--gold2);background:rgba(255,255,255,0.06);}
+  .field input.err{border-color:var(--red);}
+  .btn{
+    margin-top:8px;width:100%;padding:14px;border:none;border-radius:10px;cursor:pointer;
+    font-family:'Manrope',sans-serif;font-size:15px;font-weight:700;letter-spacing:.02em;color:#0A1422;
+    background:linear-gradient(180deg,var(--gold3),var(--gold));
+    transition:filter .15s,transform .05s;
+  }
+  .btn:hover{filter:brightness(1.06);}
+  .btn:active{transform:translateY(1px);}
+  .btn[disabled]{opacity:.55;cursor:default;}
+  .foot{margin-top:18px;font-size:11.5px;line-height:1.5;color:rgba(138,147,160,0.75);text-align:center;font-weight:300;}
+  .foot a{color:var(--gold2);text-decoration:none;}
+  @media(max-width:480px){.card{padding:32px 22px 28px;}.brand{font-size:21px;}}
 </style>
-<script>window.location.replace('narrativa.html');</script>
 </head>
 <body>
-  <div class="w">
-    <a href="narrativa.html">HARPIAN — abrir apresentação &rarr;</a>
-    <small>Carregando a abertura…</small>
+  <div class="card">
+    <div class="brand">HARP<b>I</b>AN</div>
+    <div class="kicker">Apresentação Institucional</div>
+    <p class="lead">Preencha seus dados para acessar a apresentação.</p>
+
+    <form id="gate" novalidate autocomplete="on">
+      <div class="field">
+        <label for="nome">Nome</label>
+        <input id="nome" name="nome" type="text" placeholder="Seu nome completo" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="cel">Celular</label>
+        <input id="cel" name="cel" type="tel" placeholder="(00) 00000-0000" autocomplete="tel" required>
+      </div>
+      <div class="field">
+        <label for="empresa">Empresa</label>
+        <input id="empresa" name="empresa" type="text" placeholder="Nome da empresa" autocomplete="organization" required>
+      </div>
+      <div class="field">
+        <label for="email">E-mail</label>
+        <input id="email" name="email" type="email" placeholder="voce@empresa.com" autocomplete="email" required>
+      </div>
+      <button class="btn" type="submit" id="go">Acessar apresentação &rarr;</button>
+    </form>
+
+    <p class="foot">Uso interno · Harpian Medicina Diagnóstica &amp; Capital.<br>Seus dados não são compartilhados com terceiros.</p>
   </div>
+
+<script>
+  // ====================================================================
+  // ONDE OS LEADS SÃO ENTREGUES. Cole aqui o endpoint (Formspree ou
+  // Google Apps Script / Sheets). Enquanto vazio, o acesso funciona
+  // normalmente e o lead fica salvo no navegador do visitante.
+  const LEAD_ENDPOINT = "";
+  // ====================================================================
+
+  const form  = document.getElementById('gate');
+  const btn   = document.getElementById('go');
+
+  function markErr(el, bad){ el.classList.toggle('err', bad); }
+  function validEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  async function sendLead(lead){
+    if(!LEAD_ENDPOINT) return;               // ainda sem destino configurado
+    try{
+      await fetch(LEAD_ENDPOINT, {
+        method:'POST',
+        headers:{'Content-Type':'application/json','Accept':'application/json'},
+        body: JSON.stringify(lead)
+      });
+    }catch(e){ /* nunca bloqueia o acesso */ }
+  }
+
+  form.addEventListener('submit', async function(ev){
+    ev.preventDefault();
+    const nome    = form.nome.value.trim();
+    const cel     = form.cel.value.trim();
+    const empresa = form.empresa.value.trim();
+    const email   = form.email.value.trim();
+
+    // validação simples (sem etapa de confirmação)
+    let ok = true;
+    markErr(form.nome, !nome);       ok = ok && !!nome;
+    markErr(form.cel, cel.length<8); ok = ok && cel.length>=8;
+    markErr(form.empresa, !empresa); ok = ok && !!empresa;
+    markErr(form.email, !validEmail(email)); ok = ok && validEmail(email);
+    if(!ok){ return; }
+
+    const lead = { nome, cel, empresa, email, ts:new Date().toISOString(), origem:'apresentacao' };
+
+    btn.disabled = true;
+    btn.textContent = 'Entrando…';
+
+    // guarda local (fallback) e libera o acesso
+    try{ localStorage.setItem('harpian_lead', JSON.stringify(lead)); }catch(e){}
+    localStorage.setItem('harpian_lead_ok','1');
+
+    await sendLead(lead);                     // envia ao destino (se configurado)
+    location.replace('narrativa.html');       // acesso imediato, sem confirmar nada
+  });
+</script>
 </body>
 </html>

@@ -2,6 +2,8 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<!-- Portão de captura: sem preencher os dados em index.html, volta pro portão. -->
+<script>if(!localStorage.getItem('harpian_lead_ok')){location.replace('index.html');}</script>
 <title>HARPIAN — Narrativa</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -416,7 +418,7 @@ body.bg-navy .kbd-hint{color:rgba(245,239,224,0.4);}
 
 <!-- TOP BAR -->
 <div class="top">
-  <div class="top-l">Harpian</div>
+  <div class="top-l"><span class="brand-logo-img" role="img" aria-label="Harpian"></span></div>
   <div class="top-r">Apresentação Institucional · Family Offices</div>
 </div>
 
